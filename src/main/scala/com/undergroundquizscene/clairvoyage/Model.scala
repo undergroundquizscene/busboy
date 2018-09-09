@@ -6,16 +6,15 @@ import cats.instances.either._
 import cats.syntax.traverse._
 import io.circe._
 import io.circe.generic.auto._
-import io.circe.parser._
-import io.circe.syntax._
 import org.http4s.circe._
 
 case class DUID(value: String)
 
 object StopPassage {
         case class Response(passages: List[Passage])
-        case class Passage(id: DUID, lastModified: BigInt, arrival: ArrivalData)
+        case class Passage(id: DUID, lastModified: BigInt, arrival: Option[ArrivalData], trip: Trip)
         case class ArrivalData(scheduledTime: Int, actualTime: Int)
+        case class Trip(id: DUID)
 
         implicit lazy val decoder = jsonOf[IO, Response]
         implicit lazy val responseDecoder: Decoder[Response] = Decoder.decodeJson.emap { json =>
@@ -30,8 +29,9 @@ object StopPassage {
                 }
         }
         implicit lazy val passageDecoder: Decoder[Passage] =
-                Decoder.forProduct3("duid", "last_modification_timestamp", "arrival_data")(Passage(_, _, _))
+                Decoder.forProduct4("duid", "last_modification_timestamp", "arrival_data", "trip_duid")(Passage(_, _, _, _))
         implicit lazy val duidDecoder: Decoder[DUID] = Decoder.decodeString.map(DUID(_))
         implicit lazy val arrivalDecoder: Decoder[ArrivalData] =
                 Decoder.forProduct2("scheduled_passage_time_utc", "actual_passage_time_utc")(ArrivalData(_, _))
+        implicit lazy val tripDecoder: Decoder[Trip] = Decoder.forProduct1("duid")(Trip(_))
 }
