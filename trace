@@ -1,0 +1,63 @@
+#!/usr/local/bin/python3.6
+import json
+from os import makedirs, scandir
+import requests
+from time import time, localtime
+
+church_cross_east = '7338653551721429731'
+
+def main(stop = church_cross_east):
+	url = 'http://buseireann.ie/inc/proto/stopPassageTdi.php'
+
+	print(f'Getting trips')
+	stop_response = requests.get(url,
+		params = {'stop_point': church_cross_east})
+	print(f'Got result status {stop_response.status_code}')
+	stop_trips = trips(stop_response.json())
+	print(f'Got trips: {stop_trips}')
+
+	for trip in stop_trips:
+		print(f'Calling for trip {trip}')
+		trip_response = requests.get(url, params = {'trip': trip})
+		print(f'Got result status {trip_response.status_code}')
+		save_response(trip, trip_response)
+
+def save_response(trip, trip_response):
+	t = localtime(time())
+	timestamp = list(map(str, [t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec]))
+	folder = f'/Users/Noel/Developer/Projects/Busboy/src/main/resources/trace/{"/".join(timestamp[0:3])}/{trip}'
+	filename = f'{folder}/trace-{"-".join(timestamp)}.json'
+	makedirs(folder, exist_ok = True)
+	with open(filename, 'w') as f:
+		f.write(json.dumps(trip_response.json(), indent = 2))
+	print(f'Wrote output to {filename}')
+
+def trips(json_response):
+	"""Gets the trip ids from a stop response."""
+	passages = filter(lambda p: p[0] != 'foo', json_response["stopPassageTdi"].items())
+	passage_duids = map(lambda p: p[1]["trip_duid"]["duid"], passages)
+	return list(passage_duids)
+
+def coords(folder):
+	fs = scandir(folder)
+	jsons = map(lambda f: readJson(f.path), fs)
+	passage_zeroes = map(lambda j: j["stopPassageTdi"]['passage_0'], jsons)
+	raw_coords = map(lambda p: (p['latitude'], p['longitude']), passage_zeroes)
+	refined_coords = map(lambda c: map(lambda l: l / 3600000, c), raw_coords)
+	string_coords = map(lambda c: map(str, c), refined_coords)
+	output = '\n'.join(map(lambda c: ', '.join(c), string_coords))
+	print(output)
+
+def readJson(filePath):
+	with open(filePath, 'r') as f:
+		j = json.load(f)
+	return j
+
+if __name__ == '__main__':
+	from sys import argv
+	if len(argv) == 1:
+		main()
+	elif argv[1] == 'coords':
+		coords(argv[2])
+	else:
+		main(argv[1])

@@ -6,7 +6,7 @@ val CirceVersion = "0.9.3"
 lazy val root = (project in file("."))
   .settings(
         organization := "com.undergroundquizscene",
-        name := "clairvoyage",
+        name := "Busboy",
         version := "0.0.1-SNAPSHOT",
         scalaVersion := "2.12.6",
         scalacOptions ++= Seq(
@@ -25,5 +25,6 @@ lazy val root = (project in file("."))
                 "io.circe" %% "circe-core" % CirceVersion,
                 "io.circe" %% "circe-generic" % CirceVersion,
                 "io.circe" %% "circe-parser" % CirceVersion,
+                "com.lihaoyi" %% "pprint" % "0.5.3",
         )
 )
