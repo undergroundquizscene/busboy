@@ -1,0 +1,1654 @@
+{
+  "stopPassageTdi": {
+    "passage_0": {
+      "duid": "-1909526241855164466",
+      "last_modification_timestamp": 1537355719761,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721440301",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537342500,
+        "scheduled_passage_time": "08:35",
+        "actual_passage_time_utc": 1537345427,
+        "actual_passage_time": "09:23",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 3,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_1": {
+      "duid": "-1909526241855164467",
+      "last_modification_timestamp": 1537355719761,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721426491",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341900,
+        "scheduled_passage_time": "08:25",
+        "actual_passage_time_utc": 1537344827,
+        "actual_passage_time": "09:13",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341900,
+        "scheduled_passage_time": "08:25",
+        "actual_passage_time_utc": 1537344827,
+        "actual_passage_time": "09:13",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_2": {
+      "duid": "-1909526241855164468",
+      "last_modification_timestamp": 1537355719761,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551722184421",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341840,
+        "scheduled_passage_time": "08:24",
+        "actual_passage_time_utc": 1537344767,
+        "actual_passage_time": "09:12",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341840,
+        "scheduled_passage_time": "08:24",
+        "actual_passage_time_utc": 1537344767,
+        "actual_passage_time": "09:12",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_3": {
+      "duid": "-1909526241855164469",
+      "last_modification_timestamp": 1537355719761,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425961",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341780,
+        "scheduled_passage_time": "08:23",
+        "actual_passage_time_utc": 1537344707,
+        "actual_passage_time": "09:11",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341780,
+        "scheduled_passage_time": "08:23",
+        "actual_passage_time_utc": 1537344707,
+        "actual_passage_time": "09:11",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 3,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_4": {
+      "duid": "-1909526241855164470",
+      "last_modification_timestamp": 1537355719761,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425421",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341720,
+        "scheduled_passage_time": "08:22",
+        "actual_passage_time_utc": 1537344647,
+        "actual_passage_time": "09:10",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341720,
+        "scheduled_passage_time": "08:22",
+        "actual_passage_time_utc": 1537344647,
+        "actual_passage_time": "09:10",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_5": {
+      "duid": "-1909526241855164471",
+      "last_modification_timestamp": 1537355719761,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425411",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341660,
+        "scheduled_passage_time": "08:21",
+        "actual_passage_time_utc": 1537344587,
+        "actual_passage_time": "09:09",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341660,
+        "scheduled_passage_time": "08:21",
+        "actual_passage_time_utc": 1537344587,
+        "actual_passage_time": "09:09",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_6": {
+      "duid": "-1909526241855164472",
+      "last_modification_timestamp": 1537355719761,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425401",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341600,
+        "scheduled_passage_time": "08:20",
+        "actual_passage_time_utc": 1537344527,
+        "actual_passage_time": "09:08",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341600,
+        "scheduled_passage_time": "08:20",
+        "actual_passage_time_utc": 1537344527,
+        "actual_passage_time": "09:08",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_7": {
+      "duid": "-1909526241855164473",
+      "last_modification_timestamp": 1537355719761,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721440371",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341540,
+        "scheduled_passage_time": "08:19",
+        "actual_passage_time_utc": 1537344467,
+        "actual_passage_time": "09:07",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341540,
+        "scheduled_passage_time": "08:19",
+        "actual_passage_time_utc": 1537344467,
+        "actual_passage_time": "09:07",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_8": {
+      "duid": "-1909526241855164474",
+      "last_modification_timestamp": 1537355719761,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425391",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341480,
+        "scheduled_passage_time": "08:18",
+        "actual_passage_time_utc": 1537344407,
+        "actual_passage_time": "09:06",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341480,
+        "scheduled_passage_time": "08:18",
+        "actual_passage_time_utc": 1537344407,
+        "actual_passage_time": "09:06",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_9": {
+      "duid": "-1909526241855164475",
+      "last_modification_timestamp": 1537355719761,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425381",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341420,
+        "scheduled_passage_time": "08:17",
+        "actual_passage_time_utc": 1537344347,
+        "actual_passage_time": "09:05",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341420,
+        "scheduled_passage_time": "08:17",
+        "actual_passage_time_utc": 1537344347,
+        "actual_passage_time": "09:05",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_10": {
+      "duid": "-1909526241855164476",
+      "last_modification_timestamp": 1537355719761,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551722184416",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341360,
+        "scheduled_passage_time": "08:16",
+        "actual_passage_time_utc": 1537344287,
+        "actual_passage_time": "09:04",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341360,
+        "scheduled_passage_time": "08:16",
+        "actual_passage_time_utc": 1537344287,
+        "actual_passage_time": "09:04",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_11": {
+      "duid": "-1909526241855164477",
+      "last_modification_timestamp": 1537355719761,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425361",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341300,
+        "scheduled_passage_time": "08:15",
+        "actual_passage_time_utc": 1537344227,
+        "actual_passage_time": "09:03",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341300,
+        "scheduled_passage_time": "08:15",
+        "actual_passage_time_utc": 1537344227,
+        "actual_passage_time": "09:03",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_12": {
+      "duid": "-1909526241855164478",
+      "last_modification_timestamp": 1537355719761,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551722184417",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341240,
+        "scheduled_passage_time": "08:14",
+        "actual_passage_time_utc": 1537344167,
+        "actual_passage_time": "09:02",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341240,
+        "scheduled_passage_time": "08:14",
+        "actual_passage_time_utc": 1537344167,
+        "actual_passage_time": "09:02",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_13": {
+      "duid": "-1909526241855164479",
+      "last_modification_timestamp": 1537355719762,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721427201",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341180,
+        "scheduled_passage_time": "08:13",
+        "actual_passage_time_utc": 1537344107,
+        "actual_passage_time": "09:01",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341180,
+        "scheduled_passage_time": "08:13",
+        "actual_passage_time_utc": 1537344107,
+        "actual_passage_time": "09:01",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_14": {
+      "duid": "-1909526241855164480",
+      "last_modification_timestamp": 1537355719762,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721427161",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341120,
+        "scheduled_passage_time": "08:12",
+        "actual_passage_time_utc": 1537344047,
+        "actual_passage_time": "09:00",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341120,
+        "scheduled_passage_time": "08:12",
+        "actual_passage_time_utc": 1537344047,
+        "actual_passage_time": "09:00",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_15": {
+      "duid": "-1909526241855164481",
+      "last_modification_timestamp": 1537355719763,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721427181",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341060,
+        "scheduled_passage_time": "08:11",
+        "actual_passage_time_utc": 1537343987,
+        "actual_passage_time": "08:59",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341060,
+        "scheduled_passage_time": "08:11",
+        "actual_passage_time_utc": 1537343987,
+        "actual_passage_time": "08:59",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_16": {
+      "duid": "-1909526241855164482",
+      "last_modification_timestamp": 1537355719763,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721418811",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537341000,
+        "scheduled_passage_time": "08:10",
+        "actual_passage_time_utc": 1537343927,
+        "actual_passage_time": "08:58",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537341000,
+        "scheduled_passage_time": "08:10",
+        "actual_passage_time_utc": 1537343927,
+        "actual_passage_time": "08:58",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 3,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_17": {
+      "duid": "-1909526241855164483",
+      "last_modification_timestamp": 1537355719763,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721427141",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537340940,
+        "scheduled_passage_time": "08:09",
+        "actual_passage_time_utc": 1537343867,
+        "actual_passage_time": "08:57",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537340940,
+        "scheduled_passage_time": "08:09",
+        "actual_passage_time_utc": 1537343867,
+        "actual_passage_time": "08:57",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 3,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_18": {
+      "duid": "-1909526241855164484",
+      "last_modification_timestamp": 1537355719763,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429611",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537340820,
+        "scheduled_passage_time": "08:07",
+        "actual_passage_time_utc": 1537343747,
+        "actual_passage_time": "08:55",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537340820,
+        "scheduled_passage_time": "08:07",
+        "actual_passage_time_utc": 1537343747,
+        "actual_passage_time": "08:55",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_19": {
+      "duid": "-1909526241855164485",
+      "last_modification_timestamp": 1537355719763,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429731",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537340760,
+        "scheduled_passage_time": "08:06",
+        "actual_passage_time_utc": 1537343687,
+        "actual_passage_time": "08:54",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537340760,
+        "scheduled_passage_time": "08:06",
+        "actual_passage_time_utc": 1537343687,
+        "actual_passage_time": "08:54",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_20": {
+      "duid": "-1909526241855164486",
+      "last_modification_timestamp": 1537355719763,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429601",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537340700,
+        "scheduled_passage_time": "08:05",
+        "actual_passage_time_utc": 1537343627,
+        "actual_passage_time": "08:53",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537340700,
+        "scheduled_passage_time": "08:05",
+        "actual_passage_time_utc": 1537343627,
+        "actual_passage_time": "08:53",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_21": {
+      "duid": "-1909526241855164487",
+      "last_modification_timestamp": 1537355719763,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721420391",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537339800,
+        "scheduled_passage_time": "07:50",
+        "actual_passage_time_utc": 1537342460,
+        "actual_passage_time": "08:34",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537339800,
+        "scheduled_passage_time": "07:50",
+        "actual_passage_time_utc": 1537342460,
+        "actual_passage_time": "08:34",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_22": {
+      "duid": "-1909526241855164488",
+      "last_modification_timestamp": 1537355719763,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721420381",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537339500,
+        "scheduled_passage_time": "07:45",
+        "actual_passage_time_utc": 1537342007,
+        "actual_passage_time": "08:26",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537339500,
+        "scheduled_passage_time": "07:45",
+        "actual_passage_time_utc": 1537342071,
+        "actual_passage_time": "08:27",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_23": {
+      "duid": "-1909526241855164489",
+      "last_modification_timestamp": 1537355719763,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721420371",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537338900,
+        "scheduled_passage_time": "07:35",
+        "actual_passage_time_utc": 1537341678,
+        "actual_passage_time": "08:21",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Crookstown",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537338900,
+        "scheduled_passage_time": "07:35",
+        "actual_passage_time_utc": 1537341678,
+        "actual_passage_time": "08:21",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_24": {
+      "duid": "-1909526241855164490",
+      "last_modification_timestamp": 1537355719763,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568067912450",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721417101",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188580",
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537338600,
+        "scheduled_passage_time": "07:30",
+        "actual_passage_time_utc": 1537341417,
+        "actual_passage_time": "08:16",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 187101701,
+      "longitude": -28068408,
+      "bearing": 90,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696387",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "foo": 0
+  }
+}

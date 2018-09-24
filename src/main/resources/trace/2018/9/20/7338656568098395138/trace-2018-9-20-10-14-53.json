@@ -1,0 +1,2190 @@
+{
+  "stopPassageTdi": {
+    "passage_0": {
+      "duid": "-1909526241854608968",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425421",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423740,
+        "scheduled_passage_time": "07:09",
+        "actual_passage_time_utc": 1537423212,
+        "actual_passage_time": "07:00",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423740,
+        "scheduled_passage_time": "07:09",
+        "actual_passage_time_utc": 1537423212,
+        "actual_passage_time": "07:00",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_1": {
+      "duid": "-1909526241854608967",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425961",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423800,
+        "scheduled_passage_time": "07:10",
+        "actual_passage_time_utc": 1537423276,
+        "actual_passage_time": "07:01",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423800,
+        "scheduled_passage_time": "07:10",
+        "actual_passage_time_utc": 1537423276,
+        "actual_passage_time": "07:01",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_2": {
+      "duid": "-1909526241854608966",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551722184421",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423860,
+        "scheduled_passage_time": "07:11",
+        "actual_passage_time_utc": 1537423395,
+        "actual_passage_time": "07:03",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423860,
+        "scheduled_passage_time": "07:11",
+        "actual_passage_time_utc": 1537423410,
+        "actual_passage_time": "07:03",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_3": {
+      "duid": "-1909526241854608965",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721426491",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423920,
+        "scheduled_passage_time": "07:12",
+        "actual_passage_time_utc": 1537423459,
+        "actual_passage_time": "07:04",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423920,
+        "scheduled_passage_time": "07:12",
+        "actual_passage_time_utc": 1537423459,
+        "actual_passage_time": "07:04",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_4": {
+      "duid": "-1909526241854608964",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721440301",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537424100,
+        "scheduled_passage_time": "07:15",
+        "actual_passage_time_utc": 1537423503,
+        "actual_passage_time": "07:05",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 3,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_5": {
+      "duid": "-1909526241854608976",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551722184417",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423260,
+        "scheduled_passage_time": "07:01",
+        "actual_passage_time_utc": 1537422989,
+        "actual_passage_time": "06:56",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423260,
+        "scheduled_passage_time": "07:01",
+        "actual_passage_time_utc": 1537422989,
+        "actual_passage_time": "06:56",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_6": {
+      "duid": "-1909526241854608975",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425361",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423320,
+        "scheduled_passage_time": "07:02",
+        "actual_passage_time_utc": 1537423019,
+        "actual_passage_time": "06:56",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423320,
+        "scheduled_passage_time": "07:02",
+        "actual_passage_time_utc": 1537423019,
+        "actual_passage_time": "06:56",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_7": {
+      "duid": "-1909526241854608974",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551722184416",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423380,
+        "scheduled_passage_time": "07:03",
+        "actual_passage_time_utc": 1537423033,
+        "actual_passage_time": "06:57",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423380,
+        "scheduled_passage_time": "07:03",
+        "actual_passage_time_utc": 1537423033,
+        "actual_passage_time": "06:57",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_8": {
+      "duid": "-1909526241854608973",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425381",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423440,
+        "scheduled_passage_time": "07:04",
+        "actual_passage_time_utc": 1537423118,
+        "actual_passage_time": "06:58",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423440,
+        "scheduled_passage_time": "07:04",
+        "actual_passage_time_utc": 1537423118,
+        "actual_passage_time": "06:58",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_9": {
+      "duid": "-1909526241854608972",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425391",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423500,
+        "scheduled_passage_time": "07:05",
+        "actual_passage_time_utc": 1537423134,
+        "actual_passage_time": "06:58",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423500,
+        "scheduled_passage_time": "07:05",
+        "actual_passage_time_utc": 1537423134,
+        "actual_passage_time": "06:58",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_10": {
+      "duid": "-1909526241854608971",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721440371",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423560,
+        "scheduled_passage_time": "07:06",
+        "actual_passage_time_utc": 1537423153,
+        "actual_passage_time": "06:59",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423560,
+        "scheduled_passage_time": "07:06",
+        "actual_passage_time_utc": 1537423153,
+        "actual_passage_time": "06:59",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_11": {
+      "duid": "-1909526241854608970",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425401",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423620,
+        "scheduled_passage_time": "07:07",
+        "actual_passage_time_utc": 1537423173,
+        "actual_passage_time": "06:59",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423620,
+        "scheduled_passage_time": "07:07",
+        "actual_passage_time_utc": 1537423173,
+        "actual_passage_time": "06:59",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_12": {
+      "duid": "-1909526241854608969",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425411",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423680,
+        "scheduled_passage_time": "07:08",
+        "actual_passage_time_utc": 1537423195,
+        "actual_passage_time": "06:59",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423680,
+        "scheduled_passage_time": "07:08",
+        "actual_passage_time_utc": 1537423195,
+        "actual_passage_time": "06:59",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_13": {
+      "duid": "-1909526241854608984",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429601",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537422720,
+        "scheduled_passage_time": "06:52",
+        "actual_passage_time_utc": 1537422669,
+        "actual_passage_time": "06:51",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537422720,
+        "scheduled_passage_time": "06:52",
+        "actual_passage_time_utc": 1537422669,
+        "actual_passage_time": "06:51",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_14": {
+      "duid": "-1909526241854608983",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429731",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537422780,
+        "scheduled_passage_time": "06:53",
+        "actual_passage_time_utc": 1537422705,
+        "actual_passage_time": "06:51",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537422780,
+        "scheduled_passage_time": "06:53",
+        "actual_passage_time_utc": 1537422705,
+        "actual_passage_time": "06:51",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_15": {
+      "duid": "-1909526241854608982",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429611",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537422840,
+        "scheduled_passage_time": "06:54",
+        "actual_passage_time_utc": 1537422738,
+        "actual_passage_time": "06:52",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537422840,
+        "scheduled_passage_time": "06:54",
+        "actual_passage_time_utc": 1537422738,
+        "actual_passage_time": "06:52",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_16": {
+      "duid": "-1909526241854608981",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721427141",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537422960,
+        "scheduled_passage_time": "06:56",
+        "actual_passage_time_utc": 1537422853,
+        "actual_passage_time": "06:54",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537422960,
+        "scheduled_passage_time": "06:56",
+        "actual_passage_time_utc": 1537422853,
+        "actual_passage_time": "06:54",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_17": {
+      "duid": "-1909526241854608980",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721418811",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423020,
+        "scheduled_passage_time": "06:57",
+        "actual_passage_time_utc": 1537422882,
+        "actual_passage_time": "06:54",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423020,
+        "scheduled_passage_time": "06:57",
+        "actual_passage_time_utc": 1537422882,
+        "actual_passage_time": "06:54",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_18": {
+      "duid": "-1909526241854608979",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721427181",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423080,
+        "scheduled_passage_time": "06:58",
+        "actual_passage_time_utc": 1537422909,
+        "actual_passage_time": "06:55",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423080,
+        "scheduled_passage_time": "06:58",
+        "actual_passage_time_utc": 1537422909,
+        "actual_passage_time": "06:55",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_19": {
+      "duid": "-1909526241854608978",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721427161",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423140,
+        "scheduled_passage_time": "06:59",
+        "actual_passage_time_utc": 1537422941,
+        "actual_passage_time": "06:55",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423140,
+        "scheduled_passage_time": "06:59",
+        "actual_passage_time_utc": 1537422941,
+        "actual_passage_time": "06:55",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_20": {
+      "duid": "-1909526241854608977",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721427201",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537423200,
+        "scheduled_passage_time": "07:00",
+        "actual_passage_time_utc": 1537422959,
+        "actual_passage_time": "06:55",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537423200,
+        "scheduled_passage_time": "07:00",
+        "actual_passage_time_utc": 1537422959,
+        "actual_passage_time": "06:55",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_21": {
+      "duid": "-1909526241854608992",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721420431",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537422120,
+        "scheduled_passage_time": "06:42",
+        "actual_passage_time_utc": 1537422553,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537422120,
+        "scheduled_passage_time": "06:42",
+        "actual_passage_time_utc": 1537422553,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_22": {
+      "duid": "-1909526241854608991",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721484641",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537422300,
+        "scheduled_passage_time": "06:45",
+        "actual_passage_time_utc": 1537422554,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537422300,
+        "scheduled_passage_time": "06:45",
+        "actual_passage_time_utc": 1537422554,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_23": {
+      "duid": "-1909526241854608990",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429551",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537422360,
+        "scheduled_passage_time": "06:46",
+        "actual_passage_time_utc": 1537422554,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537422360,
+        "scheduled_passage_time": "06:46",
+        "actual_passage_time_utc": 1537422554,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_24": {
+      "duid": "-1909526241854608989",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429561",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537422420,
+        "scheduled_passage_time": "06:47",
+        "actual_passage_time_utc": 1537422554,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537422420,
+        "scheduled_passage_time": "06:47",
+        "actual_passage_time_utc": 1537422554,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_25": {
+      "duid": "-1909526241854608988",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429531",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537422480,
+        "scheduled_passage_time": "06:48",
+        "actual_passage_time_utc": 1537422555,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537422480,
+        "scheduled_passage_time": "06:48",
+        "actual_passage_time_utc": 1537422555,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_26": {
+      "duid": "-1909526241854608987",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429571",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537422540,
+        "scheduled_passage_time": "06:49",
+        "actual_passage_time_utc": 1537422556,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537422540,
+        "scheduled_passage_time": "06:49",
+        "actual_passage_time_utc": 1537422556,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_27": {
+      "duid": "-1909526241854608986",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429581",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537422600,
+        "scheduled_passage_time": "06:50",
+        "actual_passage_time_utc": 1537422557,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537422600,
+        "scheduled_passage_time": "06:50",
+        "actual_passage_time_utc": 1537422557,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_28": {
+      "duid": "-1909526241854608985",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429591",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537422660,
+        "scheduled_passage_time": "06:51",
+        "actual_passage_time_utc": 1537422601,
+        "actual_passage_time": "06:50",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537422660,
+        "scheduled_passage_time": "06:51",
+        "actual_passage_time_utc": 1537422601,
+        "actual_passage_time": "06:50",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_29": {
+      "duid": "-1909526241854608996",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721541421",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537420500,
+        "scheduled_passage_time": "06:15",
+        "actual_passage_time_utc": 1537422548,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_30": {
+      "duid": "-1909526241854608995",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721417101",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537421400,
+        "scheduled_passage_time": "06:30",
+        "actual_passage_time_utc": 1537422551,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537421400,
+        "scheduled_passage_time": "06:30",
+        "actual_passage_time_utc": 1537422551,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_31": {
+      "duid": "-1909526241854608994",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721420411",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537421700,
+        "scheduled_passage_time": "06:35",
+        "actual_passage_time_utc": 1537422552,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537421700,
+        "scheduled_passage_time": "06:35",
+        "actual_passage_time_utc": 1537422552,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_32": {
+      "duid": "-1909526241854608993",
+      "last_modification_timestamp": 1537433265967,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595341",
+        "foo": 0
+      },
+      "direction": 2,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568098395138",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721420421",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838189152",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537422000,
+        "scheduled_passage_time": "06:40",
+        "actual_passage_time_utc": 1537422553,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Macroom",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537422000,
+        "scheduled_passage_time": "06:40",
+        "actual_passage_time_utc": 1537422553,
+        "actual_passage_time": "06:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Cork",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186833369,
+      "longitude": -30856190,
+      "bearing": 58,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241696383",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "foo": 0
+  }
+}

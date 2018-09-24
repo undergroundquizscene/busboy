@@ -1,0 +1,3932 @@
+{
+  "stopPassageTdi": {
+    "passage_0": {
+      "duid": "-1909526241855147569",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721430251",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537345860,
+        "scheduled_passage_time": "09:31",
+        "actual_passage_time_utc": 1537348434,
+        "actual_passage_time": "10:13",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537345860,
+        "scheduled_passage_time": "09:31",
+        "actual_passage_time_utc": 1537348434,
+        "actual_passage_time": "10:13",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_1": {
+      "duid": "-1909526241855147570",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721417221",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537345800,
+        "scheduled_passage_time": "09:30",
+        "actual_passage_time_utc": 1537348374,
+        "actual_passage_time": "10:12",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537345800,
+        "scheduled_passage_time": "09:30",
+        "actual_passage_time_utc": 1537348374,
+        "actual_passage_time": "10:12",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_2": {
+      "duid": "-1909526241855147571",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721426561",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537345770,
+        "scheduled_passage_time": "09:29",
+        "actual_passage_time_utc": 1537348344,
+        "actual_passage_time": "10:12",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537345770,
+        "scheduled_passage_time": "09:29",
+        "actual_passage_time_utc": 1537348344,
+        "actual_passage_time": "10:12",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_3": {
+      "duid": "-1909526241855147572",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721426551",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537345740,
+        "scheduled_passage_time": "09:29",
+        "actual_passage_time_utc": 1537348314,
+        "actual_passage_time": "10:11",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537345740,
+        "scheduled_passage_time": "09:29",
+        "actual_passage_time_utc": 1537348314,
+        "actual_passage_time": "10:11",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_4": {
+      "duid": "-1909526241855147573",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721426541",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537345680,
+        "scheduled_passage_time": "09:28",
+        "actual_passage_time_utc": 1537348254,
+        "actual_passage_time": "10:10",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537345680,
+        "scheduled_passage_time": "09:28",
+        "actual_passage_time_utc": 1537348254,
+        "actual_passage_time": "10:10",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_5": {
+      "duid": "-1909526241855147574",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721426531",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537345620,
+        "scheduled_passage_time": "09:27",
+        "actual_passage_time_utc": 1537348194,
+        "actual_passage_time": "10:09",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537345620,
+        "scheduled_passage_time": "09:27",
+        "actual_passage_time_utc": 1537348194,
+        "actual_passage_time": "10:09",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_6": {
+      "duid": "-1909526241855147575",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721421251",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537345500,
+        "scheduled_passage_time": "09:25",
+        "actual_passage_time_utc": 1537348074,
+        "actual_passage_time": "10:07",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537345500,
+        "scheduled_passage_time": "09:25",
+        "actual_passage_time_utc": 1537348074,
+        "actual_passage_time": "10:07",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_7": {
+      "duid": "-1909526241855147576",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721426521",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537345380,
+        "scheduled_passage_time": "09:23",
+        "actual_passage_time_utc": 1537347954,
+        "actual_passage_time": "10:05",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537345380,
+        "scheduled_passage_time": "09:23",
+        "actual_passage_time_utc": 1537347954,
+        "actual_passage_time": "10:05",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_8": {
+      "duid": "-1909526241855147577",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721426511",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537345260,
+        "scheduled_passage_time": "09:21",
+        "actual_passage_time_utc": 1537347834,
+        "actual_passage_time": "10:03",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537345260,
+        "scheduled_passage_time": "09:21",
+        "actual_passage_time_utc": 1537347834,
+        "actual_passage_time": "10:03",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_9": {
+      "duid": "-1909526241855147578",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721426501",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537345140,
+        "scheduled_passage_time": "09:19",
+        "actual_passage_time_utc": 1537347714,
+        "actual_passage_time": "10:01",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537345140,
+        "scheduled_passage_time": "09:19",
+        "actual_passage_time_utc": 1537347714,
+        "actual_passage_time": "10:01",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_10": {
+      "duid": "-1909526241855147579",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721436121",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537345020,
+        "scheduled_passage_time": "09:17",
+        "actual_passage_time_utc": 1537347594,
+        "actual_passage_time": "09:59",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537345020,
+        "scheduled_passage_time": "09:17",
+        "actual_passage_time_utc": 1537347594,
+        "actual_passage_time": "09:59",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_11": {
+      "duid": "-1909526241855147580",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721427331",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537344780,
+        "scheduled_passage_time": "09:13",
+        "actual_passage_time_utc": 1537347444,
+        "actual_passage_time": "09:57",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537344900,
+        "scheduled_passage_time": "09:15",
+        "actual_passage_time_utc": 1537347474,
+        "actual_passage_time": "09:57",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_12": {
+      "duid": "-1909526241855147581",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551722184421",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537344660,
+        "scheduled_passage_time": "09:11",
+        "actual_passage_time_utc": 1537347324,
+        "actual_passage_time": "09:55",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537344660,
+        "scheduled_passage_time": "09:11",
+        "actual_passage_time_utc": 1537347324,
+        "actual_passage_time": "09:55",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_13": {
+      "duid": "-1909526241855147582",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425961",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537344540,
+        "scheduled_passage_time": "09:09",
+        "actual_passage_time_utc": 1537347204,
+        "actual_passage_time": "09:53",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537344540,
+        "scheduled_passage_time": "09:09",
+        "actual_passage_time_utc": 1537347204,
+        "actual_passage_time": "09:53",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_14": {
+      "duid": "-1909526241855147583",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425421",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537344480,
+        "scheduled_passage_time": "09:08",
+        "actual_passage_time_utc": 1537347144,
+        "actual_passage_time": "09:52",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537344480,
+        "scheduled_passage_time": "09:08",
+        "actual_passage_time_utc": 1537347144,
+        "actual_passage_time": "09:52",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_15": {
+      "duid": "-1909526241855147584",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425411",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537344420,
+        "scheduled_passage_time": "09:07",
+        "actual_passage_time_utc": 1537347084,
+        "actual_passage_time": "09:51",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537344420,
+        "scheduled_passage_time": "09:07",
+        "actual_passage_time_utc": 1537347084,
+        "actual_passage_time": "09:51",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_16": {
+      "duid": "-1909526241855147553",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721418091",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537347360,
+        "scheduled_passage_time": "09:56",
+        "actual_passage_time_utc": 1537346948,
+        "actual_passage_time": "09:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 3,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_17": {
+      "duid": "-1909526241855147554",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721430351",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537347300,
+        "scheduled_passage_time": "09:55",
+        "actual_passage_time_utc": 1537346927,
+        "actual_passage_time": "09:48",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537347300,
+        "scheduled_passage_time": "09:55",
+        "actual_passage_time_utc": 1537346927,
+        "actual_passage_time": "09:48",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_18": {
+      "duid": "-1909526241855147555",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721430341",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537347240,
+        "scheduled_passage_time": "09:54",
+        "actual_passage_time_utc": 1537349814,
+        "actual_passage_time": "10:36",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537347240,
+        "scheduled_passage_time": "09:54",
+        "actual_passage_time_utc": 1537346894,
+        "actual_passage_time": "09:48",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 4,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_19": {
+      "duid": "-1909526241855147556",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721430331",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537347180,
+        "scheduled_passage_time": "09:53",
+        "actual_passage_time_utc": 1537349754,
+        "actual_passage_time": "10:35",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537347180,
+        "scheduled_passage_time": "09:53",
+        "actual_passage_time_utc": 1537349754,
+        "actual_passage_time": "10:35",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_20": {
+      "duid": "-1909526241855147557",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721430321",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537347120,
+        "scheduled_passage_time": "09:52",
+        "actual_passage_time_utc": 1537349694,
+        "actual_passage_time": "10:34",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537347120,
+        "scheduled_passage_time": "09:52",
+        "actual_passage_time_utc": 1537349694,
+        "actual_passage_time": "10:34",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_21": {
+      "duid": "-1909526241855147558",
+      "last_modification_timestamp": 1537350951606,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721417941",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537347060,
+        "scheduled_passage_time": "09:51",
+        "actual_passage_time_utc": 1537349634,
+        "actual_passage_time": "10:33",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537347060,
+        "scheduled_passage_time": "09:51",
+        "actual_passage_time_utc": 1537349634,
+        "actual_passage_time": "10:33",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_22": {
+      "duid": "-1909526241855147559",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721416751",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537347000,
+        "scheduled_passage_time": "09:50",
+        "actual_passage_time_utc": 1537349574,
+        "actual_passage_time": "10:32",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537347000,
+        "scheduled_passage_time": "09:50",
+        "actual_passage_time_utc": 1537349574,
+        "actual_passage_time": "10:32",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_23": {
+      "duid": "-1909526241855147560",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721430311",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537346880,
+        "scheduled_passage_time": "09:48",
+        "actual_passage_time_utc": 1537349454,
+        "actual_passage_time": "10:30",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537346880,
+        "scheduled_passage_time": "09:48",
+        "actual_passage_time_utc": 1537349454,
+        "actual_passage_time": "10:30",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_24": {
+      "duid": "-1909526241855147561",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721430301",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537346820,
+        "scheduled_passage_time": "09:47",
+        "actual_passage_time_utc": 1537349394,
+        "actual_passage_time": "10:29",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537346820,
+        "scheduled_passage_time": "09:47",
+        "actual_passage_time_utc": 1537349394,
+        "actual_passage_time": "10:29",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_25": {
+      "duid": "-1909526241855147562",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721430291",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537346760,
+        "scheduled_passage_time": "09:46",
+        "actual_passage_time_utc": 1537349334,
+        "actual_passage_time": "10:28",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537346760,
+        "scheduled_passage_time": "09:46",
+        "actual_passage_time_utc": 1537349334,
+        "actual_passage_time": "10:28",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_26": {
+      "duid": "-1909526241855147563",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721430261",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537346700,
+        "scheduled_passage_time": "09:45",
+        "actual_passage_time_utc": 1537349274,
+        "actual_passage_time": "10:27",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537346700,
+        "scheduled_passage_time": "09:45",
+        "actual_passage_time_utc": 1537349274,
+        "actual_passage_time": "10:27",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_27": {
+      "duid": "-1909526241855147564",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721419241",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537346640,
+        "scheduled_passage_time": "09:44",
+        "actual_passage_time_utc": 1537349214,
+        "actual_passage_time": "10:26",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537346640,
+        "scheduled_passage_time": "09:44",
+        "actual_passage_time_utc": 1537349214,
+        "actual_passage_time": "10:26",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_28": {
+      "duid": "-1909526241855147565",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721431101",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537346280,
+        "scheduled_passage_time": "09:38",
+        "actual_passage_time_utc": 1537348854,
+        "actual_passage_time": "10:20",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537346280,
+        "scheduled_passage_time": "09:38",
+        "actual_passage_time_utc": 1537348854,
+        "actual_passage_time": "10:20",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_29": {
+      "duid": "-1909526241855147566",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721430611",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537346100,
+        "scheduled_passage_time": "09:35",
+        "actual_passage_time_utc": 1537348674,
+        "actual_passage_time": "10:17",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537346100,
+        "scheduled_passage_time": "09:35",
+        "actual_passage_time_utc": 1537348674,
+        "actual_passage_time": "10:17",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_30": {
+      "duid": "-1909526241855147567",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721430601",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537345980,
+        "scheduled_passage_time": "09:33",
+        "actual_passage_time_utc": 1537348554,
+        "actual_passage_time": "10:15",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537345980,
+        "scheduled_passage_time": "09:33",
+        "actual_passage_time_utc": 1537348554,
+        "actual_passage_time": "10:15",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_31": {
+      "duid": "-1909526241855147568",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721432261",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537345920,
+        "scheduled_passage_time": "09:32",
+        "actual_passage_time_utc": 1537348494,
+        "actual_passage_time": "10:14",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537345920,
+        "scheduled_passage_time": "09:32",
+        "actual_passage_time_utc": 1537348494,
+        "actual_passage_time": "10:14",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_32": {
+      "duid": "-1909526241855147601",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429591",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537342800,
+        "scheduled_passage_time": "08:40",
+        "actual_passage_time_utc": 1537345464,
+        "actual_passage_time": "09:24",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537342800,
+        "scheduled_passage_time": "08:40",
+        "actual_passage_time_utc": 1537345464,
+        "actual_passage_time": "09:24",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_33": {
+      "duid": "-1909526241855147602",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429581",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537342740,
+        "scheduled_passage_time": "08:39",
+        "actual_passage_time_utc": 1537345404,
+        "actual_passage_time": "09:23",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537342740,
+        "scheduled_passage_time": "08:39",
+        "actual_passage_time_utc": 1537345404,
+        "actual_passage_time": "09:23",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_34": {
+      "duid": "-1909526241855147603",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429571",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537342680,
+        "scheduled_passage_time": "08:38",
+        "actual_passage_time_utc": 1537345344,
+        "actual_passage_time": "09:22",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537342680,
+        "scheduled_passage_time": "08:38",
+        "actual_passage_time_utc": 1537345344,
+        "actual_passage_time": "09:22",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_35": {
+      "duid": "-1909526241855147604",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429531",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537342620,
+        "scheduled_passage_time": "08:37",
+        "actual_passage_time_utc": 1537345284,
+        "actual_passage_time": "09:21",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537342620,
+        "scheduled_passage_time": "08:37",
+        "actual_passage_time_utc": 1537345284,
+        "actual_passage_time": "09:21",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_36": {
+      "duid": "-1909526241855147605",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721417761",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537342560,
+        "scheduled_passage_time": "08:36",
+        "actual_passage_time_utc": 1537345224,
+        "actual_passage_time": "09:20",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537342560,
+        "scheduled_passage_time": "08:36",
+        "actual_passage_time_utc": 1537345224,
+        "actual_passage_time": "09:20",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_37": {
+      "duid": "-1909526241855147606",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429561",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537342500,
+        "scheduled_passage_time": "08:35",
+        "actual_passage_time_utc": 1537345164,
+        "actual_passage_time": "09:19",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537342500,
+        "scheduled_passage_time": "08:35",
+        "actual_passage_time_utc": 1537345164,
+        "actual_passage_time": "09:19",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_38": {
+      "duid": "-1909526241855147607",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721431081",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537342440,
+        "scheduled_passage_time": "08:34",
+        "actual_passage_time_utc": 1537345104,
+        "actual_passage_time": "09:18",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537342440,
+        "scheduled_passage_time": "08:34",
+        "actual_passage_time_utc": 1537345104,
+        "actual_passage_time": "09:18",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_39": {
+      "duid": "-1909526241855147608",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721431091",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537342380,
+        "scheduled_passage_time": "08:33",
+        "actual_passage_time_utc": 1537345044,
+        "actual_passage_time": "09:17",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537342380,
+        "scheduled_passage_time": "08:33",
+        "actual_passage_time_utc": 1537345044,
+        "actual_passage_time": "09:17",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_40": {
+      "duid": "-1909526241855147609",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429551",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537342320,
+        "scheduled_passage_time": "08:32",
+        "actual_passage_time_utc": 1537344984,
+        "actual_passage_time": "09:16",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537342320,
+        "scheduled_passage_time": "08:32",
+        "actual_passage_time_utc": 1537344984,
+        "actual_passage_time": "09:16",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_41": {
+      "duid": "-1909526241855147610",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721484641",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537342260,
+        "scheduled_passage_time": "08:31",
+        "actual_passage_time_utc": 1537344924,
+        "actual_passage_time": "09:15",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537342260,
+        "scheduled_passage_time": "08:31",
+        "actual_passage_time_utc": 1537344924,
+        "actual_passage_time": "09:15",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_42": {
+      "duid": "-1909526241855147611",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721431071",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537342200,
+        "scheduled_passage_time": "08:30",
+        "actual_passage_time_utc": 1537344864,
+        "actual_passage_time": "09:14",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 3,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_43": {
+      "duid": "-1909526241855147585",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425401",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537344360,
+        "scheduled_passage_time": "09:06",
+        "actual_passage_time_utc": 1537347024,
+        "actual_passage_time": "09:50",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537344360,
+        "scheduled_passage_time": "09:06",
+        "actual_passage_time_utc": 1537347024,
+        "actual_passage_time": "09:50",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_44": {
+      "duid": "-1909526241855147586",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721440371",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537344300,
+        "scheduled_passage_time": "09:05",
+        "actual_passage_time_utc": 1537346964,
+        "actual_passage_time": "09:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537344300,
+        "scheduled_passage_time": "09:05",
+        "actual_passage_time_utc": 1537346964,
+        "actual_passage_time": "09:49",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_45": {
+      "duid": "-1909526241855147587",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425391",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537344240,
+        "scheduled_passage_time": "09:04",
+        "actual_passage_time_utc": 1537346904,
+        "actual_passage_time": "09:48",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537344240,
+        "scheduled_passage_time": "09:04",
+        "actual_passage_time_utc": 1537346904,
+        "actual_passage_time": "09:48",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_46": {
+      "duid": "-1909526241855147588",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425381",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537344180,
+        "scheduled_passage_time": "09:03",
+        "actual_passage_time_utc": 1537346844,
+        "actual_passage_time": "09:47",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537344180,
+        "scheduled_passage_time": "09:03",
+        "actual_passage_time_utc": 1537346844,
+        "actual_passage_time": "09:47",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_47": {
+      "duid": "-1909526241855147589",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551722184416",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537344060,
+        "scheduled_passage_time": "09:01",
+        "actual_passage_time_utc": 1537346724,
+        "actual_passage_time": "09:45",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537344060,
+        "scheduled_passage_time": "09:01",
+        "actual_passage_time_utc": 1537346724,
+        "actual_passage_time": "09:45",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_48": {
+      "duid": "-1909526241855147590",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721425361",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537343940,
+        "scheduled_passage_time": "08:59",
+        "actual_passage_time_utc": 1537346604,
+        "actual_passage_time": "09:43",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537343940,
+        "scheduled_passage_time": "08:59",
+        "actual_passage_time_utc": 1537346604,
+        "actual_passage_time": "09:43",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_49": {
+      "duid": "-1909526241855147591",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551722184417",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537343820,
+        "scheduled_passage_time": "08:57",
+        "actual_passage_time_utc": 1537346484,
+        "actual_passage_time": "09:41",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537343820,
+        "scheduled_passage_time": "08:57",
+        "actual_passage_time_utc": 1537346484,
+        "actual_passage_time": "09:41",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_50": {
+      "duid": "-1909526241855147592",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721427201",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537343700,
+        "scheduled_passage_time": "08:55",
+        "actual_passage_time_utc": 1537346364,
+        "actual_passage_time": "09:39",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537343700,
+        "scheduled_passage_time": "08:55",
+        "actual_passage_time_utc": 1537346364,
+        "actual_passage_time": "09:39",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_51": {
+      "duid": "-1909526241855147593",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721427161",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537343640,
+        "scheduled_passage_time": "08:54",
+        "actual_passage_time_utc": 1537346304,
+        "actual_passage_time": "09:38",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537343640,
+        "scheduled_passage_time": "08:54",
+        "actual_passage_time_utc": 1537346304,
+        "actual_passage_time": "09:38",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_52": {
+      "duid": "-1909526241855147594",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721427181",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537343520,
+        "scheduled_passage_time": "08:52",
+        "actual_passage_time_utc": 1537346184,
+        "actual_passage_time": "09:36",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537343520,
+        "scheduled_passage_time": "08:52",
+        "actual_passage_time_utc": 1537346184,
+        "actual_passage_time": "09:36",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_53": {
+      "duid": "-1909526241855147595",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721418811",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537343400,
+        "scheduled_passage_time": "08:50",
+        "actual_passage_time_utc": 1537346064,
+        "actual_passage_time": "09:34",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537343400,
+        "scheduled_passage_time": "08:50",
+        "actual_passage_time_utc": 1537346064,
+        "actual_passage_time": "09:34",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_54": {
+      "duid": "-1909526241855147596",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721427141",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537343280,
+        "scheduled_passage_time": "08:48",
+        "actual_passage_time_utc": 1537345944,
+        "actual_passage_time": "09:32",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537343280,
+        "scheduled_passage_time": "08:48",
+        "actual_passage_time_utc": 1537345944,
+        "actual_passage_time": "09:32",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_55": {
+      "duid": "-1909526241855147597",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721431721",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537343220,
+        "scheduled_passage_time": "08:47",
+        "actual_passage_time_utc": 1537345884,
+        "actual_passage_time": "09:31",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537343220,
+        "scheduled_passage_time": "08:47",
+        "actual_passage_time_utc": 1537345884,
+        "actual_passage_time": "09:31",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_56": {
+      "duid": "-1909526241855147598",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429611",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537343100,
+        "scheduled_passage_time": "08:45",
+        "actual_passage_time_utc": 1537345764,
+        "actual_passage_time": "09:29",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537343100,
+        "scheduled_passage_time": "08:45",
+        "actual_passage_time_utc": 1537345764,
+        "actual_passage_time": "09:29",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_57": {
+      "duid": "-1909526241855147599",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429731",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537343040,
+        "scheduled_passage_time": "08:44",
+        "actual_passage_time_utc": 1537345704,
+        "actual_passage_time": "09:28",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537343040,
+        "scheduled_passage_time": "08:44",
+        "actual_passage_time_utc": 1537345704,
+        "actual_passage_time": "09:28",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "passage_58": {
+      "duid": "-1909526241855147600",
+      "last_modification_timestamp": 1537350951607,
+      "is_deleted": false,
+      "route_duid": {
+        "structTag": 50466,
+        "duid": "7338652709907595333",
+        "foo": 0
+      },
+      "direction": 1,
+      "trip_duid": {
+        "structTag": 50471,
+        "duid": "7338656568073810691",
+        "foo": 0
+      },
+      "stop_point_duid": {
+        "structTag": 50465,
+        "duid": "7338653551721429601",
+        "foo": 0
+      },
+      "vehicle_duid": {
+        "structTag": 50470,
+        "duid": "7338674957838188838",
+        "foo": 0
+      },
+      "arrival_data": {
+        "scheduled_passage_time_utc": 1537342920,
+        "scheduled_passage_time": "08:42",
+        "actual_passage_time_utc": 1537345584,
+        "actual_passage_time": "09:26",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Ovens",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "departure_data": {
+        "scheduled_passage_time_utc": 1537342920,
+        "scheduled_passage_time": "08:42",
+        "actual_passage_time_utc": 1537345584,
+        "actual_passage_time": "09:26",
+        "service_mode": 1,
+        "multilingual_direction_text": {
+          "defaultValue": "Carrigaline",
+          "foo": 0
+        },
+        "type": 1,
+        "foo": 0
+      },
+      "congestion_level": 1,
+      "accuracy_level": 3,
+      "status": 1,
+      "is_accessible": 0,
+      "latitude": 186735330,
+      "longitude": -30755660,
+      "bearing": 249,
+      "pattern_duid": {
+        "structTag": 50472,
+        "duid": "7338650210241173586",
+        "foo": 0
+      },
+      "has_bike_rack": 0,
+      "category": 5,
+      "foo": 0
+    },
+    "foo": 0
+  }
+}
