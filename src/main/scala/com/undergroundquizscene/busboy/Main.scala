@@ -5,14 +5,26 @@ import cats.implicits._
 import io.circe._
 import io.circe.generic.auto._
 import io.circe.parser._
+import org.http4s._
+import org.http4s.dsl.io._
 import org.http4s.client.blaze._
 import org.http4s.dsl.io._
+import org.http4s.server.blaze._
 
-import com.undergroundquizscene.busboy.model._
+import com.undergroundquizscene.busboy.endpoints._
 
 object Main extends App {
         implicit val client = Http1Client[IO]().unsafeRunSync
-        predict()
+
+        val locationService = HttpService[IO] {
+                case GET -> Root / stop / "next" => {
+                        val trips = getTripsForStop(Stop(DUID(stop)))
+                        Ok(trips.map(_.toString))
+                }
+        }
+
+        val builder = BlazeBuilder[IO].bindHttp(8080, "localhost").mountService(locationService, "/").start
+        val server = builder.unsafeRunSync()
 
         def predict(): Unit = {
                 val lastThreeStops = Set("7338653551721429601", "7338653551721429591", "7338653551721429581").map(DUID andThen Stop)
@@ -33,6 +45,10 @@ object Main extends App {
 
         def choosePassage(passages: List[StopPassage.Passage]): Option[StopPassage.Passage] = passages.headOption
 
+        def getTripsForStop(s: Stop): IO[List[StopPassage.Response]] = for {
+                response <- fetchStopData(s)
+                trips <- response.passages.traverse(p => fetchTripData(p.trip))
+        } yield trips
 
         def getStops: IO[Json] = for {
                 stops <- client.expect[String]("http://buseireann.ie/inc/proto/bus_stop_points.php")

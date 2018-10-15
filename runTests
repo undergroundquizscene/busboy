@@ -1,0 +1,45 @@
+#!/usr/bin/env python3.7
+import json
+import os
+from sys import argv
+from functools import partial, reduce
+
+def main():
+    folder = "/Users/Noel/Developer/Projects/Busboy/src/main/resources/trace/2018/10/10"
+    jsons = []
+    for subfolder in os.scandir(folder):
+        if subfolder.is_dir():
+            for file in os.scandir(subfolder.path):
+                jsons.append(readJson(file.path))
+    f = make_passage_function(argv[1])
+    fields_equal = [check_all_equal(j, f) for j in jsons]
+    print(fields_equal)
+    print(f"All values found: {reduce(lambda s, t: s.union(t[1]), fields_equal, set())}")
+    trues = list(filter(lambda t: t[0], fields_equal))
+    result = len(trues) == len(fields_equal)
+    print(f"Field has only one value in each file: {result}")
+    print(f"Field has only one value in {len(trues)} files out of {len(fields_equal)}")
+
+def make_passage_function(dot_syntax):
+    fields = dot_syntax.split(".")
+    return partial(access_field, fields)
+
+def access_field(fields, passage):
+    try:
+        return reduce(lambda p, f: p[f], fields, passage)
+    except KeyError:
+        return None
+
+
+def check_all_equal(j, passage_function):
+    ps = {k: v for (k, v) in j["stopPassageTdi"].items() if k != "foo"}
+    values = {passage_function(p) for n, p in ps.items()}
+    return (len(values) == 1, values)
+
+def readJson(filePath):
+    with open(filePath, 'r') as f:
+        j = json.load(f)
+    return j
+
+if __name__ == '__main__':
+    main()

@@ -1,4 +1,4 @@
-package com.undergroundquizscene.busboy.model
+package com.undergroundquizscene.busboy.endpoints
 
 import cats.effect.IO
 import cats.implicits._

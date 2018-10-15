@@ -1,63 +1,96 @@
-#!/usr/local/bin/python3.6
+#!/usr/bin/env python3.7
 import json
 from os import makedirs, scandir
 import requests
-from time import time, localtime
+from time import localtime, strftime
+from datetime import datetime
+from threading import Timer, Event
+from concurrent.futures import ThreadPoolExecutor
+import psycopg2
+from psycopg2.extras import Json
 
 church_cross_east = '7338653551721429731'
 
-def main(stop = church_cross_east):
-	url = 'http://buseireann.ie/inc/proto/stopPassageTdi.php'
+def main(stop=church_cross_east):
+    with ThreadPoolExecutor(max_workers=36) as pool:
+        terminate = Event()
+        cycle(stop, 10, pool, terminate)
+        try:
+            terminate.wait()
+        except KeyboardInterrupt:
+            print("\nExiting…")
+            terminate.set()
 
-	print(f'Getting trips')
-	stop_response = requests.get(url,
-		params = {'stop_point': church_cross_east})
-	print(f'Got result status {stop_response.status_code}')
-	stop_trips = trips(stop_response.json())
-	print(f'Got trips: {stop_trips}')
+def cycle(stop, frequency, pool, terminate):
+    if not terminate.is_set():
+        Timer(frequency, cycle, args=[stop, frequency, pool, terminate]).start()
+        make_requests(stop, pool)
 
-	for trip in stop_trips:
-		print(f'Calling for trip {trip}')
-		trip_response = requests.get(url, params = {'trip': trip})
-		print(f'Got result status {trip_response.status_code}')
-		save_response(trip, trip_response)
+def make_requests(stop, pool):
+    print(f"make_requests called at {strftime('%X')}")
+    url = 'http://buseireann.ie/inc/proto/stopPassageTdi.php'
+
+    stop_response = requests.get(url,
+        params = {'stop_point': church_cross_east})
+    stop_trips = trips(stop_response.json())
+
+    for trip in stop_trips:
+        pool.submit(make_request, url, trip)
+
+def make_request(url, trip):
+    trip_response = requests.get(url, params = {'trip': trip})
+    save_response(trip, trip_response)
 
 def save_response(trip, trip_response):
-	t = localtime(time())
-	timestamp = list(map(str, [t.tm_year, t.tm_mon, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec]))
-	folder = f'/Users/Noel/Developer/Projects/Busboy/src/main/resources/trace/{"/".join(timestamp[0:3])}/{trip}'
-	filename = f'{folder}/trace-{"-".join(timestamp)}.json'
-	makedirs(folder, exist_ok = True)
-	with open(filename, 'w') as f:
-		f.write(json.dumps(trip_response.json(), indent = 2))
-	print(f'Wrote output to {filename}')
+    timestamp = datetime.now()
+    load_into_database(trip_response.json(), timestamp, trip)
+
+def load_into_database(json, timestamp, trip):
+    print(f'Loading into database for trip {trip} at {timestamp}')
+    passages = json['stopPassageTdi']
+    connection = psycopg2.connect('dbname=busboy user=Noel')
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute('insert into passage_responses (response, timestamp, trip) values (%s, %s, %s)', [Json(passages), timestamp, trip])
+    connection.close()
+
+def save_response_to_file(trip, trip_response, stop):
+    timestamp = datetime.now()
+    folder = f'/Users/Noel/Developer/Projects/Busboy/src/main/resources/trace/{"/".join(timestamp[0:3])}/{trip}'
+    filename = f'{folder}/trace-{"-".join(timestamp)}.json'
+    makedirs(folder, exist_ok = True)
+    with open(filename, 'w') as f:
+        f.write(json.dumps(trip_response.json(), indent = 2))
+    print(f'Wrote output to {filename}')
 
 def trips(json_response):
-	"""Gets the trip ids from a stop response."""
-	passages = filter(lambda p: p[0] != 'foo', json_response["stopPassageTdi"].items())
-	passage_duids = map(lambda p: p[1]["trip_duid"]["duid"], passages)
-	return list(passage_duids)
+    """Gets the trip ids from a stop response."""
+    passages = filter(lambda p: p[0] != 'foo', json_response["stopPassageTdi"].items())
+    passage_duids = map(lambda p: p[1]["trip_duid"]["duid"], passages)
+    return list(passage_duids)
 
-def coords(folder):
-	fs = scandir(folder)
-	jsons = map(lambda f: readJson(f.path), fs)
-	passage_zeroes = map(lambda j: j["stopPassageTdi"]['passage_0'], jsons)
-	raw_coords = map(lambda p: (p['latitude'], p['longitude']), passage_zeroes)
-	refined_coords = map(lambda c: map(lambda l: l / 3600000, c), raw_coords)
-	string_coords = map(lambda c: map(str, c), refined_coords)
-	output = '\n'.join(map(lambda c: ', '.join(c), string_coords))
-	print(output)
+def lines(folder, function):
+    fs = scandir(folder)
+    jsons = map(lambda f: readJson(f.path), fs)
+    output = '\n'.join(list(map(function, jsons)))
+    print(output)
 
 def readJson(filePath):
-	with open(filePath, 'r') as f:
-		j = json.load(f)
-	return j
+    with open(filePath, 'r') as f:
+        j = json.load(f)
+    return j
+
+def coords(json):
+    passage_zero = json["stopPassageTdi"]['passage_0']
+    raw_coords = (passage_zero['latitude'], passage_zero['longitude'])
+    refined_coords = map(lambda l: l / 3600000, raw_coords)
+    return str(tuple(refined_coords))
 
 if __name__ == '__main__':
-	from sys import argv
-	if len(argv) == 1:
-		main()
-	elif argv[1] == 'coords':
-		coords(argv[2])
-	else:
-		main(argv[1])
+    from sys import argv
+    if len(argv) == 1:
+        main()
+    elif argv[1] == 'coords':
+        lines(argv[2], coords)
+    else:
+        main(argv[1])
