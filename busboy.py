@@ -1,4 +1,3 @@
-#!/usr/bin/env python3.7
 import json
 from os import makedirs, scandir
 import requests
