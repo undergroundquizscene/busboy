@@ -7,34 +7,35 @@ from threading import Timer, Event
 from concurrent.futures import ThreadPoolExecutor
 import psycopg2
 from psycopg2.extras import Json
+from constants import church_cross_east, stop_passage_tdi, route_cover
+from typing import Tuple
 
-church_cross_east = '7338653551721429731'
-
-def main(stop=church_cross_east):
-    with ThreadPoolExecutor(max_workers=36) as pool:
+def main(stops=route_cover):
+    with ThreadPoolExecutor(max_workers=300) as pool:
         terminate = Event()
-        cycle(stop, 10, pool, terminate)
+        cycle(stops, 8, pool, terminate)
         try:
             terminate.wait()
         except KeyboardInterrupt:
             print("\nExiting…")
             terminate.set()
 
-def cycle(stop, frequency, pool, terminate):
+def cycle(stops, frequency, pool, terminate):
     if not terminate.is_set():
-        Timer(frequency, cycle, args=[stop, frequency, pool, terminate]).start()
-        make_requests(stop, pool)
+        Timer(frequency, cycle, args=[stops, frequency, pool, terminate]).start()
+        for stop in stops:
+            pool.submit(make_requests, stop, pool)
 
 def make_requests(stop, pool):
     print(f"make_requests called at {strftime('%X')}")
-    url = 'http://buseireann.ie/inc/proto/stopPassageTdi.php'
-
-    stop_response = requests.get(url,
-        params = {'stop_point': church_cross_east})
-    stop_trips = trips(stop_response.json())
-
-    for trip in stop_trips:
-        pool.submit(make_request, url, trip)
+    stop_response = requests.get(
+        stop_passage_tdi,
+        params = {'stop_point': stop}
+    ).json()
+    passages = stop_response['stopPassageTdi']
+    for k, p in passages.items():
+        if k != "foo":
+            pool.submit(store_trip, p, datetime.utcfromtimestamp(p['last_modification_timestamp'] / 1000), p['trip_duid']['duid'])
 
 def make_request(url, trip):
     trip_response = requests.get(url, params = {'trip': trip})
@@ -50,7 +51,15 @@ def load_into_database(json, timestamp, trip):
     connection = psycopg2.connect('dbname=busboy user=Noel')
     with connection:
         with connection.cursor() as cursor:
-            cursor.execute('insert into passage_responses (response, timestamp, trip) values (%s, %s, %s)', [Json(passages), timestamp, trip])
+            cursor.execute('insert into passage_responses_old (response, timestamp, trip) values (%s, %s, %s)', [Json(passages), timestamp, trip])
+    connection.close()
+
+def store_trip(passage_json, last_modified, trip_id):
+    print(f'Loading into database for trip_id {trip_id} at {last_modified}')
+    connection = psycopg2.connect('dbname=busboy user=Noel')
+    with connection:
+        with connection.cursor() as cursor:
+            cursor.execute('insert into passage_responses (response, last_modified, trip_id) values (%s, %s, %s)', [Json(passage_json), last_modified, trip_id])
     connection.close()
 
 def save_response_to_file(trip, trip_response, stop):
@@ -85,11 +94,64 @@ def coords(json):
     refined_coords = map(lambda l: l / 3600000, raw_coords)
     return str(tuple(refined_coords))
 
+def minimal_route_cover():
+    stops = get_stops_from_file()
+    routes = get_routes_from_file()
+
+    routes_covered = set()
+    stop_cover = set()
+    print(f'{len(stops)} stops to try')
+    for stop in stops:
+        try:
+            print(f'Trying stop {stop}')
+            print(f'Have {len(routes_covered)} routes out of {len(routes)}')
+            if len(routes_covered) >= len(routes):
+                break
+            new_routes = routes_at_stop(stop)
+            if not new_routes.issubset(routes_covered):
+                stop_cover.add(stop)
+                routes_covered = routes_covered.union(new_routes)
+        except Exception as e:
+            print(f'Got error {e} on stop {stop}')
+    return stop_cover
+
+def routes_at_stop(stop):
+    stop_response = requests.get(stop_passage_tdi,
+        params = {'stop_point': stop}).json()
+    return {p['route_duid']['duid'] for k, p in stop_response['stopPassageTdi'].items() if k != 'foo'}
+
+def get_stops_from_file():
+    stops_json = readJson('resources/example-responses/busStopPoints.json')
+    return {b['duid']: b for k, b in stops_json['bus_stops'].items()}
+
+def get_routes_from_file():
+    routes_json = readJson('resources/example-responses/routes.json')
+    return {r['duid']: r['short_name'] for k, r in routes_json['routeTdi'].items() if k != 'foo'}
+
+def lmt_test(passage_number: int) -> Tuple[str, str]:
+    stop_json = requests.get(stop_passage_tdi, params={'stop_point': church_cross_east}).json()
+    passage_json = stop_json['stopPassageTdi'][f'passage_{passage_number}']
+    passage_id = passage_json['duid']
+    passage_lmt = passage_json['last_modification_timestamp']
+    trip = passage_json['trip_duid']['duid']
+    trip_json = requests.get(stop_passage_tdi, params={'trip': trip}).json()
+    trip_passages = [p for k, p in trip_json['stopPassageTdi'].items() if k != 'foo' and p['duid'] == passage_id]
+    if len(trip_passages) > 1:
+        raise AssertionError('Got {len(trip_passages)} matching passages (expected 1)')
+    trip_lmt = trip_passages[0]['last_modification_timestamp']
+    return (passage_lmt, trip_lmt)
+
+
 if __name__ == '__main__':
     from sys import argv
     if len(argv) == 1:
         main()
     elif argv[1] == 'coords':
         lines(argv[2], coords)
+    elif argv[1] == 'lmt':
+        p, t = lmt_test(int(argv[2]))
+        print(f'Last modified time is {p}')
+        print(f'Trip last modified time is {t}')
+        print(f'Times are equal? {t == p}')
     else:
         main(argv[1])
