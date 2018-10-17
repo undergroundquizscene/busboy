@@ -2,7 +2,6 @@ create database busboy
         encoding = 'utf8';
 
 create table passage_responses (
-        response jsonb,
         route_id varchar(30),
         direction smallint,
         vehicle_id varchar(30),
@@ -19,4 +18,12 @@ create table passage_responses (
         has_bike_rack boolean,
         category smallint,
         primary key (trip_id, last_modified)
+);
+
+create table routes (
+        id varchar(30) primary key,
+        name varchar(20),
+        direction smallint,
+        number integer,
+        category smallint,
 );

@@ -8,12 +8,13 @@ from concurrent.futures import ThreadPoolExecutor
 import psycopg2
 from psycopg2.extras import Json
 from constants import church_cross_east, stop_passage_tdi, route_cover
-from typing import Tuple
+from typing import Tuple, Optional
+from model import TripSnapshot
 
 def main(stops=route_cover):
     with ThreadPoolExecutor(max_workers=300) as pool:
         terminate = Event()
-        cycle(stops, 8, pool, terminate)
+        cycle(stops, 2, pool, terminate)
         try:
             terminate.wait()
         except KeyboardInterrupt:
@@ -22,12 +23,12 @@ def main(stops=route_cover):
 
 def cycle(stops, frequency, pool, terminate):
     if not terminate.is_set():
+        print(f"Cycling at {strftime('%X')}")
         Timer(frequency, cycle, args=[stops, frequency, pool, terminate]).start()
         for stop in stops:
             pool.submit(make_requests, stop, pool)
 
 def make_requests(stop, pool):
-    print(f"make_requests called at {strftime('%X')}")
     stop_response = requests.get(
         stop_passage_tdi,
         params = {'stop_point': stop}
@@ -35,7 +36,7 @@ def make_requests(stop, pool):
     passages = stop_response['stopPassageTdi']
     for k, p in passages.items():
         if k != "foo":
-            pool.submit(store_trip, p, datetime.utcfromtimestamp(p['last_modification_timestamp'] / 1000), p['trip_duid']['duid'])
+            pool.submit(store_trip, TripSnapshot(p))
 
 def make_request(url, trip):
     trip_response = requests.get(url, params = {'trip': trip})
@@ -54,12 +55,23 @@ def load_into_database(json, timestamp, trip):
             cursor.execute('insert into passage_responses_old (response, timestamp, trip) values (%s, %s, %s)', [Json(passages), timestamp, trip])
     connection.close()
 
-def store_trip(passage_json, last_modified, trip_id):
-    print(f'Loading into database for trip_id {trip_id} at {last_modified}')
+def store_trip(t: TripSnapshot) -> None:
     connection = psycopg2.connect('dbname=busboy user=Noel')
     with connection:
         with connection.cursor() as cursor:
-            cursor.execute('insert into passage_responses (response, last_modified, trip_id) values (%s, %s, %s)', [Json(passage_json), last_modified, trip_id])
+            cursor.execute('''
+                insert into passage_responses(
+                    last_modified, trip_id, route_id, vehicle_id, pattern_id,
+                    latitude, longitude, bearing, is_accessible, has_bike_rack,
+                    direction, congestion_level, accuracy_level, status, category
+                ) values (
+                    %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s, %s,
+                    %s, %s, %s, %s, %s)
+                ''',
+                [t.last_modified, t.trip_id, t.route_id, t.vehicle_id, t.pattern_id,
+                t.latitude, t.longitude, t.bearing, t.is_accessible, t.has_bike_rack,
+                t.direction, t.congestion_level, t.accuracy_level, t.status, t.category])
     connection.close()
 
 def save_response_to_file(trip, trip_response, stop):
