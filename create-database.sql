@@ -1,6 +1,8 @@
 create database busboy
         encoding = 'utf8';
 
+\connect busboy
+
 create table passage_responses (
         route_id varchar(30),
         direction smallint,
@@ -25,5 +27,5 @@ create table routes (
         name varchar(20),
         direction smallint,
         number integer,
-        category smallint,
+        category smallint
 );
