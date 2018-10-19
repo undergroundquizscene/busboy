@@ -3,4 +3,4 @@ Description=Fills Busboy database
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/env python3 /home/noel/busboy/busboy.py
+ExecStart=/usr/bin/env --chdir=/home/noel/busboy /home/linuxbrew/.linuxbrew/bin/pipenv run python busboy.py
