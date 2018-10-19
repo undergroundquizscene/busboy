@@ -4,6 +4,11 @@ from model import Route
 def default_connection():
     return psycopg2.connect('dbname=busboy user=Noel')
 
+def test_connection():
+    return psycopg2.connect(
+        dbname='busboy-test',
+        user='Noel')
+
 def store_route(r: Route, conn=None) -> None:
     if conn is None:
         conn = default_connection()
@@ -17,3 +22,12 @@ def store_route(r: Route, conn=None) -> None:
                     %s, %s)
                 ''',
                 [r.id, r.name, r.direction, r.number, r.category])
+
+def test_database() -> None:
+    with test_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute('''
+                insert into messages
+                values (%s)
+                ''',
+                ["hello!"])
