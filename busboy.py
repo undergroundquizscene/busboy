@@ -10,6 +10,7 @@ from psycopg2.extras import Json
 from constants import church_cross_east, stop_passage_tdi, route_cover
 from typing import Tuple, Optional
 from model import TripSnapshot
+import database as db
 
 def main(stops=route_cover):
     with ThreadPoolExecutor(max_workers=300) as pool:
@@ -49,15 +50,14 @@ def save_response(trip, trip_response):
 def load_into_database(json, timestamp, trip):
     print(f'Loading into database for trip {trip} at {timestamp}')
     passages = json['stopPassageTdi']
-    connection = psycopg2.connect('dbname=busboy user=Noel')
+    connection = db.default_connection()
     with connection:
         with connection.cursor() as cursor:
             cursor.execute('insert into passage_responses_old (response, timestamp, trip) values (%s, %s, %s)', [Json(passages), timestamp, trip])
     connection.close()
 
 def store_trip(t: TripSnapshot) -> None:
-    connection = psycopg2.connect('dbname=busboy user=Noel')
-    with connection:
+    with db.default_connection() as connection:
         with connection.cursor() as cursor:
             cursor.execute('''
                 insert into passage_responses(
