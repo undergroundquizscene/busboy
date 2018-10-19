@@ -1,0 +1,6 @@
+[Unit]
+Description=Fills Busboy database
+
+[Service]
+Type=simple
+ExecStart=python3 /home/noel/busboy/busboy.py

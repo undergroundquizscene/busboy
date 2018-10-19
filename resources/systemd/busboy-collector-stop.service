@@ -1,0 +1,6 @@
+[Unit]
+Description=Stops filling Busboy database
+
+[Service]
+Type=oneshot
+ExecStart=systemctl stop busboy-collector.service

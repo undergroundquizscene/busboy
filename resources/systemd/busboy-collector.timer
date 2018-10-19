@@ -1,0 +1,5 @@
+[Unit]
+Description=Starts Busboy database collector in the morning
+
+[Timer]
+OnCalendar=06:00
