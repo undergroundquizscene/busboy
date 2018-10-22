@@ -11,11 +11,12 @@ from constants import church_cross_east, stop_passage_tdi, route_cover
 from typing import Tuple, Optional
 from model import TripSnapshot
 import database as db
+from rest import routes_at_stop
 
 def main(stops=route_cover):
     with ThreadPoolExecutor(max_workers=300) as pool:
         terminate = Event()
-        cycle(stops, 2, pool, terminate)
+        cycle(stops, 15, pool, terminate)
         try:
             terminate.wait()
         except KeyboardInterrupt:
@@ -126,11 +127,6 @@ def minimal_route_cover():
         except Exception as e:
             print(f'Got error {e} on stop {stop}')
     return stop_cover
-
-def routes_at_stop(stop):
-    stop_response = requests.get(stop_passage_tdi,
-        params = {'stop_point': stop}).json()
-    return {p['route_duid']['duid'] for k, p in stop_response['stopPassageTdi'].items() if k != 'foo'}
 
 def get_stops_from_file():
     stops_json = readJson('resources/example-responses/busStopPoints.json')
