@@ -7,6 +7,13 @@ name = "pypi"
 requests = "*"
 "psycopg2" = "*"
 mypy = "*"
+pandas = "*"
+numpy = "*"
+matplotlib = "*"
+statsmodels = "*"
+geopy = "*"
+jupyter = "*"
+scipy = "*"
 
 [dev-packages]
 
