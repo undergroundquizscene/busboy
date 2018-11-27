@@ -1,4 +1,8 @@
 church_cross_east = '7338653551721429731'
+church_cross_west = '7338653551721416881'
+parnell_place = '7338653551721440301'
+parnell_place_city = '7338653551721428451'
+
 stop_passage_tdi = 'http://buseireann.ie/inc/proto/stopPassageTdi.php'
 route_cover = {
     '7338653551721318801', '7338653551721517341', '7338653551722041491', '7338653551721794391',

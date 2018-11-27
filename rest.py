@@ -1,7 +1,9 @@
 import requests
-from typing import Dict, Any, Set
+from typing import Dict, Any, Set, Union, Optional
 import json
 from constants import stop_passage_tdi
+from model import StopPassageResponse, StopId, TripId
+from functools import singledispatch
 
 def stops() -> Dict[str, Any]:
     """Gets the API response for every stop."""
@@ -29,3 +31,19 @@ def routes_at_stops():
         except Exception:
             print(f'Got an error on stop {i} ({s})!')
     return rs
+
+@singledispatch
+def stop_passage(params: Dict[str, Union[StopId, TripId]]) -> Optional[StopPassageResponse]:
+    j = requests.get(
+        stop_passage_tdi,
+        params=params
+    ).json()
+    return StopPassageResponse.from_json(j)
+
+@stop_passage.register
+def sp_stop(s: StopId) -> Optional[StopPassageResponse]:
+    return stop_passage({'stop_point': s.value})
+
+@stop_passage.register
+def sp_trip(t: TripId) -> Optional[StopPassageResponse]:
+    return stop_passage({'trip': t.value})
