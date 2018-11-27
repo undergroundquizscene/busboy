@@ -29,3 +29,11 @@ create table routes (
         number integer,
         category smallint
 );
+
+create table stops (
+        id varchar(30) primary key,
+        name varchar(50),
+        number integer,
+        latitude double precision,
+        longitude double precision
+);

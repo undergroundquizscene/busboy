@@ -18,6 +18,20 @@ class Route(object):
         self.number = route_json['number']
         self.category = route_json['category']
 
+class Stop(object):
+    id: str
+    name: str
+    latitude: float
+    longitude: float
+    number: int
+
+    def __init__(self, stop_json: Dict[str, Any]) -> None:
+        self.id = stop_json['duid']
+        self.name = stop_json['name']
+        self.latitude = stop_json['lat']
+        self.longitude = stop_json['lng']
+        self.number = stop_json['num']
+
 class TripSnapshot(object):
     last_modified: datetime
     trip_id: str
