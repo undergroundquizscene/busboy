@@ -8,12 +8,12 @@ from concurrent.futures import ThreadPoolExecutor
 import psycopg2
 from psycopg2.extras import Json
 from constants import church_cross_east, stop_passage_tdi, route_cover
-from typing import Tuple, Optional
-from model import TripSnapshot
+from typing import Tuple, Optional, Set, Iterable
+from model import StopId
 import database as db
-from rest import routes_at_stop
+from rest import routes_at_stop, stop_passage
 
-def main(stops=route_cover):
+def main(stops: Iterable[str]=route_cover) -> None:
     with ThreadPoolExecutor(max_workers=300) as pool:
         terminate = Event()
         cycle(stops, 15, pool, terminate)
@@ -23,22 +23,17 @@ def main(stops=route_cover):
             print("\nExiting…")
             terminate.set()
 
-def cycle(stops, frequency, pool, terminate):
+def cycle(stops: Iterable[str], frequency: float, pool, terminate: Event) -> None:
     if not terminate.is_set():
         print(f"Cycling at {strftime('%X')}")
         Timer(frequency, cycle, args=[stops, frequency, pool, terminate]).start()
         for stop in stops:
-            pool.submit(make_requests, stop, pool)
+            pool.submit(make_requests, StopId(stop), pool)
 
-def make_requests(stop, pool):
-    stop_response = requests.get(
-        stop_passage_tdi,
-        params = {'stop_point': stop}
-    ).json()
-    passages = stop_response['stopPassageTdi']
-    for k, p in passages.items():
-        if k != "foo":
-            pool.submit(store_trip, TripSnapshot(p))
+def make_requests(stop: StopId, pool) -> None:
+    spr = stop_passage(stop)
+    for p in spr.passages:
+        pool.submit(db.store_trip, p)
 
 def make_request(url, trip):
     trip_response = requests.get(url, params = {'trip': trip})
@@ -55,24 +50,6 @@ def load_into_database(json, timestamp, trip):
     with connection:
         with connection.cursor() as cursor:
             cursor.execute('insert into passage_responses_old (response, timestamp, trip) values (%s, %s, %s)', [Json(passages), timestamp, trip])
-    connection.close()
-
-def store_trip(t: TripSnapshot) -> None:
-    with db.default_connection() as connection:
-        with connection.cursor() as cursor:
-            cursor.execute('''
-                insert into passage_responses(
-                    last_modified, trip_id, route_id, vehicle_id, pattern_id,
-                    latitude, longitude, bearing, is_accessible, has_bike_rack,
-                    direction, congestion_level, accuracy_level, status, category
-                ) values (
-                    %s, %s, %s, %s, %s,
-                    %s, %s, %s, %s, %s,
-                    %s, %s, %s, %s, %s)
-                ''',
-                [t.last_modified, t.trip_id, t.route_id, t.vehicle_id, t.pattern_id,
-                t.latitude, t.longitude, t.bearing, t.is_accessible, t.has_bike_rack,
-                t.direction, t.congestion_level, t.accuracy_level, t.status, t.category])
     connection.close()
 
 def save_response_to_file(trip, trip_response, stop):
@@ -162,4 +139,4 @@ if __name__ == '__main__':
         print(f'Trip last modified time is {t}')
         print(f'Times are equal? {t == p}')
     else:
-        main(argv[1])
+        main(argv[1:])
