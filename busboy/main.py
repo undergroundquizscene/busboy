@@ -7,11 +7,12 @@ from threading import Timer, Event
 from concurrent.futures import ThreadPoolExecutor
 import psycopg2
 from psycopg2.extras import Json
-from constants import church_cross_east, stop_passage_tdi, route_cover
 from typing import Tuple, Optional, Set, Iterable
-from model import StopId
-import database as db
-from rest import routes_at_stop, stop_passage
+
+from busboy.constants import church_cross_east, stop_passage_tdi, route_cover
+from busboy.model import StopId
+import busboy.database as db
+from busboy.rest import routes_at_stop, stop_passage
 
 def main(stops: Iterable[str]=route_cover) -> None:
     with ThreadPoolExecutor(max_workers=300) as pool:

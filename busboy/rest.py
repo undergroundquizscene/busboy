@@ -1,9 +1,10 @@
 import requests
 from typing import Dict, Any, Set, Union, Optional
 import json
-from constants import stop_passage_tdi
-from model import StopPassageResponse, StopId, TripId
 from functools import singledispatch
+
+from busboy.constants import stop_passage_tdi
+from busboy.model import StopPassageResponse, StopId, TripId
 
 def stops() -> Dict[str, Any]:
     """Gets the API response for every stop."""

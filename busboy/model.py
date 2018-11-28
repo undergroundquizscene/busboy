@@ -91,7 +91,7 @@ class TripSnapshot(object):
         return cls(j['stopPassageTdi'][f'passage_{n}'])
 
 class StopPassageResponse(NamedTuple):
-    passages: List[Passage]
+    passages: List['Passage']
 
     @classmethod
     def from_json(cls, json: Dict[str, Any]) -> 'StopPassageResponse':
@@ -100,7 +100,7 @@ class StopPassageResponse(NamedTuple):
 
 class Passage(NamedTuple):
     id: str
-    last_modified: int
+    last_modified: datetime
     trip: str
     route: str
     vehicle: Optional[str]
@@ -125,7 +125,7 @@ class Passage(NamedTuple):
         try:
             return cls(
                 id = json['duid'],
-                last_modified = json['last_modification_timestamp'],
+                last_modified = datetime.utcfromtimestamp(json['last_modification_timestamp'] / 1000),
                 is_deleted = json['is_deleted'],
                 route = json['route_duid']['duid'],
                 direction = json['direction'],
@@ -159,7 +159,7 @@ class PassageTime(NamedTuple):
 
 class ArrivalDeparture(NamedTuple):
     scheduled: int
-    actual_or_prediction: Optional[int]
+    actual_or_prediction: Optional[datetime]
     service_mode: int
     type: int
     direction_text: str
@@ -167,8 +167,8 @@ class ArrivalDeparture(NamedTuple):
     @classmethod
     def from_json(cls: Any, json: Dict[str, Any]) -> Any:
         return cls(
-            scheduled = json['scheduled_passage_time_utc'],
-            actual_or_prediction = json.get('actual_passage_time_utc'),
+            scheduled = datetime.utcfromtimestamp(json['scheduled_passage_time_utc']),
+            actual_or_prediction = omap(datetime.utcfromtimestamp, json.get('actual_passage_time_utc')),
             service_mode = json['service_mode'],
             type = json['type'],
             direction_text = json['multilingual_direction_text']['defaultValue'],

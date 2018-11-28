@@ -1,5 +1,6 @@
 import psycopg2
-from model import Route, Stop, Passage
+
+from busboy.model import Route, Stop, Passage
 
 def default_connection():
     return psycopg2.connect('dbname=busboy user=Noel')
