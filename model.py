@@ -131,17 +131,17 @@ class Passage(NamedTuple):
                 direction = json['direction'],
                 trip = json['trip_duid']['duid'],
                 stop = json['stop_point_duid']['duid'],
-                vehicle = none_map(lambda j: j.get('duid'), json.get('vehicle_duid')), # type: ignore
+                vehicle = omap(lambda j: j.get('duid'), json.get('vehicle_duid')), # type: ignore
                 time = time,
                 congestion = json.get('congestion_level'),
                 accuracy = json['accuracy_level'],
                 status = json['status'],
-                is_accessible = none_map(bool, json.get('is_accessible')),
+                is_accessible = omap(bool, json.get('is_accessible')),
                 latitude = json['latitude'],
                 longitude = json['longitude'],
                 bearing = json['bearing'],
                 pattern = json['pattern_duid']['duid'],
-                has_bike_rack = none_map(bool, json.get('has_bike_rack')),
+                has_bike_rack = omap(bool, json.get('has_bike_rack')),
                 category = json.get('category')
             )
         except KeyError as e:
@@ -153,8 +153,8 @@ class PassageTime(NamedTuple):
 
     @classmethod
     def from_json(cls, json: Dict[str, Any]) -> 'PassageTime':
-        a = none_map(ArrivalTime.from_json, json.get('arrival_data', None))
-        d = none_map(DepartureTime.from_json, json.get('departure_data', None))
+        a = omap(ArrivalTime.from_json, json.get('arrival_data', None))
+        d = omap(DepartureTime.from_json, json.get('departure_data', None))
         return cls(arrival=a, departure=d)
 
 class ArrivalDeparture(NamedTuple):
@@ -183,5 +183,5 @@ class DepartureTime(ArrivalDeparture):
 A = TypeVar('A')
 B = TypeVar('B')
 
-def none_map(f: Callable[[A], B], x: Optional[A]) -> Optional[B]:
+def omap(f: Callable[[A], B], x: Optional[A]) -> Optional[B]:
     return None if x is None else f(x)
