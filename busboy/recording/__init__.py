@@ -19,7 +19,7 @@ from busboy.util import Just
 from busboy.util.typevars import *
 
 
-def loop(stops: Iterable[str] = c.cycle_stops, interval: float = 2) -> None:
+def loop(stops: Iterable[str] = c.cycle_stops, interval: float = 20) -> None:
     stop_ids = [m.StopId(s) for s in stops]
     with ThreadPoolExecutor(max_workers=300) as pool:
         d: RecordingState = {}
