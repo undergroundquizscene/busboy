@@ -15,7 +15,7 @@ create table passage_responses (
         is_accessible boolean,
         latitude integer,
         longitude integer,
-        bearing smallint,
+        bearing integer,
         pattern_id varchar(30),
         has_bike_rack boolean,
         category smallint,

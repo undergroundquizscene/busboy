@@ -9,12 +9,17 @@ import psycopg2
 from psycopg2.extras import Json
 from typing import Tuple, Optional, Set, Iterable
 
-from busboy.constants import church_cross_east, stop_passage_tdi, route_cover
+from busboy.constants import (
+    church_cross_east,
+    stop_passage_tdi,
+    route_cover,
+    cycle_stops
+)
 from busboy.model import StopId
 import busboy.database as db
 from busboy.rest import routes_at_stop, stop_passage
 
-def main(stops: Iterable[str]=route_cover) -> None:
+def main(stops: Iterable[str]=cycle_stops) -> None:
     with ThreadPoolExecutor(max_workers=300) as pool:
         terminate = Event()
         cycle(stops, 15, pool, terminate)
