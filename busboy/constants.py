@@ -4,23 +4,35 @@ parnell_place = '7338653551721440301'
 parnell_place_city = '7338653551721428451'
 
 stops_by_route = {
-    '220': [
-        "7338653551721427331",
-        "7338653551721426741",
-        "7338653551721430521",
-        "7338653551721429531",
-        "7338653551721417701",
-        "7338653551721430311"
-    ],
-    "208": [
-        "7338653551721425451",
-        "7338653551721425771",
-        "7338653551721431771",
-        "7338653551721395491"
-    ]
+    '220': {
+        "South Mall (Opp Cork Passport Office)": "7338653551721427331",
+        "Grand Parade (City Library)": "7338653551721426741",
+        "Carrigaline (Carrigaline Court Hotel)": "7338653551721430521",
+        "Ballincollig (Shopping Centre)": "7338653551721429531",
+        "Ballincollig (Opp Shopping Centre)": "7338653551721417701",
+        "Carrigaline (Church)": "7338653551721430311"
+    },
+    "208": {
+        "St. Patrick Street (Savoy Complex)": "7338653551721425451",
+        "St. Patrick Street Debenhams": "7338653551721425771",
+        "Ashmount (Turning Circle)": "7338653551721431771",
+        "Curraheen Village": "7338653551721395491"
+    },
+    "205": {
+        "Cork Institute of Technology": "7338653551721395481",
+        "Grand Parade (Argos)": "7338653551721425971",
+        "Washington Street (Four Star Pizza)": "7338653551721425791",
+        "Model Farm Rd (Opposite Mount Mercy)": "7338653551721427081"
+    },
+    "203": {
+        "Grand Parade (Argos)": "7338653551721425971",
+        "Watercourse Road (Blackpool Pharmacy)": "7338653551721427621",
+        "St. Patrick Street (Marks and Spencer)": "7338653551721427001",
+        "Manor Farm (Southbound)": "7338653551721421141"
+    }
 }
 
-cycle_stops = {s for r, stops in stops_by_route.items() for s in stops}
+cycle_stops = {id for r, stops in stops_by_route.items() for n, id in stops.items()}
 
 stop_passage_tdi = 'http://buseireann.ie/inc/proto/stopPassageTdi.php'
 route_cover = {
