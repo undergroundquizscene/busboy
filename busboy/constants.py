@@ -4,19 +4,23 @@ parnell_place = '7338653551721440301'
 parnell_place_city = '7338653551721428451'
 
 stops_by_route = {
-    '220': {
-        "South Mall (Opp Cork Passport Office)": "7338653551721427331",
-        "Grand Parade (City Library)": "7338653551721426741",
-        "Carrigaline (Carrigaline Court Hotel)": "7338653551721430521",
-        "Ballincollig (Shopping Centre)": "7338653551721429531",
-        "Ballincollig (Opp Shopping Centre)": "7338653551721417701",
-        "Carrigaline (Church)": "7338653551721430311"
+    "201": {
+        "Dennehy's Cross (Opp Cork Farm Ctr)": "7338653551721425361",
+        "Boherboy Rd (Opp Soccer Pitch)": "7338653551721425551",
+        "Boherboy Road (Lotabeg Estate)": "7338653551721425571",
+        "Curraheen Road (Firgrove Gardens)": "7338653551721429061"
     },
-    "208": {
-        "St. Patrick Street (Savoy Complex)": "7338653551721425451",
-        "St. Patrick Street Debenhams": "7338653551721425771",
-        "Ashmount (Turning Circle)": "7338653551721431771",
-        "Curraheen Village": "7338653551721395491"
+    "202": {
+        "Merchants Quay (Dunnes Stores A)": "7338653551721484281",
+        "Mahon Point (Omniplex)": "7338653551721432401",
+        "Hollyhill (Apple)": "7338653551721484231",
+        "Merchants Quay (Riverside)": "7338653551721484301"
+    },
+    "203": {
+        "Grand Parade (Argos)": "7338653551721425971",
+        "Watercourse Road (Blackpool Pharmacy)": "7338653551721427621",
+        "St. Patrick Street (Marks and Spencer)": "7338653551721427001",
+        "Manor Farm (Southbound)": "7338653551721421141"
     },
     "205": {
         "Cork Institute of Technology": "7338653551721395481",
@@ -24,11 +28,25 @@ stops_by_route = {
         "Washington Street (Four Star Pizza)": "7338653551721425791",
         "Model Farm Rd (Opposite Mount Mercy)": "7338653551721427081"
     },
-    "203": {
-        "Grand Parade (Argos)": "7338653551721425971",
-        "Watercourse Road (Blackpool Pharmacy)": "7338653551721427621",
-        "St. Patrick Street (Marks and Spencer)": "7338653551721427001",
-        "Manor Farm (Southbound)": "7338653551721421141"
+    "206": {
+        "Cork City Hall": "7338653551721436121",
+        "Grange (Dunvale)": "7338653551721426351",
+        "Grange (Frankfield Estate)": "7338653551721425981",
+        "South Terrace (Opp Irish Pensions)": "7338653551721426191"
+    },
+    "208": {
+        "St. Patrick Street (Savoy Complex)": "7338653551721425451",
+        "St. Patrick Street Debenhams": "7338653551721425771",
+        "Ashmount (Turning Circle)": "7338653551721431771",
+        "Curraheen Village": "7338653551721395491"
+    },
+    "220": {
+        "South Mall (Opp Cork Passport Office)": "7338653551721427331",
+        "Grand Parade (City Library)": "7338653551721426741",
+        "Carrigaline (Carrigaline Court Hotel)": "7338653551721430521",
+        "Ballincollig (Shopping Centre)": "7338653551721429531",
+        "Ballincollig (Opp Shopping Centre)": "7338653551721417701",
+        "Carrigaline (Church)": "7338653551721430311"
     }
 }
 
