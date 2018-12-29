@@ -4,10 +4,12 @@ import requests
 from time import localtime, strftime
 from datetime import datetime
 from threading import Timer, Event
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import Executor, ThreadPoolExecutor, as_completed
 import psycopg2
+import psycopg2 as pp2
 from psycopg2.extras import Json
-from typing import Tuple, Optional, Set, Iterable
+from typing import Tuple, Optional, Set, Iterable, List
+from dataclasses import dataclass
 
 from busboy.constants import (
     church_cross_east,
@@ -29,17 +31,37 @@ def main(stops: Iterable[str]=cycle_stops) -> None:
             print("\nExiting…")
             terminate.set()
 
-def cycle(stops: Iterable[str], frequency: float, pool, terminate: Event) -> None:
+def cycle(stops: Iterable[str], frequency: float, pool: Executor, terminate: Event) -> None:
     if not terminate.is_set():
         print(f"Cycling at {strftime('%X')}")
         Timer(frequency, cycle, args=[stops, frequency, pool, terminate]).start()
-        for stop in stops:
-            pool.submit(make_requests, StopId(stop), pool)
+        futures = [pool.submit(make_requests, StopId(stop), pool) for stop in stops]
+        for f in as_completed(futures):
+            results = f.result()
+            errors = [r for r in results if r is not None]
+            integrity_errors = [e for e in errors if isinstance(e, pp2.IntegrityError)]
+            refused_errors = [
+                e for e in errors if isinstance(e, pp2.OperationalError)
+                and e.args[0].startswith("could not connect to server: Connection refused")
+            ]
+            print(f"Got {len(results)} results, {len(errors)} errors, {len(integrity_errors)} integrity errors, and {len(refused_errors)} refused errors")
+            eset = {repr(e) for e in errors if not isinstance(e, pp2.IntegrityError)}
+            print(f"Got eset: {eset}")
+            for e in errors:
+                if isinstance(e, pp2.IntegrityError):
+                    pass
+                elif isinstance(e, pp2.OperationalError) and e.args[0].startswith("could not connect to server: Connection refused"):
+                    pass
+                else:
+                    # print(f"Got unknown error {repr(e)}")
+                    pass
 
-def make_requests(stop: StopId, pool) -> None:
+
+def make_requests(stop: StopId, pool: Executor) -> List[Optional[Exception]]:
     spr = stop_passage(stop)
-    for p in spr.passages:
-        pool.submit(db.store_trip, p)
+    fs = [pool.submit(db.store_trip, p) for p in spr.passages]
+    return [f.result() for f in as_completed(fs)]
+
 
 def make_request(url, trip):
     trip_response = requests.get(url, params = {'trip': trip})
