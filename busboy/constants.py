@@ -79,6 +79,17 @@ stops_by_route = {
         "CUH (A and E)": "7338653551721428621",
         "Togher Road (Earlwood Estate)": "7338653551721428721"
     },
+    "215": {
+    "Jacobs Island (The Sanctuary)": "7338653551721428181",
+    "Ballinlough Road (Knockrea)": "7338653551721428321",
+    "Grand Parade (City Library)": "7338653551721426741",
+    "North Point (Opp Business Park)": "7338653551721398561",
+    "Cloghroe (Fairways Terminus)": "7338653551721398691",
+    "Cloghroe (Coolflugh Terminus)": "7338653551721398701",
+    "Blarney (Station Cross)": "7338653551721398791",
+    "St. Patrick Street (Brown Thomas A)": "7338653551721426481",
+    "Ballinlough Road (Shrewsbury Estate)": "7338653551721428081"
+    },
     "220": {
         "South Mall (Opp Cork Passport Office)": "7338653551721427331",
         "Grand Parade (City Library)": "7338653551721426741",
