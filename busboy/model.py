@@ -22,7 +22,7 @@ class StopId(NamedTuple):
 class TripId(NamedTuple):
     value: str
 
-@dataclass
+@dataclass(frozen=True)
 class Route(object):
     id: str
     name: str
