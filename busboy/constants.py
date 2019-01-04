@@ -90,6 +90,11 @@ stops_by_route = {
     "St. Patrick Street (Brown Thomas A)": "7338653551721426481",
     "Ballinlough Road (Shrewsbury Estate)": "7338653551721428081"
     },
+    "215A": {
+        "Grand Parade (City Library)": "7338653551721426741",
+        "Skehard Road (Ashleigh Rise)": "7338653551721428111",
+        "Jacobs Island (The Sanctuary)": "7338653551721428181"
+    },
     "220": {
         "South Mall (Opp Cork Passport Office)": "7338653551721427331",
         "Grand Parade (City Library)": "7338653551721426741",
