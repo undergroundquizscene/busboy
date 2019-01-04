@@ -129,6 +129,15 @@ stops_by_route = {
         "Ballincollig (Shopping Centre)": "7338653551721429531",
         "Ballincollig (Opp Shopping Centre)": "7338653551721417701",
         "Carrigaline (Church)": "7338653551721430311"
+    },
+    "221": {
+        "Cork (Bus Station - Parnell Place)": "7338653551721440301",
+        "Lwr Glanmire Rd (Beales Hill)": "7338653551721429751",
+        "Glanmire (O Cearnaigh Public House )": "7338653551721397311",
+        "Glyntown Rd (Ardcarrig)": "7338653551721295021",
+        "Knockraha (Church)": "7338653551721738661",
+        "Knockraha (The Old Schoolhouse)": "7338653551721423131",
+        "Lwr Glanmire Rd (Opp Belvedere Lodge)": "7338653551721430151"
     }
 }
 
