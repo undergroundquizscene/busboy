@@ -40,6 +40,21 @@ stops_by_route = {
         "Ashmount (Turning Circle)": "7338653551721431771",
         "Curraheen Village": "7338653551721395491"
     },
+    "207": {},
+    "209": {
+        "St. Patrick Street (Marks and Spencer)": "7338653551721427001",
+        "Audley Place (Lansdowne Court)": "7338653551721429331",
+        "Lotamore Drive (Southbound)": "7338653551721398431",
+        "Lotamore Drive (Northbound)": "7338653551721431141",
+        "Summerhill North (St. Luke's Cross)": "7338653551721481421",
+        "Merchants Quay (Dunnes Stores B)": "7338653551721398511"
+    },
+    "209A": {
+        "Summerhill South (Capwell Garage)": "7338653551721415371",
+        "Lwr Friars Walk (Connolly Road Junction)": "7338653551721427531",
+        "Derrynane Road (Northbound)": "7338653551721431521",
+        "South Terrace (Opp Irish Pensions)": "7338653551721426191"
+    },
     "220": {
         "South Mall (Opp Cork Passport Office)": "7338653551721427331",
         "Grand Parade (City Library)": "7338653551721426741",
