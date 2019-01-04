@@ -14,6 +14,11 @@ def stops() -> Dict[str, Any]:
     stopJson = json.loads(string)['bus_stops']
     return {s['duid']: s for k, s in stopJson.items()}
 
+def trips(s: StopId) -> Set[TripId]:
+    """Queries the API for a stop and returns the ids of the trips in the response."""
+    response = stop_passage(s)
+    return {TripId(p.trip) for p in response.passages}
+
 def stop_ids() -> Set[str]:
     """Gets all stop duids from the rest api."""
     return {s for s in stops()}
