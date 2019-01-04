@@ -73,6 +73,12 @@ stops_by_route = {
         "Derrynane Road (Northbound)": "7338653551721431521",
         "South Terrace (Opp Irish Pensions)": "7338653551721426191"
     },
+    "214": {
+        "St. Patrick St (Brown Thomas B)": "7338653551721428771",
+        "Togher Road (Opp Earlwood Estate)": "7338653551721428501",
+        "CUH (A and E)": "7338653551721428621",
+        "Togher Road (Earlwood Estate)": "7338653551721428721"
+    },
     "220": {
         "South Mall (Opp Cork Passport Office)": "7338653551721427331",
         "Grand Parade (City Library)": "7338653551721426741",
