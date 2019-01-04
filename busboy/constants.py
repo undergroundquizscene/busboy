@@ -107,6 +107,21 @@ stops_by_route = {
         "Grand Parade (City Library)": "7338653551721426741",
         "Glasheen Road (Hartlands Ave)": "7338653551721475241"
     },
+    "219": {
+        "Ringmahon Road (Opp Garda Stn)": "7338653551721431571",
+        "Mahon Point Rd (Opp CSO Office)": "7338653551721428231",
+        "Douglas Village East ( Service Station)": "7338653551721426581",
+        "South Douglas Rd (Opp Loreto Park)": "7338653551721426131",
+        "Pearse Road (A.I.B)": "7338653551721427491",
+        "Togher Road (Opp Earlwood Estate)": "7338653551721428501",
+        "Bishopstown Road (Opp Garda Station)": "7338653551721425881",
+        "Cork Institute of Technology": "7338653551721395481",
+        "Spur Hill (Opposite Fernwood Estate)": "7338653551721428661",
+        "Curragh Rd (Turners Cross Stadium)": "7338653551721427891",
+        "Douglas Village East (Shopping Centre)": "7338653551721426651",
+        "Ringmahon Road (Meadow Grove Est)": "7338653551721431561",
+        "Mahon Point Rd (Opp City Gate)": "7338653551721428221"
+    },
     "220": {
         "South Mall (Opp Cork Passport Office)": "7338653551721427331",
         "Grand Parade (City Library)": "7338653551721426741",
