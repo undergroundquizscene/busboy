@@ -95,6 +95,18 @@ stops_by_route = {
         "Skehard Road (Ashleigh Rise)": "7338653551721428111",
         "Jacobs Island (The Sanctuary)": "7338653551721428181"
     },
+    "216": {
+        "CUH (Main Gate)": "7338653551721429431",
+        "South Mall (Opp Cork Passport Office)": "7338653551721427331",
+        "Douglas Road (Ardfallen Shopping Mall)": "7338653551721426541",
+        "Clarkes Hill (The Borough Southbound)": "7338653551721431281",
+        "Mount Oval (Monswood Est)": "7338653551721440321",
+        "Maryborough Woods (Greendale Rd))": "7338653551721431341",
+        "Douglas Village East (Shopping Centre)": "7338653551721426651",
+        "Douglas Road (Whitethorn)": "7338653551721426711",
+        "Grand Parade (City Library)": "7338653551721426741",
+        "Glasheen Road (Hartlands Ave)": "7338653551721475241"
+    },
     "220": {
         "South Mall (Opp Cork Passport Office)": "7338653551721427331",
         "Grand Parade (City Library)": "7338653551721426741",
