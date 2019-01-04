@@ -34,13 +34,31 @@ stops_by_route = {
         "Grange (Frankfield Estate)": "7338653551721425981",
         "South Terrace (Opp Irish Pensions)": "7338653551721426191"
     },
+    "207": {
+        "Donnybrook (Scairt Cross Terminus)": "7338653551721419201",
+        "Douglas Road (Opp Eglantine School)": "7338653551721426691",
+        "Grand Parade (City Library)": "7338653551721426741",
+        "Summerhill North (St. Luke's Cross)": "7338653551721481421",
+        "Glen Avenue (Opp Comeragh Park)": "7338653551721428901",
+        "Glenheights Park Terminus": "7338653551721426891",
+        "Summerhill North (Chamber of Comm)": "7338653551721425751",
+        "Cork City Hall": "7338653551721436121",
+        "Douglas Road (Ardfallen Shopping Mall)": "7338653551721426541",
+    },
+    "207A": {
+        "Glenthorn (Glenheights Square B)": "7338653551721431731",
+        "Watercourse Road (Opp Blackpool Church)": "7338653551721428841",
+        "Summerhill North (Chamber of Comm)": "7338653551721425751",
+        "Merchants Quay (Dunnes Stores B)": "7338653551721398511",
+        "Summerhill North (St. Luke's Cross)": "7338653551721481421",
+        "Watercourse Rd (Blackpool Church)": "7338653551721427941"
+    },
     "208": {
         "St. Patrick Street (Savoy Complex)": "7338653551721425451",
         "St. Patrick Street Debenhams": "7338653551721425771",
         "Ashmount (Turning Circle)": "7338653551721431771",
         "Curraheen Village": "7338653551721395491"
     },
-    "207": {},
     "209": {
         "St. Patrick Street (Marks and Spencer)": "7338653551721427001",
         "Audley Place (Lansdowne Court)": "7338653551721429331",
