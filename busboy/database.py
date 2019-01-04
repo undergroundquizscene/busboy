@@ -1,5 +1,6 @@
 import psycopg2
-from typing import Optional
+from typing import Optional, List, Dict
+import json
 
 from busboy.model import Route, Stop, Passage
 
@@ -72,3 +73,16 @@ def test_database() -> None:
                 values (%s)
                 ''',
                 ["hello!"])
+
+def routes() -> List[Route]:
+    j = json.load(open("/Users/Noel/Developer/Projects/Busboy/resources/example-responses/routes.json"))
+    rs = j["routeTdi"]
+    return [Route.from_json(r) for k, r in rs.items() if k != "foo"]
+
+def routes_by_name() -> Dict[str, Route]:
+    rs = routes()
+    return {r.name: r for r in rs}
+
+def routes_by_id() -> Dict[str, Route]:
+    rs = routes()
+    return {r.id: r for r in rs}

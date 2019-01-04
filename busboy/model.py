@@ -12,6 +12,7 @@ from typing import (
 )
 from datetime import datetime
 import json
+from dataclasses import dataclass
 
 PassageNumber = NewType('PassageNumber', int)
 
@@ -21,19 +22,34 @@ class StopId(NamedTuple):
 class TripId(NamedTuple):
     value: str
 
+@dataclass
 class Route(object):
     id: str
     name: str
     direction: int
+    direction_name: str
     number: int
     category: int
 
-    def __init__(self, route_json: Dict[str, Any]) -> None:
-        self.id = route_json['duid']
-        self.name = route_json['short_name']
-        self.direction = route_json['direction_extensions']['direction']
-        self.number = route_json['number']
-        self.category = route_json['category']
+    def from_json(route_json: Dict[str, Any]) -> Union["Route", KeyError]:
+        try:
+            id = route_json['duid']
+            name = route_json['short_name']
+            direction = route_json['direction_extensions']['direction']
+            number = route_json['number']
+            category = route_json['category']
+            direction_name = route_json['direction_extensions']['direction_name']
+        except KeyError as e:
+            return e
+        else:
+            return Route(
+                id=id,
+                name=name,
+                direction=direction,
+                number=number,
+                category=category,
+                direction_name=direction_name
+            )
 
 class Stop(object):
     id: str
