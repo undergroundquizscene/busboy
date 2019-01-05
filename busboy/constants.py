@@ -130,6 +130,15 @@ stops_by_route = {
         "Ballincollig (Opp Shopping Centre)": "7338653551721417701",
         "Carrigaline (Church)": "7338653551721430311"
     },
+    "220X": {
+        "Ovens (Grange Road Terminus)": "7338653551722184832",
+        "Western Rd (Opp UCC Western Gateway)": "7338653551721425381",
+        "Crosshaven (Yacht Club Southbound)": "7338653551721430361",
+        "Crosshaven (Village Ctr Northbound)": "7338653551721430391",
+        "Crosshaven (Village Ctr Southbound)": "7338653551721417121",
+        "Carrigaline (Town Ctr Bridge Northbound)": "7338653551721430621",
+        "Carrigrohane Rd (Cork County Hall)": "7338653551721416811"
+    },
     "221": {
         "Cork (Bus Station - Parnell Place)": "7338653551721440301",
         "Lwr Glanmire Rd (Beales Hill)": "7338653551721429751",
@@ -138,7 +147,7 @@ stops_by_route = {
         "Knockraha (Church)": "7338653551721738661",
         "Knockraha (The Old Schoolhouse)": "7338653551721423131",
         "Lwr Glanmire Rd (Opp Belvedere Lodge)": "7338653551721430151"
-    }
+    },
 }
 
 cycle_stops = {id for r, stops in stops_by_route.items() for n, id in stops.items()}
