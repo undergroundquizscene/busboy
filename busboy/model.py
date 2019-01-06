@@ -121,7 +121,7 @@ class Passage(NamedTuple):
     route: str
     vehicle: Optional[str]
     stop: str
-    pattern: str
+    pattern: Optional[str]
     latitude: float
     longitude: float
     bearing: int
@@ -156,7 +156,7 @@ class Passage(NamedTuple):
                 latitude = json['latitude'],
                 longitude = json['longitude'],
                 bearing = json['bearing'],
-                pattern = json['pattern_duid']['duid'],
+                pattern = omap(lambda j: j.get('duid'), json.get('pattern_duid')),
                 has_bike_rack = omap(bool, json.get('has_bike_rack')),
                 category = json.get('category')
             )
