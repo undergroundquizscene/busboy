@@ -140,22 +140,22 @@ class Passage(NamedTuple):
         time = PassageTime.from_json(json)
         try:
             return cls(
-                id = json['duid'],
-                last_modified = datetime.utcfromtimestamp(json['last_modification_timestamp'] / 1000),
-                is_deleted = json['is_deleted'],
-                route = json['route_duid']['duid'],
-                direction = json['direction'],
-                trip = json['trip_duid']['duid'],
-                stop = json['stop_point_duid']['duid'],
+                id = json.get('duid'),
+                last_modified = omap(lambda j: datetime.utcfromtimestamp(j / 1000), json.get('last_modification_timestamp')),
+                is_deleted = json.get('is_deleted'),
+                route = omap lambda j: j.get('duid'), json.get('route_duid')),
+                direction = json.get('direction'),
+                trip = omap(lambda j: j.get('duid'), json.get('trip_duid')),
+                stop = omap(lambda j: j.get('duid'), json.get('stop_point_duid')),
                 vehicle = omap(lambda j: j.get('duid'), json.get('vehicle_duid')), # type: ignore
                 time = time,
                 congestion = json.get('congestion_level'),
-                accuracy = json['accuracy_level'],
-                status = json['status'],
+                accuracy = json.get('accuracy_level'),
+                status = json.get('status'),
                 is_accessible = omap(bool, json.get('is_accessible')),
-                latitude = json['latitude'],
-                longitude = json['longitude'],
-                bearing = json['bearing'],
+                latitude = json.get('latitude'),
+                longitude = json.get('longitude'),
+                bearing = json.get('bearing'),
                 pattern = omap(lambda j: j.get('duid'), json.get('pattern_duid')),
                 has_bike_rack = omap(bool, json.get('has_bike_rack')),
                 category = json.get('category')
@@ -169,8 +169,8 @@ class PassageTime(NamedTuple):
 
     @classmethod
     def from_json(cls, json: Dict[str, Any]) -> 'PassageTime':
-        a = omap(ArrivalTime.from_json, json.get('arrival_data', None))
-        d = omap(DepartureTime.from_json, json.get('departure_data', None))
+        a = omap(ArrivalTime.from_json, json.get('arrival_data'))
+        d = omap(DepartureTime.from_json, json.get('departure_data'))
         return cls(arrival=a, departure=d)
 
 class ArrivalDeparture(NamedTuple):
@@ -183,11 +183,11 @@ class ArrivalDeparture(NamedTuple):
     @classmethod
     def from_json(cls: Any, json: Dict[str, Any]) -> Any:
         return cls(
-            scheduled = datetime.utcfromtimestamp(json['scheduled_passage_time_utc']),
+            scheduled = omap(datetime.utcfromtimestamp, json.get('scheduled_passage_time_utc')),
             actual_or_prediction = omap(datetime.utcfromtimestamp, json.get('actual_passage_time_utc')),
-            service_mode = json['service_mode'],
-            type = json['type'],
-            direction_text = json['multilingual_direction_text']['defaultValue'],
+            service_mode = json.get('service_mode'),
+            type = json.get('type'),
+            direction_text = omap(lambda j: j.get('defaultValue'), json.get('multilingual_direction_text')),
         )
 
 class ArrivalTime(ArrivalDeparture):
