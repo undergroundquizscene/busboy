@@ -143,7 +143,7 @@ class Passage(NamedTuple):
                 id = json.get('duid'),
                 last_modified = omap(lambda j: datetime.utcfromtimestamp(j / 1000), json.get('last_modification_timestamp')),
                 is_deleted = json.get('is_deleted'),
-                route = omap lambda j: j.get('duid'), json.get('route_duid')),
+                route = omap(lambda j: j.get('duid'), json.get('route_duid')),
                 direction = json.get('direction'),
                 trip = omap(lambda j: j.get('duid'), json.get('trip_duid')),
                 stop = omap(lambda j: j.get('duid'), json.get('stop_point_duid')),

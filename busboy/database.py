@@ -1,8 +1,10 @@
 import psycopg2
 from typing import Optional, List, Dict
 import json
+from dataclasses import dataclass
+from datetime import datetime
 
-from busboy.model import Route, Stop, Passage
+from busboy.model import Route, Stop, Passage, TripId
 
 def default_connection():
     return psycopg2.connect('dbname=busboy user=Noel')
@@ -86,3 +88,25 @@ def routes_by_name() -> Dict[str, Route]:
 def routes_by_id() -> Dict[str, Route]:
     rs = routes()
     return {r.id: r for r in rs}
+
+def trip_points(connection, t: TripId) -> "TripPoints":
+    with connection as co:
+        with co.cursor() as cu:
+            cu.execute("""
+                select latitude, longitude, last_modified from passage_responses
+                where trip_id = %s
+                """,
+                t)
+            tps = [TripPoint(r[0], r[1], r[2]) for r in cu.fetchall()]
+            return TripPoints(t.value, tps)
+
+@dataclass
+class TripPoints(object):
+    id: str
+    points: List["TripPoint"]
+
+@dataclass
+class TripPoint(object):
+    latitude: int
+    longitude: int
+    time: datetime

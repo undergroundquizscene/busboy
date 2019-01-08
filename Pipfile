@@ -17,6 +17,7 @@ scipy = "*"
 "beautifulsoup4" = "*"
 
 [dev-packages]
+python-language-server = {extras = ["all"], version = "*"}
 
 [requires]
 python_version = "3.7"
