@@ -2,7 +2,8 @@ import psycopg2
 from typing import Optional, List, Dict, Any
 import json
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import date, datetime
+import datetime as dt
 
 from busboy.model import Route, Stop, Passage, TripId
 
@@ -121,3 +122,20 @@ class TripPoint(object):
             "longitude": self.longitude,
             "time": self.time.isoformat()
         }
+
+def trips_on_day(connection, d: date, r: Optional[str] = None) -> List[TripId]:
+    with connection.cursor() as cu:
+        midnight = dt.time()
+        day = dt.timedelta(days=1)
+        dt1 = datetime.combine(d, midnight)
+        dt2 = datetime.combine(d + day, midnight)
+        query = cu.mogrify("""
+            select distinct trip_id from passage_responses
+            where last_modified between %s and %s
+            """,
+            (dt1, dt2)
+        )
+        if r is not None:
+            query += cu.mogrify(" and route_id = %s", r)
+        cu.execute(query)
+        return [TripId(row[0]) for row in cu.fetchall()]
