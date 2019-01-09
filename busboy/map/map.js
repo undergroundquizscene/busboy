@@ -6,20 +6,44 @@ function main() {
 		id: 'mapbox.streets',
 		accessToken: 'pk.eyJ1IjoidW5kZXJncm91bmRxdWl6c2NlbmUiLCJhIjoiY2pxbWlybGN6MjNsOTQzbWI0ODM1cTFvZCJ9.DLuaCQrcPzbAMCqmbeja3Q'
 	}).addTo(mymap);
-	// let trip3Markers = drawTrip(mymap, trips[2], "blue");
-	// let tripMarkers = drawTrip(mymap, trips[2], "blue");
-	fetch("http://178.62.7.11/points/7338656568260783885/")
+	let index = 0;
+	let tripMarkers = drawTrip(mymap, trips[0], "blue");
+
+	function drawNewTrip(index) {
+		console.log(`Drawing trip ${index}`);
+		tripMarkers.forEach(m => m.remove());
+		getPoints(trips[index].id)
+		.then(ps => {
+			tripMarkers = drawTrip(mymap, ps, "blue");
+		});
+	}
+
+	document.querySelector("#next").addEventListener(
+		"click",
+		e => {
+			index = rem(index + 1, trips.length);
+			drawNewTrip(index);
+		}
+	);
+	document.querySelector("#previous").addEventListener(
+		"click",
+		e => {
+			index = rem(index - 1, trips.length);
+			drawNewTrip(index);
+		}
+	);
+
+}
+
+function getPoints(trip) {
+	return fetch(`http://178.62.7.11/points/${trip}/`)
 	.then(r => {
 		if (r.ok) {
 			console.log("Got response");
 			return r.json();
 		} else {
-			throw new Error("Problem with response", r);
+			throw new Error("Problem with points response", r);
 		}
-	})
-	.then(t => {
-		console.log("Drawing trip");
-		return drawTrip(mymap, t, "green");
 	})
 	.catch(e => console.log(e));
 }
@@ -32,6 +56,14 @@ function drawTrip(map, trip, colour) {
 			color: colour
 		}
 	).addTo(map).bindTooltip(point.time));
+}
+
+function rem(x, y) {
+	if (x < 0) {
+		return rem(x + y, y);
+	} else {
+		return x % y;
+	}
 }
 
 let trips = [
@@ -369,23 +401,23 @@ let trips = [
 			{latitude: 186488924, longitude: -29865798, time: "2019-01-06 10:44:19.329"},
 		]
 	},
-	'7338656568267530245',
-	'7338656568267530247',
-	'7338656568267530248',
-	'7338656568267530250',
-	'7338656568267530251',
-	'7338656568267530252',
-	'7338656568267530253',
-	'7338656568274099981',
-	'7338656568274099983',
-	'7338656568274099984',
-	'7338656568274185996',
-	'7338656568274185997',
-	'7338656568280801282',
-	'7338656568280801283',
-	'7338656568280801285',
-	'7338656568280801286',
-	'7338656568280801288'
+	{id: '7338656568267530245'},
+	{id: '7338656568267530247'},
+	{id: '7338656568267530248'},
+	{id: '7338656568267530250'},
+	{id: '7338656568267530251'},
+	{id: '7338656568267530252'},
+	{id: '7338656568267530253'},
+	{id: '7338656568274099981'},
+	{id: '7338656568274099983'},
+	{id: '7338656568274099984'},
+	{id: '7338656568274185996'},
+	{id: '7338656568274185997'},
+	{id: '7338656568280801282'},
+	{id: '7338656568280801283'},
+	{id: '7338656568280801285'},
+	{id: '7338656568280801286'},
+	{id: '7338656568280801288'}
 ]
 
 main();
