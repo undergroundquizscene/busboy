@@ -1,5 +1,5 @@
 import json
-from flask import Flask
+from flask import Flask, send_file
 app = Flask(__name__)
 
 import busboy.constants as c
@@ -15,6 +15,14 @@ def trip_points(trip_id: str):
     tps = db.trip_points(db.default_connection(), TripId(trip_id))
     response = json.dumps(tps.to_json())
     return (response, {"Content-Type": "text/json", "Access-Control-Allow-Origin": "*"})
+
+@app.route("/map.html")
+def map():
+    return send_file("map/map.html")
+
+@app.route("/map.js")
+def map_js():
+    return send_file("map/map.js")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
