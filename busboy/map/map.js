@@ -18,6 +18,14 @@ function main() {
 		});
 	}
 
+	function receiveTrips(ts) {
+		trips = ts.map(t => {
+			return {id: t}
+		});
+		index = 0;
+		drawNewTrip(0);
+	}
+
 	document.querySelector("#next").addEventListener(
 		"click",
 		e => {
@@ -32,7 +40,31 @@ function main() {
 			drawNewTrip(index);
 		}
 	);
+	document.querySelector("#getTrips").addEventListener(
+		"click",
+		e => {
+			let date = document.querySelector("#date").value;
+			let route = document.querySelector("#route").value;
+			fetchTrips(date, route).then(ts => receiveTrips(ts));
+		}
+	);
+}
 
+function fetchTrips(date, route) {
+	console.log(`Fetching trips for date ${date} and route ${route}`);
+	return fetch(`trips/${date}/${route}`)
+	.then(r => {
+		if (r.ok) {
+			console.log("Got trips");
+			return r.json();
+		} else {
+			throw new Error({
+				message: "Problem with trips response",
+				response: r
+			});
+		}
+	})
+	.catch(e => console.log(e));
 }
 
 function getPoints(trip) {
