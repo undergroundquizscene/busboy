@@ -1,5 +1,5 @@
 import psycopg2
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Set
 import json
 from dataclasses import dataclass
 from datetime import date, datetime
@@ -123,14 +123,14 @@ class TripPoint(object):
             "time": self.time.isoformat()
         }
 
-def trips_on_day(connection, d: date, r: Optional[str] = None) -> List[TripId]:
+def trips_on_day(connection, d: date, r: Optional[str] = None) -> Set[TripId]:
     with connection.cursor() as cu:
         midnight = dt.time()
         day = dt.timedelta(days=1)
         dt1 = datetime.combine(d, midnight)
         dt2 = datetime.combine(d + day, midnight)
         query = cu.mogrify("""
-            select distinct trip_id from passage_responses
+            select trip_id from passage_responses
             where last_modified between %s and %s
             """,
             (dt1, dt2)
@@ -138,4 +138,4 @@ def trips_on_day(connection, d: date, r: Optional[str] = None) -> List[TripId]:
         if r is not None:
             query += cu.mogrify(" and route_id = %s", (r,))
         cu.execute(query)
-        return [TripId(row[0]) for row in cu.fetchall()]
+        return {TripId(row[0]) for row in cu.fetchall()}
