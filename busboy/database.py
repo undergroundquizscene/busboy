@@ -1,5 +1,5 @@
 import psycopg2
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Any
 import json
 from dataclasses import dataclass
 from datetime import datetime
@@ -105,8 +105,19 @@ class TripPoints(object):
     id: str
     points: List["TripPoint"]
 
+    def to_json(self) -> Dict[str, Any]:
+        return {"id": self.id, "points": [p.to_json() for p in self.points]}
+
+
 @dataclass
 class TripPoint(object):
     latitude: int
     longitude: int
     time: datetime
+
+    def to_json(self) -> Dict[str, Any]:
+        return {
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "time": self.time.isoformat()
+        }
