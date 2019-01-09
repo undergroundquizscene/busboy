@@ -18,7 +18,8 @@ def trip_points(trip_id: str):
     return (response, {"Content-Type": "text/json", "Access-Control-Allow-Origin": "*"})
 
 @app.route("/trips/<date>/")
-def trips_on_day(date: str):
+@app.route("/trips/<date>/<route>/")
+def trips_on_day(date: str, route: str = None):
     try:
         d = dt.date.fromisoformat(date)
     except ValueError:
@@ -26,7 +27,8 @@ def trips_on_day(date: str):
     else:
         trips = db.trips_on_day(
             db.default_connection(),
-            d
+            d,
+            route
         )
         body = [t.value for t in trips]
         return (json.dumps(body), {"Content-Type": "text/json", "Access-Control-Allow-Origin": "*"})

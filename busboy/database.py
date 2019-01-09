@@ -136,6 +136,6 @@ def trips_on_day(connection, d: date, r: Optional[str] = None) -> List[TripId]:
             (dt1, dt2)
         )
         if r is not None:
-            query += cu.mogrify(" and route_id = %s", r)
+            query += cu.mogrify(" and route_id = %s", (r,))
         cu.execute(query)
         return [TripId(row[0]) for row in cu.fetchall()]
