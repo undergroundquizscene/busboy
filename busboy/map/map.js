@@ -7,7 +7,21 @@ function main() {
 		accessToken: 'pk.eyJ1IjoidW5kZXJncm91bmRxdWl6c2NlbmUiLCJhIjoiY2pxbWlybGN6MjNsOTQzbWI0ODM1cTFvZCJ9.DLuaCQrcPzbAMCqmbeja3Q'
 	}).addTo(mymap);
 	// let trip3Markers = drawTrip(mymap, trips[2], "blue");
-	let tripMarkers = drawTrip(mymap, trips[2], "blue");
+	// let tripMarkers = drawTrip(mymap, trips[2], "blue");
+	fetch("http://178.62.7.11/points/7338656568260783885/")
+	.then(r => {
+		if (r.ok) {
+			console.log("Got response");
+			return r.json();
+		} else {
+			throw new Error("Problem with response", r);
+		}
+	})
+	.then(t => {
+		console.log("Drawing trip");
+		return drawTrip(mymap, t, "green");
+	})
+	.catch(e => console.log(e));
 }
 
 function drawTrip(map, trip, colour) {
