@@ -52,7 +52,7 @@ function main() {
 
 function fetchTrips(date, route) {
 	console.log(`Fetching trips for date ${date} and route ${route}`);
-	return fetch(`trips/${date}/${route}`)
+	return fetch(`http://undergroundquizscene.com/trips/${date}/${route}`, {mode: "no-cors"})
 	.then(r => {
 		if (r.ok) {
 			console.log("Got trips");
@@ -68,7 +68,7 @@ function fetchTrips(date, route) {
 }
 
 function getPoints(trip) {
-	return fetch(`http://178.62.7.11/points/${trip}/`)
+	return fetch(`http://undergroundquizscene.com/points/${trip}/`, {mode: "no-cors"})
 	.then(r => {
 		if (r.ok) {
 			console.log("Got response");
