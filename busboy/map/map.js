@@ -14,7 +14,7 @@ function main() {
 		tripMarkers.forEach(m => m.remove());
 		getPoints(trips[index].id)
 		.then(ps => {
-			tripMarkers = drawTrip(mymap, ps, "blue");
+			tripMarkers = drawTrip(mymap, ps.sort((p, q) => p.localeCompare(q)), "blue");
 		});
 	}
 
@@ -80,14 +80,22 @@ function getPoints(trip) {
 	.catch(e => console.log(e));
 }
 
-function drawTrip(map, trip, colour) {
-	return trip.points.map(point => L.circle(
-		[point.latitude / 3600000, point.longitude / 3600000],
-		{
-			radius: 20,
-			color: colour
-		}
-	).addTo(map).bindTooltip(point.time));
+function drawTrip(map, trip) {
+	let red = 99;
+	let green = 99;
+	let blue = 10;
+	let delta = (99 - blue) / trip.points.length;
+	return trip.points.map(point => {
+		let result = L.circle(
+			[point.latitude / 3600000, point.longitude / 3600000],
+			{
+				radius: 20,
+				color: `#${red}${green}${Math.round(blue)}`
+			}
+		).addTo(map).bindTooltip(point.time);
+		blue = blue + delta;
+		return result;
+	});
 }
 
 function rem(x, y) {
