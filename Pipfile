@@ -17,9 +17,10 @@ scipy = "*"
 "beautifulsoup4" = "*"
 uwsgi = "*"
 flask = "*"
+ipyleaflet = "*"
 
 [dev-packages]
-python-language-server = {extras = ["all"], version = "*"}
+python-language-server = {extras = ["all"],version = "*"}
 
 [requires]
 python_version = "3.7"
