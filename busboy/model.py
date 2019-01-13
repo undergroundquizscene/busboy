@@ -26,6 +26,11 @@ class TripId(NamedTuple):
 
 
 @dataclass(frozen=True)
+class RouteId(object):
+    string: str
+
+
+@dataclass(frozen=True)
 class Route(object):
     id: str
     name: str

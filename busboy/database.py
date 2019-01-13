@@ -1,22 +1,62 @@
-import psycopg2
-from typing import Optional, List, Dict, Any, Set
+import psycopg2 as pp2
+from psycopg2.extensions import cursor, connection
+from typing import Optional, List, Dict, Any, Set, Tuple, cast
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, InitVar, field, fields
 from datetime import date, datetime
 import datetime as dt
+import pandas as pd
+import geopandas as gpd
+import shapely.geometry as sg
 
 from busboy.model import Route, Stop, Passage, TripId
+import busboy.model as m
 
 
-def default_connection():
-    return psycopg2.connect("dbname=busboy user=Noel")
+def default_connection() -> connection:
+    return pp2.connect("dbname=busboy user=Noel")
 
 
-def test_connection():
-    return psycopg2.connect(dbname="busboy-test", user="Noel")
+def test_connection() -> connection:
+    return pp2.connect(dbname="busboy-test", user="Noel")
 
 
-def store_route(r: Route, conn=None) -> None:
+def trip_data(
+    connection: Optional[connection] = None,
+    r: Optional[m.RouteId] = None,
+    d: Optional[date] = None,
+) -> List["TripEntry"]:
+    if connection is None:
+        connection = default_connection()
+    with connection.cursor() as cu:
+        query = b"select * from passage_responses"
+        conditions: List[bytes] = []
+        if r is not None:
+            conditions.append(cu.mogrify(" route_id = %s", (r.string,)))
+        if d is not None:
+            dt1, dt2 = day_span(d)
+            conditions.append(
+                cu.mogrify(" last_modified between %s and %s", (dt1, dt2))
+            )
+        if conditions != []:
+            query += b" where" + b" and".join(conditions)
+        cu.execute(query)
+        return [TripEntry.from_db_row(row) for row in cu.fetchall()]
+
+
+def data_gdf(
+    connection: Optional[connection] = None,
+    r: Optional[m.RouteId] = None,
+    d: Optional[date] = None,
+) -> pd.DataFrame:
+    ts = trip_data(connection, r, d)
+    df = pd.DataFrame([t.as_dict() for t in ts])
+    df["Coordinates"] = list(zip(df.longitude, df.latitude))
+    df["Coordinates"] = df["Coordinates"].apply(sg.Point)
+    return gpd.GeoDataFrame(df, geometry="Coordinates")
+
+
+def store_route(r: Route, conn: Optional[connection] = None) -> None:
     if conn is None:
         conn = default_connection()
     with conn:
@@ -49,7 +89,9 @@ def store_stop(r: Stop, conn=None) -> None:
             )
 
 
-def store_trip(p: Passage, connection=None) -> Optional[Exception]:
+def store_trip(
+    p: Passage, connection: Optional[connection] = None
+) -> Optional[Exception]:
     if connection is None:
         try:
             connection = default_connection()
@@ -160,6 +202,48 @@ class TripPoint(object):
         }
 
 
+@dataclass(frozen=True)
+class TripEntry(object):
+    last_modified: datetime
+    trip: m.TripId
+    route: m.RouteId
+    vehicle_id: str
+    pattern_id: str
+    latitude: float
+    longitude: float
+    bearing: int
+    is_accessible: bool
+    has_bike_rack: bool
+    direction: int
+    congestion_level: int
+    accuracy_level: int
+    status: int
+    category: int
+
+    @staticmethod
+    def from_db_row(row: Tuple[Any, ...]) -> "TripEntry":
+        return TripEntry(
+            route=m.RouteId(cast(str, row[0])),
+            direction=cast(int, row[1]),
+            vehicle_id=cast(str, row[2]),
+            last_modified=cast(datetime, row[3]),
+            trip=m.TripId(cast(str, row[4])),
+            congestion_level=cast(int, row[5]),
+            accuracy_level=cast(int, row[6]),
+            status=cast(int, row[7]),
+            is_accessible=cast(bool, row[8]),
+            latitude=cast(int, row[9]) / 3600000,
+            longitude=cast(int, row[10]) / 3600000,
+            bearing=cast(int, row[11]),
+            pattern_id=cast(str, row[12]),
+            has_bike_rack=cast(bool, row[13]),
+            category=cast(int, row[14]),
+        )
+
+    def as_dict(self) -> Dict[str, Any]:
+        return {f.name: self.__dict__[f.name] for f in fields(self)}
+
+
 def trips_on_day(connection, d: date, r: Optional[str] = None) -> Set[TripId]:
     with connection.cursor() as cu:
         midnight = dt.time()
@@ -177,3 +261,11 @@ def trips_on_day(connection, d: date, r: Optional[str] = None) -> Set[TripId]:
             query += cu.mogrify(" and route_id = %s", (r,))
         cu.execute(query)
         return {TripId(row[0]) for row in cu.fetchall()}
+
+
+def day_span(d: date) -> Tuple[datetime, datetime]:
+    midnight = dt.time()
+    day = dt.timedelta(days=1)
+    dt1 = datetime.combine(d, midnight)
+    dt2 = datetime.combine(d + day, midnight)
+    return dt1, dt2
