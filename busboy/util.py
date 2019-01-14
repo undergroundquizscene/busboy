@@ -1,5 +1,9 @@
 from bs4 import BeautifulSoup
 import requests
+from typing import List, Dict
+
+import busboy.rest as api
+import busboy.model as m
 
 
 def route_stops(r: int):
@@ -53,3 +57,42 @@ def route_stops_to_file():
     f = open("resources/stoplists.json", "w")
     json.dump(stops, f, indent=2)
     f.close()
+
+
+import concurrent.futures as cf
+import datetime as dt
+from threading import Event
+from dataclasses import dataclass
+
+@dataclass
+class PollResult(object):
+    time: dt.datetime
+    results: Dict[m.StopId, m.StopPassageResponse]
+
+def poll_continuously(stops: List[m.StopId], frequency: float) -> List[PollResult]:
+    prs = []
+    terminate = Event()
+    while not terminate.is_set():
+        try:
+            t = dt.datetime.now()
+            prs.append(PollResult(t, poll_stops(stops)))
+            print(f"Cycled at {t}, waiting…")
+            terminate.wait(frequency)
+        except KeyboardInterrupt:
+            print("Returning…")
+            terminate.set()
+    return prs
+
+def poll_stops(stops: List[m.StopId]) -> Dict[m.StopId, m.StopPassageResponse]:
+    with cf.ThreadPoolExecutor(max_workers=60) as executor:
+        future_to_stop = {executor.submit(api.stop_passage, s): s for s in stops}
+        sprs = {}
+        for f in cf.as_completed(future_to_stop):
+            s = future_to_stop[f]
+            try:
+                spr = f.result()
+            except Exception as e:
+                print(f"Got exception {e} on stop {s}")
+            else:
+                sprs[s] = spr
+        return sprs

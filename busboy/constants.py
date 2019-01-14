@@ -1,3 +1,5 @@
+from busboy.model import Stop
+
 church_cross_east = "7338653551721429731"
 church_cross_west = "7338653551721416881"
 parnell_place = "7338653551721440301"
@@ -319,3 +321,30 @@ route_cover = {
     "7338653551721816481",
     "7338653551721428361",
 }
+
+stops_on_220 = [
+    Stop("7338653551722184832",
+        "Ovens (Grange Road Terminus)",
+        51.87648,
+        -8.64687,
+        246671
+    ),
+    Stop("7338653551722184421",
+        "Grand Parade (Caseys Furniture)",
+        51.89668,
+        -8.47456,
+        241481
+    ),
+    Stop("7338653551721431991",
+        "Carrigaline (Forrest Hills)",
+        51.8084,
+        -8.38483,
+        246711
+    ),
+    Stop("7338653551721417391",
+        "Fort Camden",
+        51.8096,
+        -8.28123,
+        232111
+    ),
+]
