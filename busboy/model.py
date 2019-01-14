@@ -64,6 +64,7 @@ class Route(object):
             )
 
 
+@dataclass(frozen=True)
 class Stop(object):
     id: str
     name: str
@@ -71,12 +72,14 @@ class Stop(object):
     longitude: float
     number: int
 
-    def __init__(self, stop_json: Dict[str, Any]) -> None:
-        self.id = stop_json["duid"]
-        self.name = stop_json["name"]
-        self.latitude = stop_json["lat"]
-        self.longitude = stop_json["lng"]
-        self.number = stop_json["num"]
+    @classmethod
+    def from_json(cls, stop_json: Dict[str, Any]) -> "Stop":
+        id = stop_json["duid"]
+        name = stop_json["name"]
+        latitude = stop_json["lat"]
+        longitude = stop_json["lng"]
+        number = stop_json["num"]
+        return cls(id, name, latitude, longitude, number)
 
 
 class TripSnapshot(object):
