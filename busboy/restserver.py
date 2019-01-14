@@ -30,7 +30,7 @@ def trips_on_day(date: str, route: str = None):
         abort(400)
     else:
         trips = db.trips_on_day(db.default_connection(), d, route)
-        body = [t.value for t in trips]
+        body = [t.raw for t in trips]
         return (
             json.dumps(body),
             {"Content-Type": "text/json", "Access-Control-Allow-Origin": "*"},

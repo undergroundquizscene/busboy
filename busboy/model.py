@@ -17,17 +17,19 @@ from dataclasses import dataclass
 PassageNumber = NewType("PassageNumber", int)
 
 
-class StopId(NamedTuple):
-    value: str
+@dataclass(frozen=True)
+class StopId(object):
+    raw: str
 
 
-class TripId(NamedTuple):
-    value: str
+@dataclass(frozen=True)
+class TripId(object):
+    raw: str
 
 
 @dataclass(frozen=True)
 class RouteId(object):
-    string: str
+    raw: str
 
 
 @dataclass(frozen=True)

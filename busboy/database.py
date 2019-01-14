@@ -32,7 +32,7 @@ def trip_data(
         query = b"select * from passage_responses"
         conditions: List[bytes] = []
         if r is not None:
-            conditions.append(cu.mogrify(" route_id = %s", (r.string,)))
+            conditions.append(cu.mogrify(" route_id = %s", (r.raw,)))
         if d is not None:
             dt1, dt2 = day_span(d)
             conditions.append(
@@ -176,7 +176,7 @@ def trip_points(connection, t: TripId) -> "TripPoints":
                 t,
             )
             tps = [TripPoint(r[0], r[1], r[2]) for r in cu.fetchall()]
-            return TripPoints(t.value, tps)
+            return TripPoints(t.raw, tps)
 
 
 @dataclass

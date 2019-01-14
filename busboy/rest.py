@@ -55,9 +55,9 @@ def stop_passage(params: Dict[str, Union[StopId, TripId]]) -> StopPassageRespons
 
 @stop_passage.register
 def sp_stop(s: StopId) -> StopPassageResponse:
-    return stop_passage({"stop_point": s.value})
+    return stop_passage({"stop_point": s.raw})
 
 
 @stop_passage.register
 def sp_trip(t: TripId) -> StopPassageResponse:
-    return stop_passage({"trip": t.value})
+    return stop_passage({"trip": t.raw})
