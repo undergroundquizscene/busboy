@@ -37,3 +37,10 @@ create table stops (
         latitude double precision,
         longitude double precision
 );
+
+create table route_stops (
+        route varchar(30) references routes(id),
+        stop varchar(30) references stops(id),
+        order_position integer,
+        variants smallint array
+);
