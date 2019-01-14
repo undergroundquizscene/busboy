@@ -9,6 +9,7 @@ from typing import (
     Type,
     Union,
     Callable,
+    cast,
 )
 from datetime import datetime
 import json
@@ -41,6 +42,7 @@ class Route(object):
     number: int
     category: int
 
+    @staticmethod
     def from_json(route_json: Dict[str, Any]) -> Union["Route", KeyError]:
         try:
             id = route_json["duid"]
@@ -162,15 +164,15 @@ class Passage(NamedTuple):
                 id=json.get("duid"),
                 last_modified=omap(
                     lambda j: datetime.utcfromtimestamp(j / 1000),
-                    json.get("last_modification_timestamp"),
+                    cast(Optional[int], json.get("last_modification_timestamp")),
                 ),
                 is_deleted=json.get("is_deleted"),
-                route=omap(lambda j: j.get("duid"), json.get("route_duid")),
+                route=omap(lambda j: j.get("duid"), cast(Dict[str, Any], json.get("route_duid"))),
                 direction=json.get("direction"),
-                trip=omap(lambda j: j.get("duid"), json.get("trip_duid")),
-                stop=omap(lambda j: j.get("duid"), json.get("stop_point_duid")),
+                trip=omap(lambda j: j.get("duid"), cast(Dict[str, Any], json.get("trip_duid"))),
+                stop=omap(lambda j: j.get("duid"), cast(Dict[str, Any], json.get("stop_point_duid"))),
                 vehicle=omap(
-                    lambda j: j.get("duid"), json.get("vehicle_duid")
+                    lambda j: j.get("duid"), cast(Dict[str, Any], json.get("vehicle_duid"))
                 ),  # type: ignore
                 time=time,
                 congestion=json.get("congestion_level"),
@@ -180,7 +182,7 @@ class Passage(NamedTuple):
                 latitude=json.get("latitude"),
                 longitude=json.get("longitude"),
                 bearing=json.get("bearing"),
-                pattern=omap(lambda j: j.get("duid"), json.get("pattern_duid")),
+                pattern=omap(lambda j: j.get("duid"), cast(Dict[str, Any], json.get("pattern_duid"))),
                 has_bike_rack=omap(bool, json.get("has_bike_rack")),
                 category=json.get("category"),
             )
@@ -218,7 +220,7 @@ class ArrivalDeparture(NamedTuple):
             service_mode=json.get("service_mode"),
             type=json.get("type"),
             direction_text=omap(
-                lambda j: j.get("defaultValue"), json.get("multilingual_direction_text")
+                lambda j: j.get("defaultValue"), cast(Dict[str, Any], json.get("multilingual_direction_text"))
             ),
         )
 

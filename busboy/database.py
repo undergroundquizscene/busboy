@@ -129,6 +129,7 @@ def store_trip(
                         p.category,
                     ],
                 )
+                return None
         except Exception as e:
             return e
 

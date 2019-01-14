@@ -1,6 +1,7 @@
 import json
 import datetime as dt
 from flask import Flask, send_file, abort
+from typing import Optional
 
 app = Flask(__name__)
 
@@ -23,7 +24,7 @@ def trip_points(trip_id: str):
 
 @app.route("/trips/<date>/")
 @app.route("/trips/<date>/<route>/")
-def trips_on_day(date: str, route: str = None):
+def trips_on_day(date: str, route: Optional[str] = None):
     try:
         d = dt.date.fromisoformat(date)
     except ValueError:
