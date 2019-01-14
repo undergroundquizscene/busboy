@@ -1,4 +1,5 @@
 import ipyleaflet as lf
+import pandas as pd
 from typing import List
 
 
@@ -17,4 +18,14 @@ def trip_markers(tps: db.TripPoints) -> List[lf.Marker]:
             title=tp.time.time().isoformat(),
         )
         for tp in tps.points
+    ]
+
+def markers(df: pd.DataFrame) -> List[lf.Marker]:
+    return [
+        lf.Marker(
+            location=(r.latitude, r.longitude),
+            draggable=False,
+            title=r.Index.time().isoformat(),
+        )
+        for r in df.itertuples()
     ]

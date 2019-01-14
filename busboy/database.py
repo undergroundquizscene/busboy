@@ -53,6 +53,7 @@ def data_gdf(
     df = pd.DataFrame([t.as_dict() for t in ts])
     df["Coordinates"] = list(zip(df["longitude"], df["latitude"]))
     df["Coordinates"] = df["Coordinates"].apply(sg.Point)
+    df = df.set_index("last_modified")
     return gpd.GeoDataFrame(df, geometry="Coordinates")
 
 
