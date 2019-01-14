@@ -134,24 +134,24 @@ class StopPassageResponse(NamedTuple):
 
 
 class Passage(NamedTuple):
-    id: str
-    last_modified: datetime
-    trip: str
-    route: str
+    id: Optional[str]
+    last_modified: Optional[datetime]
+    trip: Optional[str]
+    route: Optional[str]
     vehicle: Optional[str]
-    stop: str
+    stop: Optional[str]
     pattern: Optional[str]
-    latitude: float
-    longitude: float
-    bearing: int
-    time: "PassageTime"
-    is_deleted: bool
+    latitude: Optional[float]
+    longitude: Optional[float]
+    bearing: Optional[int]
+    time: "Optional[PassageTime]"
+    is_deleted: Optional[bool]
     is_accessible: Optional[bool]
     has_bike_rack: Optional[bool]
-    direction: int
+    direction: Optional[int]
     congestion: Optional[int]
-    accuracy: int
-    status: int
+    accuracy: Optional[int]
+    status: Optional[int]
     category: Optional[int]
 
     @classmethod
@@ -200,11 +200,11 @@ class PassageTime(NamedTuple):
 
 
 class ArrivalDeparture(NamedTuple):
-    scheduled: int
+    scheduled: Optional[int]
     actual_or_prediction: Optional[datetime]
-    service_mode: int
-    type: int
-    direction_text: str
+    service_mode: Optional[int]
+    type: Optional[int]
+    direction_text: Optional[str]
 
     @classmethod
     def from_json(cls: Any, json: Dict[str, Any]) -> Any:
