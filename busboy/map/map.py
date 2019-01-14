@@ -20,6 +20,7 @@ def trip_markers(tps: db.TripPoints) -> List[lf.Marker]:
         for tp in tps.points
     ]
 
+
 def markers(df: pd.DataFrame) -> List[lf.Marker]:
     return [
         lf.Marker(

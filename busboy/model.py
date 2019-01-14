@@ -170,12 +170,21 @@ class Passage(NamedTuple):
                     cast(Optional[int], json.get("last_modification_timestamp")),
                 ),
                 is_deleted=json.get("is_deleted"),
-                route=omap(lambda j: j.get("duid"), cast(Dict[str, Any], json.get("route_duid"))),
+                route=omap(
+                    lambda j: j.get("duid"),
+                    cast(Dict[str, Any], json.get("route_duid")),
+                ),
                 direction=json.get("direction"),
-                trip=omap(lambda j: j.get("duid"), cast(Dict[str, Any], json.get("trip_duid"))),
-                stop=omap(lambda j: j.get("duid"), cast(Dict[str, Any], json.get("stop_point_duid"))),
+                trip=omap(
+                    lambda j: j.get("duid"), cast(Dict[str, Any], json.get("trip_duid"))
+                ),
+                stop=omap(
+                    lambda j: j.get("duid"),
+                    cast(Dict[str, Any], json.get("stop_point_duid")),
+                ),
                 vehicle=omap(
-                    lambda j: j.get("duid"), cast(Dict[str, Any], json.get("vehicle_duid"))
+                    lambda j: j.get("duid"),
+                    cast(Dict[str, Any], json.get("vehicle_duid")),
                 ),  # type: ignore
                 time=time,
                 congestion=json.get("congestion_level"),
@@ -185,7 +194,10 @@ class Passage(NamedTuple):
                 latitude=json.get("latitude"),
                 longitude=json.get("longitude"),
                 bearing=json.get("bearing"),
-                pattern=omap(lambda j: j.get("duid"), cast(Dict[str, Any], json.get("pattern_duid"))),
+                pattern=omap(
+                    lambda j: j.get("duid"),
+                    cast(Dict[str, Any], json.get("pattern_duid")),
+                ),
                 has_bike_rack=omap(bool, json.get("has_bike_rack")),
                 category=json.get("category"),
             )
@@ -223,7 +235,8 @@ class ArrivalDeparture(NamedTuple):
             service_mode=json.get("service_mode"),
             type=json.get("type"),
             direction_text=omap(
-                lambda j: j.get("defaultValue"), cast(Dict[str, Any], json.get("multilingual_direction_text"))
+                lambda j: j.get("defaultValue"),
+                cast(Dict[str, Any], json.get("multilingual_direction_text")),
             ),
         )
 

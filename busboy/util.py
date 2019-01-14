@@ -64,10 +64,12 @@ import datetime as dt
 from threading import Event
 from dataclasses import dataclass
 
+
 @dataclass
 class PollResult(object):
     time: dt.datetime
     results: Dict[m.StopId, m.StopPassageResponse]
+
 
 def poll_continuously(stops: List[m.StopId], frequency: float) -> List[PollResult]:
     prs = []
@@ -82,6 +84,7 @@ def poll_continuously(stops: List[m.StopId], frequency: float) -> List[PollResul
             print("Returning…")
             terminate.set()
     return prs
+
 
 def poll_stops(stops: List[m.StopId]) -> Dict[m.StopId, m.StopPassageResponse]:
     with cf.ThreadPoolExecutor(max_workers=60) as executor:

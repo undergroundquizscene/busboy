@@ -10,8 +10,10 @@ Latitude = float
 Longitude = float
 Coord = Tuple[Latitude, Longitude]
 
+
 def stop_distance(r: Any, stop: Coord) -> float:
     return gpd.distance(stop, (r.latitude, r.longitude)).m
+
 
 def stop_distances(df: pd.DataFrame, stop: Coord) -> pd.DataFrame:
     df2 = df.copy()

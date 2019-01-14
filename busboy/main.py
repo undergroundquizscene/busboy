@@ -81,7 +81,9 @@ def load_into_database(json: Dict[str, Any], timestamp: datetime, trip: str) -> 
     connection.close()
 
 
-def save_response_to_file(trip: str, trip_response: requests.Response, stop: Any) -> None:
+def save_response_to_file(
+    trip: str, trip_response: requests.Response, stop: Any
+) -> None:
     timestamp = datetime.now()
     y, m, d = timestamp.year, timestamp.month, timestamp.day
     folder = f'/Users/Noel/Developer/Projects/Busboy/src/main/resources/trace/{"/".join([y, m, d])}/{trip}'

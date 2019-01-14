@@ -8,6 +8,7 @@ import datetime as dt
 import pandas as pd
 import geopandas as gpd
 import shapely.geometry as sg
+import json
 
 from busboy.model import Route, Stop, Passage, TripId
 import busboy.model as m
@@ -284,6 +285,15 @@ def stops_by_route_name(c: connection, route: str) -> List[m.Stop]:
             where s.id = rs.stop and rs.route = r.id
             and r.name = %s
             """,
-            [route]
+            [route],
         )
         return [Stop(r[0], r[1], r[2], r[3], r[4]) for r in cu.fetchall()]
+
+
+def stop_by_name(name: str) -> Optional[Stop]:
+    with open("resources/example-responses/busStopPoints.json") as f:
+        j = json.load(f)
+        for k, bs in j["bus_stops"].items():
+            if bs["name"] == name:
+                return Stop.from_json(bs)
+        return None
