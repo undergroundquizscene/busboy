@@ -73,7 +73,7 @@ def store_route(r: Route, conn: Optional[connection] = None) -> None:
             )
 
 
-def store_stop(r: Stop, conn=None) -> None:
+def store_stop(r: Stop, conn: Optional[connection] = None) -> None:
     if conn is None:
         conn = default_connection()
     with conn:
@@ -166,7 +166,7 @@ def routes_by_id() -> Dict[str, Route]:
     return {r.id: r for r in rs}
 
 
-def trip_points(connection, t: TripId) -> "TripPoints":
+def trip_points(connection: connection, t: TripId) -> "TripPoints":
     with connection as co:
         with co.cursor() as cu:
             cu.execute(
@@ -174,7 +174,7 @@ def trip_points(connection, t: TripId) -> "TripPoints":
                 select latitude, longitude, last_modified from passage_responses
                 where trip_id = %s
                 """,
-                t,
+                [t],
             )
             tps = [TripPoint(r[0], r[1], r[2]) for r in cu.fetchall()]
             return TripPoints(t.raw, tps)
@@ -245,8 +245,8 @@ class TripEntry(object):
         return {f.name: self.__dict__[f.name] for f in fields(self)}
 
 
-def trips_on_day(connection, d: date, r: Optional[str] = None) -> Set[TripId]:
-    with connection.cursor() as cu:
+def trips_on_day(c: connection, d: date, r: Optional[str] = None) -> Set[TripId]:
+    with c.cursor() as cu:
         midnight = dt.time()
         day = dt.timedelta(days=1)
         dt1 = datetime.combine(d, midnight)

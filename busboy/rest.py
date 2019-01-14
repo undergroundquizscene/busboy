@@ -27,7 +27,7 @@ def stop_ids() -> Set[str]:
     return {s for s in stops()}
 
 
-def routes_at_stop(stop):
+def routes_at_stop(stop: str) -> Set[str]:
     stop_response = requests.get(stop_passage_tdi, params={"stop_point": stop}).json()
     return {
         p["route_duid"]["duid"]
@@ -36,7 +36,7 @@ def routes_at_stop(stop):
     }
 
 
-def routes_at_stops():
+def routes_at_stops() -> Dict[str, Set[str]]:
     rs = {}
     for i, s in enumerate(stop_ids()):
         try:

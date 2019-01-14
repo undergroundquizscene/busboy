@@ -8,7 +8,7 @@ from concurrent.futures import Executor, ThreadPoolExecutor, as_completed
 import psycopg2
 import psycopg2 as pp2
 from psycopg2.extras import Json
-from typing import Tuple, Optional, Set, Iterable, List
+from typing import Tuple, Optional, Set, Iterable, List, Dict, Any, Callable
 from dataclasses import dataclass
 
 from busboy.constants import (
@@ -58,17 +58,17 @@ def make_requests(stop: StopId) -> List[Optional[Exception]]:
     return errors
 
 
-def make_request(url, trip):
+def make_request(url: str, trip: str) -> None:
     trip_response = requests.get(url, params={"trip": trip})
     save_response(trip, trip_response)
 
 
-def save_response(trip, trip_response):
+def save_response(trip: str, trip_response: requests.Response) -> None:
     timestamp = datetime.now()
     load_into_database(trip_response.json(), timestamp, trip)
 
 
-def load_into_database(json, timestamp, trip):
+def load_into_database(json: Dict[str, Any], timestamp: datetime, trip: str) -> None:
     print(f"Loading into database for trip {trip} at {timestamp}")
     passages = json["stopPassageTdi"]
     connection = db.default_connection()
@@ -81,48 +81,50 @@ def load_into_database(json, timestamp, trip):
     connection.close()
 
 
-def save_response_to_file(trip, trip_response, stop):
+def save_response_to_file(trip: str, trip_response: requests.Response, stop: Any) -> None:
     timestamp = datetime.now()
-    folder = f'/Users/Noel/Developer/Projects/Busboy/src/main/resources/trace/{"/".join(timestamp[0:3])}/{trip}'
-    filename = f'{folder}/trace-{"-".join(timestamp)}.json'
+    y, m, d = timestamp.year, timestamp.month, timestamp.day
+    folder = f'/Users/Noel/Developer/Projects/Busboy/src/main/resources/trace/{"/".join([y, m, d])}/{trip}'
+    h, min, s = timestamp.hour, timestamp.minute, timestamp.second
+    filename = f'{folder}/trace-{"-".join([h, min, s])}.json'
     makedirs(folder, exist_ok=True)
     with open(filename, "w") as f:
         f.write(json.dumps(trip_response.json(), indent=2))
     print(f"Wrote output to {filename}")
 
 
-def trips(json_response):
+def trips(json_response: Dict[str, Any]) -> List[str]:
     """Gets the trip ids from a stop response."""
     passages = filter(lambda p: p[0] != "foo", json_response["stopPassageTdi"].items())
     passage_duids = map(lambda p: p[1]["trip_duid"]["duid"], passages)
     return list(passage_duids)
 
 
-def lines(folder, function):
+def lines(folder: str, function: Callable[[Dict[str, Any]], str]) -> None:
     fs = scandir(folder)
     jsons = map(lambda f: readJson(f.path), fs)
     output = "\n".join(list(map(function, jsons)))
     print(output)
 
 
-def readJson(filePath):
+def readJson(filePath: str) -> Dict[str, Any]:
     with open(filePath, "r") as f:
         j = json.load(f)
     return j
 
 
-def coords(json):
+def coords(json: Dict[str, Any]) -> str:
     passage_zero = json["stopPassageTdi"]["passage_0"]
     raw_coords = (passage_zero["latitude"], passage_zero["longitude"])
     refined_coords = map(lambda l: l / 3_600_000, raw_coords)
     return str(tuple(refined_coords))
 
 
-def minimal_route_cover():
+def minimal_route_cover() -> Set[str]:
     stops = get_stops_from_file()
     routes = get_routes_from_file()
 
-    routes_covered = set()
+    routes_covered: Set[str] = set()
     stop_cover = set()
     print(f"{len(stops)} stops to try")
     for stop in stops:
@@ -140,12 +142,12 @@ def minimal_route_cover():
     return stop_cover
 
 
-def get_stops_from_file():
+def get_stops_from_file() -> Dict[str, str]:
     stops_json = readJson("resources/example-responses/busStopPoints.json")
     return {b["duid"]: b for k, b in stops_json["bus_stops"].items()}
 
 
-def get_routes_from_file():
+def get_routes_from_file() -> Dict[str, str]:
     routes_json = readJson("resources/example-responses/routes.json")
     return {
         r["duid"]: r["short_name"]
