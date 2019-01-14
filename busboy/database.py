@@ -51,7 +51,7 @@ def data_gdf(
 ) -> pd.DataFrame:
     ts = trip_data(connection, r, d)
     df = pd.DataFrame([t.as_dict() for t in ts])
-    df["Coordinates"] = list(zip(df.longitude, df.latitude))
+    df["Coordinates"] = list(zip(df["longitude"], df["latitude"]))
     df["Coordinates"] = df["Coordinates"].apply(sg.Point)
     return gpd.GeoDataFrame(df, geometry="Coordinates")
 
