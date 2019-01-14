@@ -270,3 +270,19 @@ def day_span(d: date) -> Tuple[datetime, datetime]:
     dt1 = datetime.combine(d, midnight)
     dt2 = datetime.combine(d + day, midnight)
     return dt1, dt2
+
+
+def stops_by_route_name(c: connection, route: str) -> List[m.Stop]:
+    with c.cursor() as cu:
+        cu.execute(
+            """
+            select s.id, s.name, s.latitude, s.longitude, s.number from
+            stops as s,
+            route_stops as rs,
+            routes as r
+            where s.id = rs.stop and rs.route = r.id
+            and r.name = %s
+            """,
+            [route]
+        )
+        return [Stop(r[0], r[1], r[2], r[3], r[4]) for r in cu.fetchall()]
