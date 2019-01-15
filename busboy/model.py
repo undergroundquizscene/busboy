@@ -142,7 +142,7 @@ class Passage(NamedTuple):
                 vehicle=omap(
                     lambda j: j.get("duid"),
                     cast(Dict[str, Any], json.get("vehicle_duid")),
-                ),  # type: ignore
+                ),
                 time=time,
                 congestion=json.get("congestion_level"),
                 accuracy=json.get("accuracy_level"),

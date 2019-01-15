@@ -297,3 +297,15 @@ def stop_by_name(name: str) -> Optional[Stop]:
             if bs["name"] == name:
                 return Stop.from_json(bs)
         return None
+
+
+def stops(c: Optional[connection] = None) -> List[Stop]:
+    """Retrieves a list of all stops from the database."""
+    if c is None:
+        c = default_connection()
+    with c.cursor() as cu:
+        cu.execute("select * from stops")
+        return [
+            Stop(id=r[0], name=r[1], number=r[2], latitude=r[3], longitude=r[4])
+            for r in cu.fetchall()
+        ]

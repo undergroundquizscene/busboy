@@ -1,19 +1,19 @@
 import requests
-from typing import Dict, Any, Set, Union, Optional
+from typing import Dict, Any, Set, Union, Optional, List
 import json
 from functools import singledispatch
 
 from busboy.constants import stop_passage_tdi
-from busboy.model import StopPassageResponse, StopId, TripId
+from busboy.model import StopPassageResponse, StopId, TripId, Stop
 
 
-def stops() -> Dict[str, Any]:
-    """Gets the API response for every stop."""
+def stops() -> List[Stop]:
+    """Queries the API for the list of all stops."""
     response = requests.get("http://buseireann.ie/inc/proto/bus_stop_points.php")
     split = response.text.partition("{")
     string = split[1] + split[2][:-1]
     stopJson = json.loads(string)["bus_stops"]
-    return {s["duid"]: s for k, s in stopJson.items()}
+    return [Stop.from_json(s) for k, s in stopJson.items()]
 
 
 def trips(s: StopId) -> Set[TripId]:
@@ -24,7 +24,7 @@ def trips(s: StopId) -> Set[TripId]:
 
 def stop_ids() -> Set[str]:
     """Gets all stop duids from the rest api."""
-    return {s for s in stops()}
+    return {s.id for s in stops()}
 
 
 def routes_at_stop(stop: str) -> Set[str]:
