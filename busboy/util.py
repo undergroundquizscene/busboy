@@ -1,9 +1,11 @@
 from bs4 import BeautifulSoup
 import requests
 from typing import List, Dict
+import shelve
 
 import busboy.rest as api
 import busboy.model as m
+import busboy.constants as c
 
 
 def route_stops(r: int):
@@ -78,7 +80,7 @@ def poll_continuously(stops: List[m.StopId], frequency: float) -> List[PollResul
         try:
             t = dt.datetime.now()
             prs.append(PollResult(t, poll_stops(stops)))
-            print(f"Cycled at {t}, waiting…")
+            print(f"Cycled at {t}, waiting {frequency} seconds…")
             terminate.wait(frequency)
         except KeyboardInterrupt:
             print("Returning…")
@@ -99,3 +101,11 @@ def poll_stops(stops: List[m.StopId]) -> Dict[m.StopId, m.StopPassageResponse]:
             else:
                 sprs[s] = spr
         return sprs
+
+
+def check_many_stops() -> None:
+    ids = {m.StopId(s.id) for s in c.stops_on_220 if s is not None}
+    result = poll_continuously(list(ids), 10)
+    print(f"Storing result, which has length {len(result)}")
+    with shelve.open("resources/experiments/many-stops") as db:
+        db["data"] = result
