@@ -43,18 +43,25 @@ class Route(object):
     category: int
 
     @staticmethod
-    def from_json(route_json: Dict[str, Any]) -> Union["Route", KeyError]:
-        try:
-            id = route_json["duid"]
-            name = route_json["short_name"]
-            direction = route_json["direction_extensions"]["direction"]
-            number = route_json["number"]
-            category = route_json["category"]
-            direction_name = route_json["direction_extensions"]["direction_name"]
-        except KeyError as e:
-            return e
+    def from_json(route_json: Dict[str, Any]) -> Union["Route", "IncompleteRoute"]:
+        id = route_json.get("duid")
+        name = route_json.get("short_name")
+        direction = omap(
+            lambda j: j.get("direction"),
+            cast(Dict[str, Any], route_json.get("direction_extensions")),
+        )
+        number = route_json.get("number")
+        category = route_json.get("category")
+        direction_name = omap(
+            lambda j: j.get("direction_name"),
+            cast(Dict[str, Any], route_json.get("direction_extensions")),
+        )
+        if None in {id, name, direction, number, category, direction_name}:
+            return IncompleteRoute(
+                id, name, direction, number, category, direction_name
+            )
         else:
-            return Route(
+            return Route(  # type: ignore
                 id=id,
                 name=name,
                 direction=direction,
@@ -62,6 +69,16 @@ class Route(object):
                 category=category,
                 direction_name=direction_name,
             )
+
+
+@dataclass(frozen=True)
+class IncompleteRoute(object):
+    id: Optional[str]
+    name: Optional[str]
+    direction: Optional[int]
+    direction_name: Optional[str]
+    number: Optional[int]
+    category: Optional[int]
 
 
 @dataclass(frozen=True)

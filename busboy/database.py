@@ -1,6 +1,6 @@
 import psycopg2 as pp2
 from psycopg2.extensions import cursor, connection
-from typing import Optional, List, Dict, Any, Set, Tuple, cast
+from typing import Optional, List, Dict, Any, Set, Tuple, cast, Union
 import json
 from dataclasses import dataclass, InitVar, field, fields
 from datetime import date, datetime
@@ -10,7 +10,7 @@ import geopandas as gpd
 import shapely.geometry as sg
 import json
 
-from busboy.model import Route, Stop, Passage, TripId
+from busboy.model import Route, Stop, Passage, TripId, IncompleteRoute
 import busboy.model as m
 
 
@@ -148,7 +148,7 @@ def test_database() -> None:
             )
 
 
-def routes() -> List[Route]:
+def routes() -> List[Union[Route, IncompleteRoute]]:
     j = json.load(
         open(
             "/Users/Noel/Developer/Projects/Busboy/resources/example-responses/routes.json"

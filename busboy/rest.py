@@ -4,16 +4,35 @@ import json
 from functools import singledispatch
 
 from busboy.constants import stop_passage_tdi
-from busboy.model import StopPassageResponse, StopId, TripId, Stop
+from busboy.model import (
+    StopPassageResponse,
+    StopId,
+    TripId,
+    Stop,
+    Route,
+    IncompleteRoute,
+)
 
 
 def stops() -> List[Stop]:
     """Queries the API for the list of all stops."""
-    response = requests.get("http://buseireann.ie/inc/proto/bus_stop_points.php")
-    split = response.text.partition("{")
+    j = from_var(
+        requests.get("http://buseireann.ie/inc/proto/bus_stop_points.php").text
+    )
+    return [Stop.from_json(s) for k, s in j["bus_stops"].items()]
+
+
+def routes() -> List[Union[Route, IncompleteRoute]]:
+    """Queries the API for the list of all routes."""
+    j = from_var(requests.get("http://buseireann.ie/inc/proto/routes.php").text)
+    return [Route.from_json(r) for k, r in j["routeTdi"].items() if k != "foo"]
+
+
+def from_var(r: str) -> Dict[str, Any]:
+    """Strips a var declaration and returns the json assigned to it."""
+    split = r.partition("{")
     string = split[1] + split[2][:-1]
-    stopJson = json.loads(string)["bus_stops"]
-    return [Stop.from_json(s) for k, s in stopJson.items()]
+    return json.loads(string)
 
 
 def trips(s: StopId) -> Set[TripId]:
