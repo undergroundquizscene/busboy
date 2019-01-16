@@ -93,8 +93,12 @@ class PollResult(Generic[T]):
         return pr.map(lambda spr: {p.trip for p in spr.passages})
 
     @staticmethod
-    def all_trips(pr: PollResult[m.StopPassageResponse]) -> "Set[Optional[m.TripId]]":
+    def all_trips(pr: PollResult[m.StopPassageResponse]) -> Set[Optional[m.TripId]]:
         return {t for ts in PollResult.trips(pr).results.values() for t in ts}
+
+    @staticmethod
+    def all_passages(pr: PollResult[m.StopPassageResponse]) -> Set[m.Passage]:
+        return {p for _, spr in pr.results.items() for p in spr.passages}
 
 
 def poll_continuously(
@@ -187,22 +191,28 @@ def update_poll_result(
     return PollResult(pr.time, results)
 
 
-PresenceData = Dict[Optional[m.TripId], PollResult[bool]]
+PresenceData = Dict["PassageTrip", PollResult[bool]]
 
 
 def trip_presences(pr: PollResult[m.StopPassageResponse]) -> PresenceData:
-    all_trips = PollResult.all_trips(pr)
+    all_trips = {PassageTrip.from_passage(p) for p in PollResult.all_passages(pr)}
     return {
-        t: pr.map(lambda spr: m.StopPassageResponse.contains_trip(spr, t))
-        for t in all_trips
+        p: pr.map(lambda spr: m.StopPassageResponse.contains_trip(spr, p.id))
+        for p in all_trips
     }
 
 
-def show_presences(pd: PresenceData, stops: Dict[str, m.Stop]) -> str:
+def show_presences(
+    pd: PresenceData, stops: Dict[str, m.Stop], routes: Dict[str, m.RouteId]
+) -> str:
     lines = []
     stop_id_order = [s.id for s in c.stops_on_220 if s is not None]
-    for t, pr in pd.items():
-        lines.append(f"{t}:")
+    for pt, pr in pd.items():
+        route_data = routes.get(pt.route.raw)
+        if route_data is None:
+            route_data = pt.route
+        pt_with_route = dataclasses.replace(pt, route=route_data)
+        lines.append(f"{pt_with_route}:")
         indent = "    "
         for n, (s, b) in enumerate(
             sorted(pr.results.items(), key=lambda t: stop_id_order.index(t[0].raw)),
@@ -216,3 +226,36 @@ def show_presences(pd: PresenceData, stops: Dict[str, m.Stop]) -> str:
             lines.append(f"{indent}{n:2} {stop_name:50} {b}")
         lines.append("")
     return "\n".join(lines)
+
+
+@dataclass(frozen=True)
+class PassageTrip(object):
+    """All trip-specific information contained in a Passage."""
+
+    id: Optional[m.TripId]
+    route: Optional[m.RouteId]
+    vehicle: Optional[m.VehicleId]
+    latitude: Optional[float]
+    longitude: Optional[float]
+    bearing: Optional[int]
+
+    @staticmethod
+    def from_passage(p: m.Passage) -> "PassageTrip":
+        return PassageTrip(
+            p.trip, p.route, p.vehicle, p.latitude, p.longitude, p.bearing
+        )
+
+
+def trip_stops(pr: PollResult[m.StopPassageResponse]) -> Dict[m.TripId, Set[m.StopId]]:
+    pass
+
+
+def route_cover(d: Dict[m.TripId, Set[m.StopId]]) -> Set[m.StopId]:
+    """Supposed to find a (maybe minimal) set of stops that will get all the trips.
+
+    Currently only finds the stops common to all trips, and there may be none.
+    """
+    cover: Set[m.StopId] = set()
+    for t, s in d.items():
+        cover = cover.intersection(s)
+    return cover
