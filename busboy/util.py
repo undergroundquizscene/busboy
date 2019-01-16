@@ -1,11 +1,17 @@
 from bs4 import BeautifulSoup
 import requests
-from typing import List, Dict
+from typing import List, Dict, Optional, Set, Iterable, Callable, TypeVar, Generic
 import shelve
+import dataclasses
+from dataclasses import dataclass
+import concurrent.futures as cf
+import datetime as dt
+from threading import Event
 
 import busboy.rest as api
 import busboy.model as m
 import busboy.constants as c
+import busboy.database as db
 
 
 def route_stops(r: int):
@@ -61,19 +67,39 @@ def route_stops_to_file():
     f.close()
 
 
-import concurrent.futures as cf
-import datetime as dt
-from threading import Event
-from dataclasses import dataclass
+T = TypeVar("T")
+U = TypeVar("U")
 
 
 @dataclass
-class PollResult(object):
+class PollResult(Generic[T]):
     time: dt.datetime
-    results: Dict[m.StopId, m.StopPassageResponse]
+    results: Dict[m.StopId, T]
+
+    def filter(self, f: Callable[[T], bool]) -> "PollResult[T]":
+        return dataclasses.replace(
+            self, results={s: spr for s, spr in self.results.items() if f(spr)}
+        )
+
+    def map(self, f: Callable[[T], U]) -> "PollResult[U]":
+        return PollResult(
+            time=self.time, results={s: f(spr) for s, spr in self.results.items()}
+        )
+
+    @staticmethod
+    def trips(
+        pr: PollResult[m.StopPassageResponse]
+    ) -> "PollResult[Set[Optional[m.TripId]]]":
+        return pr.map(lambda spr: {p.trip for p in spr.passages})
+
+    @staticmethod
+    def all_trips(pr: PollResult[m.StopPassageResponse]) -> "Set[Optional[m.TripId]]":
+        return {t for ts in PollResult.trips(pr).results.values() for t in ts}
 
 
-def poll_continuously(stops: List[m.StopId], frequency: float) -> List[PollResult]:
+def poll_continuously(
+    stops: List[m.StopId], frequency: float
+) -> List[PollResult[m.StopPassageResponse]]:
     prs = []
     terminate = Event()
     while not terminate.is_set():
@@ -109,3 +135,84 @@ def check_many_stops() -> None:
     print(f"Storing result, which has length {len(result)}")
     with shelve.open("resources/experiments/many-stops") as db:
         db["data"] = result
+
+
+def get_many_stops_data() -> List[PollResult[m.StopPassageResponse]]:
+    with shelve.open("resources/experiments/many-stops") as db:
+        return [update_poll_result(pr) for pr in db["data"]]
+
+
+def route_ids(prs: List[PollResult[m.StopPassageResponse]]) -> Set[m.RouteId]:
+    return {
+        p.route
+        for pr in prs
+        for s, spr in pr.results.items()
+        for p in spr.passages
+        if p.route is not None
+    }
+
+
+def update_poll_result(
+    pr: PollResult[m.StopPassageResponse]
+) -> PollResult[m.StopPassageResponse]:
+    results = {
+        s: m.StopPassageResponse(
+            [
+                m.Passage(
+                    m.PassageId(p.id),
+                    p.last_modified,
+                    m.TripId(p.trip),
+                    m.RouteId(p.route),
+                    m.VehicleId(p.vehicle),
+                    m.StopId(p.stop),
+                    m.PatternId(p.pattern),
+                    p.latitude,
+                    p.longitude,
+                    p.bearing,
+                    p.time,
+                    p.is_deleted,
+                    p.is_accessible,
+                    p.has_bike_rack,
+                    p.direction,
+                    p.congestion,
+                    p.accuracy,
+                    p.status,
+                    p.category,
+                )
+                for p in spr.passages
+            ]
+        )
+        for s, spr in pr.results.items()
+    }
+    return PollResult(pr.time, results)
+
+
+PresenceData = Dict[Optional[m.TripId], PollResult[bool]]
+
+
+def trip_presences(pr: PollResult[m.StopPassageResponse]) -> PresenceData:
+    all_trips = PollResult.all_trips(pr)
+    return {
+        t: pr.map(lambda spr: m.StopPassageResponse.contains_trip(spr, t))
+        for t in all_trips
+    }
+
+
+def show_presences(pd: PresenceData, stops: Dict[str, m.Stop]) -> str:
+    lines = []
+    stop_id_order = [s.id for s in c.stops_on_220 if s is not None]
+    for t, pr in pd.items():
+        lines.append(f"{t}:")
+        indent = "    "
+        for n, (s, b) in enumerate(
+            sorted(pr.results.items(), key=lambda t: stop_id_order.index(t[0].raw)),
+            start=1,
+        ):
+            stop = stops.get(s.raw)
+            if stop is None:
+                stop_name = "None"
+            else:
+                stop_name = stop.name
+            lines.append(f"{indent}{n:2} {stop_name:50} {b}")
+        lines.append("")
+    return "\n".join(lines)

@@ -34,6 +34,21 @@ class RouteId(object):
 
 
 @dataclass(frozen=True)
+class PassageId(object):
+    raw: str
+
+
+@dataclass(frozen=True)
+class VehicleId(object):
+    raw: str
+
+
+@dataclass(frozen=True)
+class PatternId(object):
+    raw: str
+
+
+@dataclass(frozen=True)
 class Route(object):
     id: str
     name: str
@@ -111,15 +126,24 @@ class StopPassageResponse(NamedTuple):
         ]
         return cls(ps)
 
+    def trip_ids(self) -> List[Optional[TripId]]:
+        return [p.trip for p in self.passages]
+
+    def filter(self, f: Callable[["Passage"], bool]) -> "StopPassageResponse":
+        return StopPassageResponse([p for p in self.passages if f(p)])
+
+    def contains_trip(self, t: Optional[TripId]) -> bool:
+        return t in {p.trip for p in self.passages}
+
 
 class Passage(NamedTuple):
-    id: Optional[str]
+    id: Optional[PassageId]
     last_modified: Optional[datetime]
-    trip: Optional[str]
-    route: Optional[str]
-    vehicle: Optional[str]
-    stop: Optional[str]
-    pattern: Optional[str]
+    trip: Optional[TripId]
+    route: Optional[RouteId]
+    vehicle: Optional[VehicleId]
+    stop: Optional[StopId]
+    pattern: Optional[PatternId]
     latitude: Optional[float]
     longitude: Optional[float]
     bearing: Optional[int]
@@ -138,42 +162,43 @@ class Passage(NamedTuple):
         time = PassageTime.from_json(json)
         try:
             return cls(
-                id=json.get("duid"),
+                id=PassageId(cast(str, json.get("duid"))),
                 last_modified=omap(
                     lambda j: datetime.utcfromtimestamp(j / 1000),
                     cast(Optional[int], json.get("last_modification_timestamp")),
                 ),
-                is_deleted=json.get("is_deleted"),
+                is_deleted=cast(bool, json.get("is_deleted")),
                 route=omap(
                     lambda j: j.get("duid"),
                     cast(Dict[str, Any], json.get("route_duid")),
                 ),
-                direction=json.get("direction"),
+                direction=cast(int, json.get("direction")),
                 trip=omap(
-                    lambda j: j.get("duid"), cast(Dict[str, Any], json.get("trip_duid"))
+                    lambda j: TripId(cast(str, j.get("duid"))),
+                    cast(Dict[str, Any], json.get("trip_duid")),
                 ),
                 stop=omap(
-                    lambda j: j.get("duid"),
+                    lambda j: StopId(cast(str, j.get("duid"))),
                     cast(Dict[str, Any], json.get("stop_point_duid")),
                 ),
                 vehicle=omap(
-                    lambda j: j.get("duid"),
+                    lambda j: VehicleId(cast(str, j.get("duid"))),
                     cast(Dict[str, Any], json.get("vehicle_duid")),
                 ),
                 time=time,
-                congestion=json.get("congestion_level"),
-                accuracy=json.get("accuracy_level"),
-                status=json.get("status"),
+                congestion=cast(int, json.get("congestion_level")),
+                accuracy=cast(int, json.get("accuracy_level")),
+                status=cast(int, json.get("status")),
                 is_accessible=omap(bool, json.get("is_accessible")),
-                latitude=json.get("latitude"),
-                longitude=json.get("longitude"),
-                bearing=json.get("bearing"),
+                latitude=cast(int, json.get("latitude")),
+                longitude=cast(int, json.get("longitude")),
+                bearing=cast(int, json.get("bearing")),
                 pattern=omap(
-                    lambda j: j.get("duid"),
+                    lambda j: PatternId(cast(str, j.get("duid"))),
                     cast(Dict[str, Any], json.get("pattern_duid")),
                 ),
                 has_bike_rack=omap(bool, json.get("has_bike_rack")),
-                category=json.get("category"),
+                category=cast(int, json.get("category")),
             )
         except KeyError as e:
             raise Exception(json, e)

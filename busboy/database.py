@@ -299,6 +299,19 @@ def stop_by_name(name: str) -> Optional[Stop]:
         return None
 
 
+def stop_by_id(c: connection, s: m.StopId) -> Optional[Stop]:
+    with c.cursor() as cu:
+        cu.execute(
+            """
+            select * from stops
+            where id = %s
+            """,
+            [s.raw],
+        )
+        r = cu.fetchone()
+        return Stop(id=r[0], name=r[1], number=r[2], latitude=r[3], longitude=r[4])
+
+
 def stops(c: Optional[connection] = None) -> List[Stop]:
     """Retrieves a list of all stops from the database."""
     if c is None:
