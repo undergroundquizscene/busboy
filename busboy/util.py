@@ -207,12 +207,12 @@ def show_presences(
 ) -> str:
     lines = []
     stop_id_order = [s.id for s in c.stops_on_220 if s is not None]
-    for pt, pr in pd.items():
+    for m, (pt, pr) in enumerate(pd.items(), start=1):
         route_data = routes.get(pt.route.raw)
         if route_data is None:
             route_data = pt.route
         pt_with_route = dataclasses.replace(pt, route=route_data)
-        lines.append(f"{pt_with_route}:")
+        lines.append(f"{m:2} {pt_with_route}:")
         indent = "    "
         for n, (s, b) in enumerate(
             sorted(pr.results.items(), key=lambda t: stop_id_order.index(t[0].raw)),
@@ -246,8 +246,15 @@ class PassageTrip(object):
         )
 
 
-def trip_stops(pr: PollResult[m.StopPassageResponse]) -> Dict[m.TripId, Set[m.StopId]]:
-    pass
+def trip_stops(
+    pr: PollResult[m.StopPassageResponse]
+) -> Dict[Optional[m.TripId], Set[m.StopId]]:
+    """The stops trips were visible at in this poll result."""
+    d = {}
+    for s, spr in pr.results.items():
+        for p in spr.passages:
+            d.setdefault(p.trip, set()).add(s)
+    return d
 
 
 def route_cover(d: Dict[m.TripId, Set[m.StopId]]) -> Set[m.StopId]:
@@ -255,7 +262,44 @@ def route_cover(d: Dict[m.TripId, Set[m.StopId]]) -> Set[m.StopId]:
 
     Currently only finds the stops common to all trips, and there may be none.
     """
-    cover: Set[m.StopId] = set()
+    cover = None
     for t, s in d.items():
-        cover = cover.intersection(s)
+        if cover is None:
+            cover = s
+        else:
+            cover = cover.intersection(s)
     return cover
+
+
+@dataclass(frozen=True)
+class StopCounts(object):
+    """How many trips are covered by each stop."""
+
+    counts: Dict[m.StopId, int]
+    total: int
+
+
+def stop_counts(d: Dict[m.TripId, Set[m.StopId]]) -> StopCounts:
+    """Calculates the number of trips covered by each stop."""
+    counts: Dict[m.StopId, int] = {}
+    trips = set()
+    for t, stops in d.items():
+        for s in stops:
+            counts[s] = counts.get(s, 0) + 1
+        trips.add(t)
+    return StopCounts(counts, len(trips))
+
+
+@dataclass(frozen=True)
+class StopTrips(object):
+    """The trips covered by each stop."""
+
+    trips: Dict[m.StopId, Set[Optional[m.TripId]]]
+    all_trips: Set[Optional[m.TripId]]
+
+
+def stop_trips(pr: PollResult[m.StopPassageResponse]) -> StopTrips:
+    """Determines the trips which were visible at each stop in this poll result."""
+    trips = {s: {p.trip for p in spr.passages} for s, spr in pr.results.items()}
+    all_trips = {t for s, ts in trips.items() for t in ts}
+    return StopTrips(trips, all_trips)
