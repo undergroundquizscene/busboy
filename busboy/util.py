@@ -1,12 +1,13 @@
 from bs4 import BeautifulSoup
 import requests
-from typing import List, Dict, Optional, Set, Iterable, Callable, TypeVar, Generic
+from typing import List, Dict, Optional, Set, Iterable, Callable, TypeVar, Generic, Any
 import shelve
 import dataclasses
 from dataclasses import dataclass
 import concurrent.futures as cf
 import datetime as dt
 from threading import Event
+import json
 
 import busboy.rest as api
 import busboy.model as m
@@ -85,6 +86,14 @@ class PollResult(Generic[T]):
         return PollResult(
             time=self.time, results={s: f(spr) for s, spr in self.results.items()}
         )
+
+    @staticmethod
+    def to_json(pr: "PollResult[m.StopPassageResponse]") -> Dict[str, Any]:
+        return {
+            "time": pr.time.isoformat(),
+            "results": {s.raw: spr.to_json() for s, spr in pr.results.items()}
+        }
+
 
     @staticmethod
     def trips(
@@ -315,3 +324,9 @@ def show_presences() -> None:
     rbi = db.routes_by_id()
     sbi = {s.id: s for s in db.stops()}
     print(presence_display(trip_presences(prs[0]), sbi, rbi))
+
+
+def convert_shelf_to_json() -> None:
+    prs = get_many_stops_data()
+    with open("resources/experiments/many-stops.json", 'w') as f:
+        json.dump([pr.to_json(pr) for pr in prs], f, indent=2)

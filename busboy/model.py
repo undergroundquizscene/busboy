@@ -126,6 +126,9 @@ class StopPassageResponse(NamedTuple):
         ]
         return cls(ps)
 
+    def to_json(self) -> Dict[str, Any]:
+        return {"passages": p.to_json() for p in self.passages}
+
     def trip_ids(self) -> List[Optional[TripId]]:
         return [p.trip for p in self.passages]
 
@@ -134,6 +137,7 @@ class StopPassageResponse(NamedTuple):
 
     def contains_trip(self, t: Optional[TripId]) -> bool:
         return t in {p.trip for p in self.passages}
+
 
 
 class Passage(NamedTuple):
@@ -203,6 +207,29 @@ class Passage(NamedTuple):
         except KeyError as e:
             raise Exception(json, e)
 
+    def to_json(self) -> Dict[str, Any]:
+        return {
+            "id": omap(lambda i: i.raw, self.id),
+            "last_modified": omap(lambda dt: dt.isoformat(), self.last_modified),
+            "trip_id": omap(lambda i: i.raw, self.trip),
+            "route_id": omap(lambda i: i.raw, self.route),
+            "vehicle_id": omap(lambda i: i.raw, self.vehicle),
+            "stop_id": omap(lambda i: i.raw, self.stop),
+            "pattern_id": omap(lambda i: i.raw, self.pattern),
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "bearing": self.bearing,
+            "time": omap(lambda t: t.to_json(), self.time),
+            "is_deleted": self.is_deleted,
+            "is_accessible": self.is_accessible,
+            "has_bike_rack": self.has_bike_rack,
+            "direction": self.direction,
+            "congestion": self.congestion,
+            "accuracy": self.accuracy,
+            "status": self.status,
+            "category": self.category
+        }
+
 
 class PassageTime(NamedTuple):
     arrival: Optional["ArrivalTime"]
@@ -214,9 +241,15 @@ class PassageTime(NamedTuple):
         d = omap(DepartureTime.from_json, json.get("departure_data"))
         return cls(arrival=a, departure=d)
 
+    def to_json(self) -> Dict[str, Any]:
+        return {
+            "arrival": omap(lambda a: a.to_json(), self.arrival),
+            "departure": omap(lambda d: d.to_json(), self.departure),
+        }
+
 
 class ArrivalDeparture(NamedTuple):
-    scheduled: Optional[int]
+    scheduled: Optional[datetime]
     actual_or_prediction: Optional[datetime]
     service_mode: Optional[int]
     type: Optional[int]
@@ -238,6 +271,15 @@ class ArrivalDeparture(NamedTuple):
                 cast(Dict[str, Any], json.get("multilingual_direction_text")),
             ),
         )
+
+    def to_json(self) -> Dict[str, Any]:
+        return {
+            "scheduled": omap(lambda dt: dt.isoformat(), self.scheduled),
+            "actual_or_prediction": omap(lambda dt: dt.isoformat(), self.actual_or_prediction),
+            "service_mode": self.service_mode,
+            "type": self.type,
+            "direction_text": self.direction_text,
+        }
 
 
 class ArrivalTime(ArrivalDeparture):
