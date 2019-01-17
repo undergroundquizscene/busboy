@@ -303,3 +303,15 @@ def stop_trips(pr: PollResult[m.StopPassageResponse]) -> StopTrips:
     trips = {s: {p.trip for p in spr.passages} for s, spr in pr.results.items()}
     all_trips = {t for s, ts in trips.items() for t in ts}
     return StopTrips(trips, all_trips)
+
+
+def show_presences() -> None:
+    prs = get_many_stops_data()
+    rbn = db.routes_by_name()
+    prs_220 = [
+        pr.map(lambda spr: spr.filter(lambda p: p.route.raw == rbn["220"].id))
+        for pr in prs
+    ]
+    rbi = db.routes_by_id()
+    sbi = {s.id: s for s in db.stops()}
+    print(presence_display(trip_presences(prs[0]), sbi, rbi))
