@@ -88,16 +88,16 @@ class PollResult(Generic[T]):
 
     @staticmethod
     def trips(
-        pr: PollResult[m.StopPassageResponse]
+        pr: "PollResult[m.StopPassageResponse]"
     ) -> "PollResult[Set[Optional[m.TripId]]]":
         return pr.map(lambda spr: {p.trip for p in spr.passages})
 
     @staticmethod
-    def all_trips(pr: PollResult[m.StopPassageResponse]) -> Set[Optional[m.TripId]]:
+    def all_trips(pr: "PollResult[m.StopPassageResponse]") -> Set[Optional[m.TripId]]:
         return {t for ts in PollResult.trips(pr).results.values() for t in ts}
 
     @staticmethod
-    def all_passages(pr: PollResult[m.StopPassageResponse]) -> Set[m.Passage]:
+    def all_passages(pr: "PollResult[m.StopPassageResponse]") -> Set[m.Passage]:
         return {p for _, spr in pr.results.items() for p in spr.passages}
 
 
@@ -202,8 +202,8 @@ def trip_presences(pr: PollResult[m.StopPassageResponse]) -> PresenceData:
     }
 
 
-def show_presences(
-    pd: PresenceData, stops: Dict[str, m.Stop], routes: Dict[str, m.RouteId]
+def presence_display(
+    pd: PresenceData, stops: Dict[str, m.Stop], routes: Dict[str, m.Route]
 ) -> str:
     lines = []
     stop_id_order = [s.id for s in c.stops_on_220 if s is not None]
