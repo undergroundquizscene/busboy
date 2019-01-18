@@ -369,3 +369,9 @@ def convert_shelf_to_json(path: str) -> None:
     prs = poll_result_data(path)
     with open(path + ".json", "w") as f:
         json.dump([pr.to_json(pr) for pr in prs], f, indent=2)
+
+
+def pipenv_tab_completion() -> None:
+    import rlcompleter, readline
+
+    readline.parse_and_bind("tab: complete")
