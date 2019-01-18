@@ -1,6 +1,17 @@
 from bs4 import BeautifulSoup
 import requests
-from typing import List, Dict, Optional, Set, Iterable, Callable, TypeVar, Generic, Any
+from typing import (
+    List,
+    Dict,
+    Optional,
+    Set,
+    Iterable,
+    Callable,
+    TypeVar,
+    Generic,
+    Any,
+    Type,
+)
 import shelve
 import dataclasses
 from dataclasses import dataclass
@@ -91,9 +102,17 @@ class PollResult(Generic[T]):
     def to_json(pr: "PollResult[m.StopPassageResponse]") -> Dict[str, Any]:
         return {
             "time": pr.time.isoformat(),
-            "results": {s.raw: spr.to_json() for s, spr in pr.results.items()}
+            "results": {s.raw: spr.to_json() for s, spr in pr.results.items()},
         }
 
+    @staticmethod
+    def from_json(j: Dict[str, Any]) -> "PollResult[m.StopPassageResponse]":
+        t = dt.datetime.fromisoformat(j["time"])
+        rs = {
+            m.StopId(s): m.StopPassageResponse.from_my_json(spr)
+            for s, spr in j["results"].items()
+        }
+        return PollResult(t, rs)
 
     @staticmethod
     def trips(
