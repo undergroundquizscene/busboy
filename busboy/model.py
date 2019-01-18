@@ -127,7 +127,7 @@ class StopPassageResponse(NamedTuple):
         return cls(ps)
 
     def to_json(self) -> Dict[str, Any]:
-        return {"passages": p.to_json() for p in self.passages}
+        return {"passages": [p.to_json() for p in self.passages]}
 
     def trip_ids(self) -> List[Optional[TripId]]:
         return [p.trip for p in self.passages]
