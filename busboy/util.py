@@ -26,6 +26,12 @@ import busboy.constants as c
 import busboy.database as db
 
 
+experiments = {
+    "many-stops": "resources/experiments/many-stops",
+    "two-second": "resources/experiments/two-second",
+}
+
+
 def route_stops(r: int):
     soup = make_soup(r)
     tables = get_tables(soup)
@@ -170,7 +176,21 @@ def check_many_stops() -> None:
 
 
 def get_many_stops_data() -> List[PollResult[m.StopPassageResponse]]:
-    with shelve.open("resources/experiments/many-stops") as db:
+    return poll_result_data("resources/experiments/many-stops.json")
+
+
+def two_second_data() -> List[PollResult[m.StopPassageResponse]]:
+    return poll_result_data("resources/experiments/two-second.json")
+
+
+def poll_result_data(path: str) -> List[PollResult[m.StopPassageResponse]]:
+    with open(path) as f:
+        js = json.load(f)
+    return [PollResult.from_json(j) for j in js]
+
+
+def poll_shelve_data(path: str) -> List[PollResult[m.StopPassageResponse]]:
+    with shelve.open(path) as db:
         return [update_poll_result(pr) for pr in db["data"]]
 
 
@@ -345,7 +365,7 @@ def show_presences() -> None:
     print(presence_display(trip_presences(prs[0]), sbi, rbi))
 
 
-def convert_shelf_to_json() -> None:
-    prs = get_many_stops_data()
-    with open("resources/experiments/many-stops.json", 'w') as f:
+def convert_shelf_to_json(path: str) -> None:
+    prs = poll_result_data(path)
+    with open(path + ".json", "w") as f:
         json.dump([pr.to_json(pr) for pr in prs], f, indent=2)
