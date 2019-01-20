@@ -282,7 +282,7 @@ class PassageTime(NamedTuple):
         )
 
 
-@dataclass
+@dataclass(frozen=True)
 class ArrivalDeparture(object):
     T = TypeVar("T", bound="ArrivalDeparture")
 
@@ -333,10 +333,12 @@ class ArrivalDeparture(object):
         )
 
 
+@dataclass(frozen=True)
 class ArrivalTime(ArrivalDeparture):
     pass
 
 
+@dataclass(frozen=True)
 class DepartureTime(ArrivalDeparture):
     pass
 
