@@ -15,6 +15,8 @@ from datetime import datetime
 import json
 from dataclasses import dataclass
 
+from busboy.geo import Latitude, Longitude
+
 PassageNumber = NewType("PassageNumber", int)
 
 
@@ -100,8 +102,8 @@ class IncompleteRoute(object):
 class Stop(object):
     id: str
     name: str
-    latitude: float
-    longitude: float
+    latitude: Latitude
+    longitude: Longitude
     number: int
 
     @classmethod
