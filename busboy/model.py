@@ -1,19 +1,19 @@
-from typing import (
-    Dict,
-    NewType,
-    Any,
-    NamedTuple,
-    Optional,
-    List,
-    TypeVar,
-    Type,
-    Union,
-    Callable,
-    cast,
-)
-from datetime import datetime
 import json
 from dataclasses import dataclass
+from datetime import datetime
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    List,
+    NamedTuple,
+    NewType,
+    Optional,
+    Type,
+    TypeVar,
+    Union,
+    cast,
+)
 
 from busboy.geo import Latitude, Longitude
 

@@ -1,8 +1,8 @@
+from typing import List
+
+import geopy.distance as gpd
 import ipyleaflet as lf
 import pandas as pd
-from typing import List
-import geopy.distance as gpd
-
 
 import busboy.database as db
 import busboy.model as m

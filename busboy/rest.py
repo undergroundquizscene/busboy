@@ -1,16 +1,17 @@
-import requests
-from typing import Dict, Any, Set, Union, Optional, List
 import json
 from functools import singledispatch
+from typing import Any, Dict, List, Optional, Set, Union
+
+import requests
 
 from busboy.constants import stop_passage_tdi
 from busboy.model import (
-    StopPassageResponse,
-    StopId,
-    TripId,
-    Stop,
-    Route,
     IncompleteRoute,
+    Route,
+    Stop,
+    StopId,
+    StopPassageResponse,
+    TripId,
 )
 
 

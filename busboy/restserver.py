@@ -1,13 +1,14 @@
-import json
 import datetime as dt
-from flask import Flask, send_file, abort
+import json
 from typing import Optional
 
-app = Flask(__name__)
+from flask import Flask, abort, send_file
 
 import busboy.constants as c
 import busboy.database as db
 from busboy.model import TripId
+
+app = Flask(__name__)
 
 
 @app.route("/")

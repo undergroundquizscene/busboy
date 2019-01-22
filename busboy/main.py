@@ -1,24 +1,24 @@
 import json
-from os import makedirs, scandir
-import requests
-from time import localtime, strftime
-from datetime import datetime
-from threading import Timer, Event
 from concurrent.futures import Executor, ThreadPoolExecutor, as_completed
-import psycopg2
-import psycopg2 as pp2
-from psycopg2.extras import Json
-from typing import Tuple, Optional, Set, Iterable, List, Dict, Any, Callable
 from dataclasses import dataclass
+from datetime import datetime
+from os import makedirs, scandir
+from threading import Event, Timer
+from time import localtime, strftime
+from typing import Any, Callable, Dict, Iterable, List, Optional, Set, Tuple
 
+import psycopg2 as pp2
+import requests
+from psycopg2.extras import Json
+
+import busboy.database as db
 from busboy.constants import (
     church_cross_east,
-    stop_passage_tdi,
-    route_cover,
     cycle_stops,
+    route_cover,
+    stop_passage_tdi,
 )
 from busboy.model import StopId
-import busboy.database as db
 from busboy.rest import routes_at_stop, stop_passage
 
 

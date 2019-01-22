@@ -7,9 +7,9 @@ import geopy.distance as gpd
 import numpy as np
 import pandas as pd
 
+import busboy.constants as c
 import busboy.database as db
 import busboy.model as m
-import busboy.constants as c
 
 Latitude = float
 Longitude = float

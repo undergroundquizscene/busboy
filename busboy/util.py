@@ -1,28 +1,29 @@
-from bs4 import BeautifulSoup
-import requests
+import dataclasses
+import datetime as dt
+import json
+import shelve
+from dataclasses import dataclass
+from threading import Event
 from typing import (
-    List,
+    Any,
+    Callable,
     Dict,
+    Generic,
+    Iterable,
+    List,
     Optional,
     Set,
-    Iterable,
-    Callable,
-    TypeVar,
-    Generic,
-    Any,
     Type,
+    TypeVar,
 )
-import shelve
-import dataclasses
-from dataclasses import dataclass
-import datetime as dt
-from threading import Event
-import json
 
-import busboy.rest as api
-import busboy.model as m
+import requests
+from bs4 import BeautifulSoup
+
 import busboy.constants as c
 import busboy.database as db
+import busboy.model as m
+import busboy.rest as api
 
 
 def route_stops(r: int):

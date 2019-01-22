@@ -1,17 +1,17 @@
-import psycopg2 as pp2
-from psycopg2.extensions import cursor, connection
-from typing import Optional, List, Dict, Any, Set, Tuple, cast, Union
-import json
-from dataclasses import dataclass, InitVar, field, fields
-from datetime import date, datetime
 import datetime as dt
-import pandas as pd
-import geopandas as gpd
-import shapely.geometry as sg
 import json
+from dataclasses import InitVar, dataclass, field, fields
+from datetime import date, datetime
+from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 
-from busboy.model import Route, Stop, Passage, TripId, IncompleteRoute
+import geopandas as gpd
+import pandas as pd
+import psycopg2 as pp2
+import shapely.geometry as sg
+from psycopg2.extensions import connection, cursor
+
 import busboy.model as m
+from busboy.model import IncompleteRoute, Passage, Route, Stop, TripId
 
 
 def default_connection() -> connection:
