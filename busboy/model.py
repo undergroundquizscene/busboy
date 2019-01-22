@@ -15,7 +15,7 @@ from typing import (
     cast,
 )
 
-from busboy.geo import Latitude, Longitude
+from busboy.geo import DegreeLatitude, DegreeLongitude
 
 PassageNumber = NewType("PassageNumber", int)
 
@@ -102,8 +102,8 @@ class IncompleteRoute(object):
 class Stop(object):
     id: str
     name: str
-    latitude: Latitude
-    longitude: Longitude
+    latitude: DegreeLatitude
+    longitude: DegreeLongitude
     number: int
 
     @classmethod
