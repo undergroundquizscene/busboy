@@ -22,11 +22,11 @@ def test_connection() -> connection:
     return pp2.connect(dbname="busboy-test", user="Noel")
 
 
-def trip_data(
+def entries(
     connection: Optional[connection] = None,
     r: Optional[m.RouteId] = None,
     d: Optional[date] = None,
-) -> List["TripEntry"]:
+) -> List["DatabaseEntry"]:
     if connection is None:
         connection = default_connection()
     with connection.cursor() as cu:
@@ -42,7 +42,7 @@ def trip_data(
         if conditions != []:
             query += b" where" + b" and".join(conditions)
         cu.execute(query)
-        return [TripEntry.from_db_row(row) for row in cu.fetchall()]
+        return [DatabaseEntry.from_db_row(row) for row in cu.fetchall()]
 
 
 def data_gdf(
@@ -50,8 +50,9 @@ def data_gdf(
     r: Optional[m.RouteId] = None,
     d: Optional[date] = None,
 ) -> pd.DataFrame:
-    ts = trip_data(connection, r, d)
-    df = pd.DataFrame([t.as_dict() for t in ts])
+    es = entries(connection, r, d)
+    df = pd.DataFrame([e.as_dict() for e in es])
+    df["Entries"] = es
     df["Coordinates"] = list(zip(df["longitude"], df["latitude"]))
     df["Coordinates"] = df["Coordinates"].apply(sg.Point)
     df = df.set_index("last_modified")
@@ -206,12 +207,12 @@ class TripPoint(object):
 
 
 @dataclass(frozen=True)
-class TripEntry(object):
+class DatabaseEntry(object):
     last_modified: datetime
     trip: m.TripId
     route: m.RouteId
-    vehicle_id: str
-    pattern_id: str
+    vehicle_id: m.VehicleId
+    pattern_id: m.PatternId
     latitude: float
     longitude: float
     bearing: int
@@ -224,11 +225,11 @@ class TripEntry(object):
     category: int
 
     @staticmethod
-    def from_db_row(row: Tuple[Any, ...]) -> "TripEntry":
-        return TripEntry(
+    def from_db_row(row: Tuple[Any, ...]) -> "DatabaseEntry":
+        return DatabaseEntry(
             route=m.RouteId(cast(str, row[0])),
             direction=cast(int, row[1]),
-            vehicle_id=cast(str, row[2]),
+            vehicle_id=m.VehicleId(cast(str, row[2])),
             last_modified=cast(datetime, row[3]),
             trip=m.TripId(cast(str, row[4])),
             congestion_level=cast(int, row[5]),
@@ -238,7 +239,7 @@ class TripEntry(object):
             latitude=cast(int, row[9]) / 3600000,
             longitude=cast(int, row[10]) / 3600000,
             bearing=cast(int, row[11]),
-            pattern_id=cast(str, row[12]),
+            pattern_id=m.PatternId(cast(str, row[12])),
             has_bike_rack=cast(bool, row[13]),
             category=cast(int, row[14]),
         )
