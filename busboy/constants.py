@@ -428,6 +428,13 @@ stops_on_220 = [
         244321,
     ),
     Stop(
+        "7338653551721429731",
+        "Model Farm Rd (Church Cross East)",
+        51.89217,
+        -8.55789,
+        244451,
+    ),
+    Stop(
         "7338653551721429611",
         "Model Farm Rd (Inchaggin Eastbound)",
         51.89197,
@@ -749,7 +756,6 @@ stops_on_220 = [
         longitude=-8.38483,
         number=246711,
     ),
-    None,
     Stop(
         id="7338653551721418971",
         name="Kilnagleary Rd (O Learys Cross Southboun",
