@@ -1,3 +1,4 @@
+from busboy.geo import DegreeLatitude, DegreeLongitude
 from busboy.model import Stop
 
 church_cross_east = "7338653551721429731"
@@ -9,15 +10,15 @@ example_stops = {
     "cce": Stop(
         "7338653551721429731",
         "Model Farm Rd (Church Cross East)",
-        51.89217,
-        -8.55789,
+        DegreeLatitude(51.89217),
+        DegreeLongitude(-8.55789),
         244451,
     ),
     "ccw": Stop(
         "7338653551721416881",
         "Model Farm Rd (Church Cross West)",
-        51.89221,
-        -8.55923,
+        DegreeLatitude(51.89221),
+        DegreeLongitude(-8.55923),
         231601,
     ),
 }
