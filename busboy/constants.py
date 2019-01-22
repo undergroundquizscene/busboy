@@ -5,6 +5,23 @@ church_cross_west = "7338653551721416881"
 parnell_place = "7338653551721440301"
 parnell_place_city = "7338653551721428451"
 
+example_stops = {
+    "cce": Stop(
+        "7338653551721429731",
+        "Model Farm Rd (Church Cross East)",
+        51.89217,
+        -8.55789,
+        244451,
+    ),
+    "ccw": Stop(
+        "7338653551721416881",
+        "Model Farm Rd (Church Cross West)",
+        51.89221,
+        -8.55923,
+        231601,
+    ),
+}
+
 stops_by_route = {
     "201": {
         "Dennehy's Cross (Opp Cork Farm Ctr)": "7338653551721425361",
