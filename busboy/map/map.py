@@ -79,3 +79,16 @@ class Map(object):
             self.clear_markers()
         self.create_markers_df(df)
         self.add_markers(df.iloc[0].trip)
+
+
+def road_cover(df: pd.DataFrame, interval: float) -> pd.DataFrame:
+    used = set()
+    for r in df.itertuples():
+        will_use = True
+        for u in used:
+            if (
+                gpd.distance((u.latitude, u.longitude), (r.latitude, r.longitude)).m
+                < interval
+            ):
+                will_use = False
+                break
