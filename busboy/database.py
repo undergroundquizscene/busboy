@@ -176,19 +176,19 @@ def trip_points(connection: connection, t: TripId) -> "TripPoints":
                 select latitude, longitude, last_modified from passage_responses
                 where trip_id = %s
                 """,
-                [t],
+                [t.raw],
             )
             tps = [TripPoint(r[0], r[1], r[2]) for r in cu.fetchall()]
-            return TripPoints(t.raw, tps)
+            return TripPoints(t, tps)
 
 
 @dataclass
 class TripPoints(object):
-    id: str
+    id: m.TripId
     points: List["TripPoint"]
 
     def to_json(self) -> Dict[str, Any]:
-        return {"id": self.id, "points": [p.to_json() for p in self.points]}
+        return {"id": self.id.raw, "points": [p.to_json() for p in self.points]}
 
 
 @dataclass
