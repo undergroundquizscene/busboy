@@ -58,10 +58,17 @@ def poll_shelve_data(path: str) -> List[PollResult[m.StopPassageResponse]]:
 
 def trip_presences(pr: PollResult[m.StopPassageResponse]) -> PresenceData:
     all_trips = {PassageTrip.from_passage(p) for p in PollResult.all_passages(pr)}
-    return {
-        p: pr.map(lambda spr: m.StopPassageResponse.contains_trip(spr, p.id))
-        for p in all_trips
-    }
+    return {p: pr.map(lambda spr: spr_trip_time(spr, p.id)) for p in all_trips}
+
+
+def spr_trip_time(spr: m.StopPassageResponse, t: m.TripId) -> Optional[datetime]:
+    lmts = [p.last_modified for p in spr.passages if p.trip == t]
+    if lmts == []:
+        return None
+    elif len(lmts) == 1:
+        return lmts[0].time().isoformat()
+    else:
+        return Exception("Multiple times")
 
 
 def presence_display(
