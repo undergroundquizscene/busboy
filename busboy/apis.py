@@ -1,9 +1,13 @@
 import json
+from dataclasses import dataclass
+from datetime import time
 from functools import singledispatch
-from typing import Any, Dict, List, Optional, Set, Union
+from itertools import zip_longest
+from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union
 
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, ResultSet
+from bs4.element import Tag
 
 from busboy.constants import stop_passage_tdi
 from busboy.model import (
@@ -14,6 +18,8 @@ from busboy.model import (
     StopPassageResponse,
     TripId,
 )
+
+timetable_endpoint = "http://buseireann.ie/inner.php?id=406"
 
 
 def stops() -> List[Stop]:
@@ -84,8 +90,8 @@ def sp_trip(t: TripId) -> StopPassageResponse:
     return stop_passage({"trip": t.raw})
 
 
-def route_stops(r: int):
-    soup = make_soup(r)
+def route_stops(r: str):
+    soup = timetable(r)
     tables = get_tables(soup)
 
     def right_th(e):
@@ -98,26 +104,74 @@ def route_stops(r: int):
     return stop_names
 
 
-def get_tables(soup):
-    def right_id(i):
-        return i is not None and i.startswith("table-spreadsheet")
-
-    ts = soup.find_all(id=right_id)
-
-    def table_id(t):
-        return t.thead.tr.th.next_sibling.string.strip()
-
-    tables = [{"table": t, "route": table_id(t)} for t in ts]
-    return tables
-
-
-def make_soup(r: int):
-    stops_endpoint = "http://buseireann.ie/inner.php?id=406"
+def timetable(route_name: str) -> BeautifulSoup:
     html = requests.get(
-        stops_endpoint,
-        params={"form-view-timetables-route": r, "form-view-timetables-submit": 1},
+        timetable_endpoint,
+        params={
+            "form-view-timetables-route": route_name,
+            "form-view-timetables-submit": 1,
+        },
     ).text
     return BeautifulSoup(html, features="html.parser")
+
+
+@dataclass(frozen=True)
+class WebTimetable(object):
+    table: Tag
+
+    def routes(self) -> Set[str]:
+        return {
+            c.string
+            for c in self.table.thead.tr("th")
+            if c.string is not None and c.string != "Service Number"
+        }
+
+    def stop_names(self) -> List[str]:
+        return [r.th.string for r in self.table.tbody("tr")]
+
+    def columns(self) -> List[List[Tag]]:
+        rows = (r for r in self.table.tbody("tr"))
+        tds = (r("td") for r in rows)
+        return list(map(list, zip_longest(*tds)))
+
+    def _columns(self) -> Iterable[Iterable[Tag]]:
+        rows = (r for r in self.table.tbody("tr"))
+        tds = (r("td") for r in rows)
+        return zip_longest(*tds)
+
+    def times(self) -> List[List[Optional[time]]]:
+        return [[WebTimetable.cell_time(c) for c in cells] for cells in self.columns()]
+
+    def _times(self) -> Iterable[Iterable[Optional[time]]]:
+        return ((WebTimetable.cell_time(c) for c in cells) for cells in self._columns())
+
+    def stop_times(self) -> List[List[Tuple[str, Optional[time]]]]:
+        return [list(zip(self.stop_names(), c)) for c in self._times()]
+
+    def _stop_times(self) -> Iterable[Iterable[Tuple[str, Optional[time]]]]:
+        return (zip(self.stop_names(), c) for c in self._times())
+
+    @staticmethod
+    def cell_time(t: Tag) -> Optional[time]:
+        contents = "".join([s for s in t.stripped_strings])
+        try:
+            return time.fromisoformat(contents)
+        except ValueError:
+            return None
+
+
+def get_tables(soup: BeautifulSoup) -> List[WebTimetable]:
+    def right_id(i: str) -> bool:
+        return i is not None and i.startswith("table-spreadsheet")
+
+    return [WebTimetable(t) for t in soup.find_all(id=right_id)]
+
+
+def tables_by_route(rs: ResultSet) -> List[Dict[str, Any]]:
+    def table_id(t: Tag) -> str:
+        return t.thead.tr.th.next_sibling.next_sibling.string.strip()
+
+    return [{"table": t, "route": table_id(t)} for t in rs]
 
 
 def route_stops_to_file(stops):
