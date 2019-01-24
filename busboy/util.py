@@ -21,11 +21,6 @@ from typing import (
 import requests
 from bs4 import BeautifulSoup
 
-import busboy.constants as c
-import busboy.database as db
-import busboy.model as m
-import busboy.rest as api
-
 
 def route_stops(r: int):
     soup = make_soup(r)

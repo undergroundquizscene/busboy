@@ -15,7 +15,7 @@ from typing import (
     cast,
 )
 
-from busboy.geo import DegreeLatitude, DegreeLongitude
+from busboy.geo import DegreeLatitude, DegreeLongitude, LatLon, LonLat
 
 PassageNumber = NewType("PassageNumber", int)
 
@@ -114,6 +114,14 @@ class Stop(object):
         longitude = stop_json["lng"]
         number = stop_json["num"]
         return cls(id, name, latitude, longitude, number)
+
+    @property
+    def lon_lat(self) -> LonLat:
+        return (self.longitude, self.latitude)
+
+    @property
+    def lat_lon(self) -> LatLon:
+        return (self.latitude, self.longitude)
 
 
 class StopPassageResponse(NamedTuple):
@@ -351,3 +359,7 @@ B = TypeVar("B")
 
 def omap(f: Callable[[A], B], x: Optional[A]) -> Optional[B]:
     return None if x is None else f(x)
+
+
+def oget(x: Optional[A], a: A) -> A:
+    return a if x is None else x
