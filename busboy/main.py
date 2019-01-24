@@ -12,6 +12,7 @@ import requests
 from psycopg2.extras import Json
 
 import busboy.database as db
+from busboy.apis import routes_at_stop, stop_passage
 from busboy.constants import (
     church_cross_east,
     cycle_stops,
@@ -19,7 +20,6 @@ from busboy.constants import (
     stop_passage_tdi,
 )
 from busboy.model import StopId
-from busboy.apis import routes_at_stop, stop_passage
 
 
 def main(stops: Iterable[str] = cycle_stops) -> None:
