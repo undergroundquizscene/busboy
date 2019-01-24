@@ -19,7 +19,7 @@ from busboy.constants import (
     stop_passage_tdi,
 )
 from busboy.model import StopId
-from busboy.rest import routes_at_stop, stop_passage
+from busboy.apis import routes_at_stop, stop_passage
 
 
 def main(stops: Iterable[str] = cycle_stops) -> None:

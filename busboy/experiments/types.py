@@ -8,7 +8,7 @@ from typing import Any, Callable, Dict, Generic, Optional, Set, TypeVar
 import busboy.constants as c
 import busboy.database as db
 import busboy.model as m
-import busboy.rest as api
+import busboy.apis as api
 
 T = TypeVar("T")
 U = TypeVar("U")

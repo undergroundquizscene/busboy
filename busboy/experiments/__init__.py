@@ -22,7 +22,7 @@ from typing import (
 import busboy.constants as c
 import busboy.database as db
 import busboy.model as m
-import busboy.rest as api
+import busboy.apis as api
 from busboy.experiments.types import (
     PassageTrip,
     PollResult,
