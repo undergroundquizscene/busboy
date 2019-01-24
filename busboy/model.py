@@ -16,6 +16,7 @@ from typing import (
 )
 
 from busboy.geo import DegreeLatitude, DegreeLongitude, LatLon, LonLat
+from busboy.util import omap
 
 PassageNumber = NewType("PassageNumber", int)
 
@@ -351,15 +352,3 @@ class ArrivalTime(ArrivalDeparture):
 @dataclass(frozen=True)
 class DepartureTime(ArrivalDeparture):
     pass
-
-
-A = TypeVar("A")
-B = TypeVar("B")
-
-
-def omap(f: Callable[[A], B], x: Optional[A]) -> Optional[B]:
-    return None if x is None else f(x)
-
-
-def oget(x: Optional[A], a: A) -> A:
-    return a if x is None else x

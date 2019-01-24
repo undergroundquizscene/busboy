@@ -7,8 +7,7 @@ from bs4 import BeautifulSoup
 from bs4.element import Tag
 from shapely.geometry import Point
 
-from busboy.model import omap
-from busboy.util import swap
+from busboy.util import omap, swap
 
 DegreeLongitude = NewType("DegreeLongitude", float)
 DegreeLatitude = NewType("DegreeLatitude", float)
