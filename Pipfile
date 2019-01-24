@@ -20,6 +20,7 @@ ipyleaflet = "<=0.9.2"
 geopandas = "<=0.4.0"
 descartes = "<=1.1.0"
 rtree = "<=0.8.3"
+lxml = "*"
 
 [dev-packages]
 python-language-server = {extras = ["all"],version = "*"}
