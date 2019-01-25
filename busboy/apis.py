@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from datetime import time
 from functools import singledispatch
 from itertools import zip_longest
-from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Union
+from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Type, TypeVar, Union
 
 import requests
 from bs4 import BeautifulSoup, ResultSet
@@ -189,3 +189,14 @@ def route_stops_to_file(stops):
     f = open("resources/stoplists.json", "w")
     json.dump(stops, f, indent=2)
     f.close()
+
+
+@dataclass(frozen=True)
+class Timetable(object):
+    T = TypeVar("T", bound="Timetable")
+    routes: Set[Route]
+    times: Dict[Route, List[Tuple[Stop, time]]]
+
+    @classmethod
+    def from_web_timetable(cls: Type[T], wt: WebTimetable) -> T:
+        pass

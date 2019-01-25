@@ -1,6 +1,6 @@
 import json
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, time
 from typing import (
     Any,
     Callable,
@@ -9,6 +9,8 @@ from typing import (
     NamedTuple,
     NewType,
     Optional,
+    Set,
+    Tuple,
     Type,
     TypeVar,
     Union,
