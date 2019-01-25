@@ -30,6 +30,7 @@ from busboy.experiments.types import (
     StopCounts,
     StopTrips,
 )
+import busboy.util as u
 
 data_files = {
     "many-stops": "resources/experiments/many-stops",
@@ -182,23 +183,8 @@ def display_update_times(prs: List[PollResult[m.StopPassageResponse]]) -> None:
     uts = update_times(prs)
     for pt, dts in sorted(uts.items(), key=lambda t: len(t[1])):
         print(pt)
-        for dt in take(1, dts):
+        for dt in u.take(1, dts):
             print(f"- {dt.isoformat()}")
-        for last, dt in pairwise(dts):
+        for last, dt in u.pairwise(dts):
             print(f"- {dt.isoformat()} (+{(dt - last)})")
         print()
-
-
-T = TypeVar("T")
-
-
-def pairwise(xs: Iterable[T]) -> Iterable[Tuple[T, T]]:
-    "s -> (s0,s1), (s1,s2), (s2, s3), ..."
-    a, b = tee(xs)
-    next(b, None)
-    return zip(a, b)
-
-
-def take(n: int, iterable: Iterable[T]) -> List[T]:
-    "Return first n items of the iterable as a list"
-    return list(islice(iterable, n))
