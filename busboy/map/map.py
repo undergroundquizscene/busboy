@@ -1,8 +1,9 @@
-from typing import List
+from typing import List, Optional
 
 import geopy.distance as gpd
 import ipyleaflet as lf
 import pandas as pd
+import shapely.geometry as sg
 
 import busboy.database as db
 import busboy.model as m
@@ -42,6 +43,7 @@ class Map(object):
         self.active_markers = []
         self.markers = {}
         self.delete = delete
+        self.layers = []
 
     def create_markers(self, tps: db.TripPoints) -> None:
         if self.markers.get(tps.id) is None:
@@ -79,6 +81,22 @@ class Map(object):
             self.clear_markers()
         self.create_markers_df(df)
         self.add_markers(df.iloc[0].trip)
+
+    def add_marker(self, p: sg.Point, tooltip: str = "") -> None:
+        self.add_layer(lf.Marker(location=p.coords[0], draggable=False, title=tooltip))
+
+    def add_polygon(self, p: sg.Polygon) -> None:
+        self.add_layer(
+            lf.Polygon(locations=[list(p.exterior.coords), list(p.interiors)])
+        )
+
+    def add_layer(self, l: lf.Layer) -> None:
+        self.layers.append(l)
+        self.map.add_layer(l)
+
+    def clear_layers(self) -> None:
+        for l in self.layers:
+            self.map.remove_layer(l)
 
 
 def road_cover(df: pd.DataFrame, interval: float) -> pd.DataFrame:
