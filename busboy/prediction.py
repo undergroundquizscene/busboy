@@ -6,10 +6,12 @@ import geopandas as gpd
 import geopy.distance as gpd
 import numpy as np
 import pandas as pd
+import shapely.geometry as sg
 
 import busboy.constants as c
 import busboy.database as db
 import busboy.model as m
+import busboy.util as u
 
 Latitude = float
 Longitude = float
@@ -100,3 +102,16 @@ def angle_between(v1: DistanceVector, v2: DistanceVector) -> float:
     v1_u = unit_vector(v1)
     v2_u = unit_vector(v2)
     return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
+
+
+def stop_sections(stops: List[m.Stop], width: float) -> List[sg.Polygon]:
+    lss = [
+        sg.MultiPoint([s1.lat_lon, s2.lat_lon]).minimum_rotated_rectangle
+        for s1, s2 in u.pairwise(stops)
+    ]
+    return [
+        sg.MultiLineString(
+            [ls, ls.parallel_offset(width, "left"), ls.parallel_offset(width, "right")]
+        ).minimum_rotated_rectangle
+        for ls in lss
+    ]
