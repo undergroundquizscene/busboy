@@ -6,12 +6,18 @@ from dataclasses import dataclass
 class Map(object):
     center: t.Tuple[float, float]
     zoom: int
-    ...
+    def add_layer(self, l: Layer) -> None: ...
+    def remove_layer(self, l: Layer) -> None: ...
 
 
 @dataclass
-class Marker(object):
+class Marker(Layer):
     location: t.Tuple[float, float]
     draggable: bool
     title: str
-    ...
+
+class Layer(object): ...
+
+@dataclass
+class Polygon(Layer):
+    locations: t.List[t.Union[t.Tuple[float, float], t.List[t.Tuple[float, float]]]]
