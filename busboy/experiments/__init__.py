@@ -170,6 +170,7 @@ def route_ids(prs: List[PollResult[m.StopPassageResponse]]) -> Set[m.RouteId]:
         if p.route is not None
     }
 
+
 def updates(
     prs: List[PollResult[m.StopPassageResponse]]
 ) -> Dict[Optional[m.TripId], List[m.Passage]]:
@@ -177,7 +178,7 @@ def updates(
     for pr in prs:
         for p in PollResult.all_passages(pr):
             times.setdefault(p.trip, set()).add(p)
-    return {t: sorted(ts, key = lambda p: p.last_modified) for t, ts in times.items()}
+    return {t: sorted(ts, key=lambda p: p.last_modified) for t, ts in times.items()}
 
 
 def update_times(
@@ -202,7 +203,11 @@ def display_updates(prs: List[PollResult[m.StopPassageResponse]]) -> None:
     for pt, ps in sorted(uts.items(), key=lambda t: len(t[1])):
         print(pt)
         for p in u.take(1, ps):
-            print(f"- {p.last_modified.isoformat()} (category: {p.category}, status: {p.status})")
+            print(
+                f"- {p.last_modified.isoformat()} (category: {p.category}, status: {p.status})"
+            )
         for last, p in u.pairwise(ps):
-            print(f"- {p.last_modified.isoformat()} (+{(p.last_modified - last.last_modified)}) (category: {p.category}, status: {p.status})")
+            print(
+                f"- {p.last_modified.isoformat()} (+{(p.last_modified - last.last_modified)}) (category: {p.category}, status: {p.status})"
+            )
         print()

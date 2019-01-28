@@ -1,7 +1,19 @@
 import readline
 import rlcompleter
+from dataclasses import dataclass
 from itertools import islice, tee
-from typing import Callable, Iterable, List, Optional, Tuple, TypeVar
+from typing import (
+    Callable,
+    Generic,
+    Iterable,
+    Iterator,
+    List,
+    Optional,
+    Tuple,
+    TypeVar,
+    Union,
+    cast,
+)
 
 
 def pipenv_tab_completion() -> None:
@@ -10,6 +22,7 @@ def pipenv_tab_completion() -> None:
 
 A = TypeVar("A")
 B = TypeVar("B")
+E = TypeVar("E")
 
 
 def swap(t: Tuple[A, B]) -> Tuple[B, A]:
@@ -34,3 +47,81 @@ def pairwise(xs: Iterable[A]) -> Iterable[Tuple[A, A]]:
 def take(n: int, iterable: Iterable[A]) -> List[A]:
     "Return first n items of the iterable as a list"
     return list(islice(iterable, n))
+
+
+class Maybe(Generic[A]):
+    def __iter__(self) -> Iterator[A]:
+        if isinstance(self, Just):
+            return iter(self.value)
+        else:
+            return iter([])
+
+    def map(self, f: Callable[[A], B]) -> "Maybe[B]":
+        if isinstance(self, Just):
+            return Just(f(self.value))
+        else:
+            return cast(Maybe[B], self)
+
+    def bind(self, f: "Callable[[A], Maybe[B]]") -> "Maybe[B]":
+        if isinstance(self, Just):
+            return f(self.value)
+        else:
+            return cast(Maybe[B], self)
+
+    @staticmethod
+    def from_optional(x: Optional[A]) -> "Maybe[A]":
+        if x is None:
+            return Nothing()
+        else:
+            return Just(x)
+
+    def get(self, default: B) -> Union[A, B]:
+        if isinstance(self, Just):
+            return self.value
+        else:
+            return default
+
+    def optional(self) -> Optional[A]:
+        return self.get(None)
+
+
+@dataclass(frozen=True, order=True)
+class Just(Maybe[A]):
+    value: A
+
+
+@dataclass(frozen=True, order=True)
+class Nothing(Maybe[A]):
+    pass
+
+
+class Either(Generic[E, A]):
+    def map(self, f: Callable[[A], B]) -> "Either[E, B]":
+        if isinstance(self, Right):
+            return Right(f(self.value))
+        else:
+            return cast(Either[E, B], self)
+
+    def flatmap(self, f: "Callable[[A], Either[E, B]]") -> "Either[E, B]":
+        if isinstance(self, Right):
+            return f(self.value)
+        else:
+            return cast(Either[E, B], self)
+
+    def ap(self, f: "Either[E, Callable[[A], B]]") -> "Either[E, B]":
+        if isinstance(self, Right) and isinstance(f, Right):
+            return f.value(self.value)
+        elif isinstance(f, Left):
+            return f
+        else:
+            return cast(Either[E, B], self)
+
+
+@dataclass(frozen=True)
+class Right(Either[E, A]):
+    value: A
+
+
+@dataclass(frozen=True)
+class Left(Either[E, A]):
+    value: E
