@@ -1,12 +1,13 @@
 from collections import namedtuple
 from datetime import datetime
+from functools import partial
 from typing import Any, Dict, List, NewType, Tuple, cast
 
-import geopandas as gpd
 import geopy.distance as gpd
 import numpy as np
 import pandas as pd
 import shapely.geometry as sg
+from shapely.geometry import LineString
 
 import busboy.constants as c
 import busboy.database as db
@@ -104,9 +105,12 @@ def angle_between(v1: DistanceVector, v2: DistanceVector) -> float:
     return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
 
 
-def stop_sections(stops: List[m.Stop], width: float) -> List[sg.Polygon]:
+def route_sections(stops: List[m.Stop], width: float) -> List[sg.Polygon]:
     lss = [
-        sg.MultiPoint([s1.lat_lon, s2.lat_lon]).minimum_rotated_rectangle
+        cast(
+            LineString,
+            sg.MultiPoint([s1.lat_lon, s2.lat_lon]).minimum_rotated_rectangle,
+        )
         for s1, s2 in u.pairwise(stops)
     ]
     return [
@@ -115,3 +119,16 @@ def stop_sections(stops: List[m.Stop], width: float) -> List[sg.Polygon]:
         ).minimum_rotated_rectangle
         for ls in lss
     ]
+
+
+def assign_region(
+    stops: List[m.Stop], e: db.DatabaseEntry, region_width_degrees: float = 0.001
+) -> Tuple[db.DatabaseEntry, List[sg.Polygon]]:
+    rs = route_sections(stops, region_width_degrees)
+    return (e, [r for r in rs if r.contains(e.point)])
+
+
+def assign_regions(
+    es: List[db.DatabaseEntry], stops: List[m.Stop]
+) -> List[Tuple[db.DatabaseEntry, List[sg.Polygon]]]:
+    return [assign_region(stops, e) for e in es]

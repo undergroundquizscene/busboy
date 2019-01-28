@@ -10,6 +10,7 @@ import psycopg2 as pp2
 import shapely.geometry as sg
 from psycopg2.extensions import connection, cursor
 
+import busboy.geo as g
 import busboy.model as m
 from busboy.model import IncompleteRoute, Passage, Route, Stop, TripId
 
@@ -213,8 +214,8 @@ class DatabaseEntry(object):
     route: m.RouteId
     vehicle_id: m.VehicleId
     pattern_id: m.PatternId
-    latitude: float
-    longitude: float
+    latitude: g.DegreeLatitude
+    longitude: g.DegreeLongitude
     bearing: int
     is_accessible: bool
     has_bike_rack: bool
@@ -236,8 +237,8 @@ class DatabaseEntry(object):
             accuracy_level=cast(int, row[6]),
             status=cast(int, row[7]),
             is_accessible=cast(bool, row[8]),
-            latitude=cast(int, row[9]) / 3600000,
-            longitude=cast(int, row[10]) / 3600000,
+            latitude=g.DegreeLatitude(cast(int, row[9]) / 3600000),
+            longitude=g.DegreeLongitude(cast(int, row[10]) / 3600000),
             bearing=cast(int, row[11]),
             pattern_id=m.PatternId(cast(str, row[12])),
             has_bike_rack=cast(bool, row[13]),
@@ -246,6 +247,10 @@ class DatabaseEntry(object):
 
     def as_dict(self) -> Dict[str, Any]:
         return {f.name: self.__dict__[f.name] for f in fields(self)}
+
+    @property
+    def point(self) -> sg.Point:
+        return sg.Point(self.latitude, self.longitude)
 
 
 def trips_on_day(c: connection, d: date, r: Optional[str] = None) -> Set[TripId]:
