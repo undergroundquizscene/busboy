@@ -102,17 +102,19 @@ def trip_stops(
     pr: PollResult[m.StopPassageResponse]
 ) -> Dict[Optional[m.TripId], Set[m.StopId]]:
     """The stops trips were visible at in this poll result."""
-    d = {}
+    d: Dict[Optional[m.TripId], Set[m.StopId]] = {}
     for s, spr in pr.results.items():
         for p in spr.passages:
             d.setdefault(p.trip, set()).add(s)
     return d
 
 
-def route_cover(d: Dict[m.TripId, Set[m.StopId]]) -> Set[m.StopId]:
+def route_cover(d: Dict[m.TripId, Set[m.StopId]]) -> Optional[Set[m.StopId]]:
     """Supposed to find a (maybe minimal) set of stops that will get all the trips.
 
     Currently only finds the stops common to all trips, and there may be none.
+
+    Returns None if the dictionary is empty.
     """
     cover = None
     for t, s in d.items():
