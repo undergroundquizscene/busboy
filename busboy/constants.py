@@ -1,5 +1,5 @@
 from busboy.geo import DegreeLatitude, DegreeLongitude
-from busboy.model import Stop
+from busboy.model import Stop, StopId
 
 church_cross_east = "7338653551721429731"
 church_cross_west = "7338653551721416881"
@@ -8,14 +8,14 @@ parnell_place_city = "7338653551721428451"
 
 example_stops = {
     "cce": Stop(
-        "7338653551721429731",
+        StopId("7338653551721429731"),
         "Model Farm Rd (Church Cross East)",
         DegreeLatitude(51.89217),
         DegreeLongitude(-8.55789),
         244451,
     ),
     "ccw": Stop(
-        "7338653551721416881",
+        StopId("7338653551721416881"),
         "Model Farm Rd (Church Cross West)",
         DegreeLatitude(51.89221),
         DegreeLongitude(-8.55923),
