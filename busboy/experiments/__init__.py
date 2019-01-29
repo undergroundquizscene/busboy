@@ -184,11 +184,24 @@ def updates(
 def update_times(
     prs: List[PollResult[m.StopPassageResponse]]
 ) -> Dict[Optional[m.TripId], List[Optional[datetime]]]:
-    return {t: [p.last_modified for p in ps] for t, ps in updates(prs).items()}
+    return {t: sorted({p.last_modified for p in ps}) for t, ps in updates(prs).items()}
+
+def vehicle_updates(
+    prs: List[PollResult[m.StopPassageResponse]]
+) -> Dict[Optional[m.VehicleId], List[m.Passage]]:
+    times: Dict[Optional[m.VehicleId], Set[m.Passage]] = {}
+    for pr in prs:
+        for p in PollResult.all_passages(pr):
+            times.setdefault(p.vehicle, set()).add(p)
+    return {t: sorted(ts, key=lambda p: p.last_modified) for t, ts in times.items()}
+
+def vehicle_update_times(
+    prs: List[PollResult[m.StopPassageResponse]]
+) -> Dict[Optional[m.VehicleId], List[Optional[datetime]]]:
+    return {v: sorted({p.last_modified for p in ps}) for v, ps in vehicle_updates(prs).items()}
 
 
-def display_update_times(prs: List[PollResult[m.StopPassageResponse]]) -> None:
-    uts = update_times(prs)
+def display_update_times(uts: Dict[Any, List[Optional[datetime]]]) -> None:
     for pt, dts in sorted(uts.items(), key=lambda t: len(t[1])):
         print(pt)
         for dt in u.take(1, dts):
@@ -198,8 +211,7 @@ def display_update_times(prs: List[PollResult[m.StopPassageResponse]]) -> None:
         print()
 
 
-def display_updates(prs: List[PollResult[m.StopPassageResponse]]) -> None:
-    uts = updates(prs)
+def display_updates(uts: Dict[Any, List[m.Passage]]) -> None:
     for pt, ps in sorted(uts.items(), key=lambda t: len(t[1])):
         print(pt)
         for p in u.take(1, ps):
@@ -208,6 +220,6 @@ def display_updates(prs: List[PollResult[m.StopPassageResponse]]) -> None:
             )
         for last, p in u.pairwise(ps):
             print(
-                f"- {p.last_modified.isoformat()} (+{(p.last_modified - last.last_modified)}) (category: {p.category}, status: {p.status})"
+                f"- {p.last_modified.isoformat()} (+{(p.last_modified - last.last_modified)}) (category: {p.category}, status: {p.status}, position: ({p.latitude, p.longitude}))"
             )
         print()
