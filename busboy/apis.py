@@ -10,14 +10,7 @@ from bs4 import BeautifulSoup, ResultSet
 from bs4.element import Tag
 
 from busboy.constants import stop_passage_tdi
-from busboy.model import (
-    IncompleteRoute,
-    Route,
-    Stop,
-    StopId,
-    StopPassageResponse,
-    TripId,
-)
+from busboy.model import Route, Stop, StopId, StopPassageResponse, TripId
 
 timetable_endpoint = "http://buseireann.ie/inner.php?id=406"
 
@@ -30,7 +23,7 @@ def stops() -> List[Stop]:
     return [Stop.from_json(s) for k, s in j["bus_stops"].items()]
 
 
-def routes() -> List[Union[Route, IncompleteRoute]]:
+def routes() -> List[Route]:
     """Queries the API for the list of all routes."""
     j = from_var(requests.get("http://buseireann.ie/inc/proto/routes.php").text)
     return [Route.from_json(r) for k, r in j["routeTdi"].items() if k != "foo"]

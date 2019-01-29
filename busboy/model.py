@@ -18,7 +18,7 @@ from typing import (
 )
 
 from busboy.geo import DegreeLatitude, DegreeLongitude, LatLon, LonLat
-from busboy.util import omap
+from busboy.util import Just, Maybe, Nothing, omap
 
 PassageNumber = NewType("PassageNumber", int)
 
@@ -55,50 +55,36 @@ class PatternId(object):
 
 @dataclass(frozen=True)
 class Route(object):
-    id: str
-    name: str
-    direction: int
-    direction_name: str
-    number: int
-    category: int
+    id: Maybe[RouteId]
+    name: Maybe[str]
+    direction: Maybe[int]
+    direction_name: Maybe[str]
+    number: Maybe[int]
+    category: Maybe[int]
 
     @staticmethod
-    def from_json(route_json: Dict[str, Any]) -> Union["Route", "IncompleteRoute"]:
-        id = route_json.get("duid")
-        name = route_json.get("short_name")
-        direction = omap(
-            lambda j: j.get("direction"),
-            cast(Dict[str, Any], route_json.get("direction_extensions")),
+    def from_json(route_json: Dict[str, Any]) -> "Route":
+        id: Maybe[RouteId] = Maybe.of(route_json.get("duid")).map(RouteId)
+        name: Maybe[str] = Maybe.of(route_json.get("short_name"))
+        direction_extensions: Maybe[Dict[str, Any]] = Maybe.of(
+            route_json.get("direction_extensions")
         )
-        number = route_json.get("number")
-        category = route_json.get("category")
-        direction_name = omap(
-            lambda j: j.get("direction_name"),
-            cast(Dict[str, Any], route_json.get("direction_extensions")),
+        direction: Maybe[int] = direction_extensions.bind_optional(
+            lambda j: j.get("direction")
         )
-        if None in {id, name, direction, number, category, direction_name}:
-            return IncompleteRoute(
-                id, name, direction, number, category, direction_name
-            )
-        else:
-            return Route(  # type: ignore
-                id=id,
-                name=name,
-                direction=direction,
-                number=number,
-                category=category,
-                direction_name=direction_name,
-            )
-
-
-@dataclass(frozen=True)
-class IncompleteRoute(object):
-    id: Optional[str]
-    name: Optional[str]
-    direction: Optional[int]
-    direction_name: Optional[str]
-    number: Optional[int]
-    category: Optional[int]
+        number: Maybe[int] = Maybe.of(route_json.get("number"))
+        category: Maybe[int] = Maybe.of(route_json.get("category"))
+        direction_name: Maybe[str] = direction_extensions.bind_optional(
+            lambda j: j.get("direction_name")
+        )
+        return Route(
+            id=id,
+            name=name,
+            direction=direction,
+            number=number,
+            category=category,
+            direction_name=direction_name,
+        )
 
 
 @dataclass(frozen=True)

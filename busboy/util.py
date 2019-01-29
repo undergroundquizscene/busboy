@@ -1,6 +1,7 @@
 import readline
 import rlcompleter
 from dataclasses import dataclass
+from functools import partial
 from itertools import islice, tee
 from typing import (
     Callable,
@@ -22,6 +23,7 @@ def pipenv_tab_completion() -> None:
 
 A = TypeVar("A")
 B = TypeVar("B")
+C = TypeVar("C")
 E = TypeVar("E")
 
 
@@ -68,8 +70,17 @@ class Maybe(Generic[A]):
         else:
             return cast(Maybe[B], self)
 
+    def bind_optional(self, f: Callable[[A], Optional[B]]) -> "Maybe[B]":
+        return self.bind(lambda a: Maybe.of(f(a)))
+
+    def lift(self, f: Callable[[A, B], C], b: "Maybe[B]") -> "Maybe[C]":
+        return b.ap(self.map(lambda a: partial(f, a)))
+
+    def ap(self, f: "Maybe[Callable[[A], B]]") -> "Maybe[B]":
+        return self.bind(lambda a: f.map(lambda g: g(a)))
+
     @staticmethod
-    def from_optional(x: Optional[A]) -> "Maybe[A]":
+    def of(x: Optional[A]) -> "Maybe[A]":
         if x is None:
             return Nothing()
         else:

@@ -12,7 +12,8 @@ from psycopg2.extensions import connection, cursor
 
 import busboy.geo as g
 import busboy.model as m
-from busboy.model import IncompleteRoute, Passage, Route, Stop, TripId
+from busboy.model import Passage, Route, Stop, TripId
+from busboy.util import Maybe
 
 
 def default_connection() -> connection:
@@ -150,7 +151,7 @@ def test_database() -> None:
             )
 
 
-def routes() -> List[Union[Route, IncompleteRoute]]:
+def routes() -> List[Route]:
     j = json.load(
         open(
             "/Users/Noel/Developer/Projects/Busboy/resources/example-responses/routes.json"
@@ -160,14 +161,12 @@ def routes() -> List[Union[Route, IncompleteRoute]]:
     return [Route.from_json(r) for k, r in rs.items() if k != "foo"]
 
 
-def routes_by_name() -> Dict[str, Route]:
-    rs = routes()
-    return {r.name: r for r in rs}
+def routes_by_name() -> Dict[Maybe[str], Route]:
+    return {r.name: r for r in routes()}
 
 
-def routes_by_id() -> Dict[str, Route]:
-    rs = routes()
-    return {r.id: r for r in rs}
+def routes_by_id() -> Dict[Maybe[m.RouteId], Route]:
+    return {r.id: r for r in routes()}
 
 
 def trip_points(connection: connection, t: TripId) -> "TripPoints":
