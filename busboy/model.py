@@ -89,7 +89,7 @@ class Route(object):
 
 @dataclass(frozen=True)
 class Stop(object):
-    id: str
+    id: StopId
     name: str
     latitude: DegreeLatitude
     longitude: DegreeLongitude
@@ -97,7 +97,7 @@ class Stop(object):
 
     @classmethod
     def from_json(cls, stop_json: Dict[str, Any]) -> "Stop":
-        id = stop_json["duid"]
+        id = StopId(stop_json["duid"])
         name = stop_json["name"]
         latitude = stop_json["lat"]
         longitude = stop_json["lng"]
