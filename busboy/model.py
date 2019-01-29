@@ -276,8 +276,8 @@ class PassageTime(NamedTuple):
     @staticmethod
     def from_json(j: Dict[str, Any]) -> "PassageTime":
         return PassageTime(
-            arrival=omap(lambda j: ArrivalTime.from_my_json(j), j["arrival"]),
-            departure=omap(lambda j: DepartureTime.from_my_json(j), j["departure"]),
+            arrival=omap(lambda j: ArrivalTime.from_my_json(j), j.get("arrival")),
+            departure=omap(lambda j: DepartureTime.from_my_json(j), j.get("departure")),
         )
 
 
