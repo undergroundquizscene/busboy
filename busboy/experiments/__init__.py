@@ -186,6 +186,7 @@ def update_times(
 ) -> Dict[Optional[m.TripId], List[Optional[datetime]]]:
     return {t: sorted({p.last_modified for p in ps}) for t, ps in updates(prs).items()}
 
+
 def vehicle_updates(
     prs: List[PollResult[m.StopPassageResponse]]
 ) -> Dict[Optional[m.VehicleId], List[m.Passage]]:
@@ -195,10 +196,14 @@ def vehicle_updates(
             times.setdefault(p.vehicle, set()).add(p)
     return {t: sorted(ts, key=lambda p: p.last_modified) for t, ts in times.items()}
 
+
 def vehicle_update_times(
     prs: List[PollResult[m.StopPassageResponse]]
 ) -> Dict[Optional[m.VehicleId], List[Optional[datetime]]]:
-    return {v: sorted({p.last_modified for p in ps}) for v, ps in vehicle_updates(prs).items()}
+    return {
+        v: sorted({p.last_modified for p in ps})
+        for v, ps in vehicle_updates(prs).items()
+    }
 
 
 def display_update_times(uts: Dict[Any, List[Optional[datetime]]]) -> None:
