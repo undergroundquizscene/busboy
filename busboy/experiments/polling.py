@@ -34,12 +34,8 @@ def poll_stops(stops: List[m.StopId]) -> Dict[m.StopId, m.StopPassageResponse]:
         sprs = {}
         for f in cf.as_completed(future_to_stop):
             s = future_to_stop[f]
-            try:
-                spr = f.result()
-            except Exception as e:
-                print(f"Got exception {e} on stop {s}")
-            else:
-                sprs[s] = spr
+            spr = f.result()
+            sprs[s] = spr
         return sprs
 
 
