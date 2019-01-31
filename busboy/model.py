@@ -20,8 +20,6 @@ from typing import (
 from busboy.geo import DegreeLatitude, DegreeLongitude, LatLon, LonLat
 from busboy.util import Just, Maybe, Nothing, omap
 
-PassageNumber = NewType("PassageNumber", int)
-
 
 @dataclass(frozen=True)
 class StopId(object):
