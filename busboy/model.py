@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass
 from datetime import datetime, time
+from functools import partial
 from typing import (
     Any,
     Callable,
@@ -100,27 +101,39 @@ class Stop(object):
         return (self.latitude, self.longitude)
 
 
+MyArrivalDepartureJson = Dict[str, Union[str, int, None]]
+MyPassageTimeJson = Dict[str, Optional[MyArrivalDepartureJson]]
+MyPassageJson = Dict[str, Union[str, float, None, MyPassageTimeJson]]
+MyStopPassageResponseJson = Dict[str, List[MyPassageJson]]
+
+DirectionTextJson = Dict[str, Union[str, int]]
+ArrivalDepartureJson = Dict[str, Union[str, int, DirectionTextJson]]
+DuidJson = Dict[str, Union[str, int]]
+PassageJson = Dict[str, Union[str, int, bool, DuidJson, ArrivalDepartureJson]]
+StopPassageResponseJson = Dict[str, Union[int, PassageJson]]
+
+
 @dataclass(frozen=True)
 class StopPassageResponse(object):
     passages: List[Passage]
 
-    @classmethod
-    def from_json(cls, json: Dict[str, Any]) -> StopPassageResponse:
+    @staticmethod
+    def from_json(json: Dict[str, Any]) -> StopPassageResponse:
         ps = [
             Passage.from_json(pj)
             for k, pj in json["stopPassageTdi"].items()
             if k != "foo"
         ]
-        return cls(ps)
+        return StopPassageResponse(ps)
 
     @staticmethod
-    def from_my_json(j: Dict[str, Any]) -> StopPassageResponse:
+    def from_my_json(j: MyStopPassageResponseJson) -> StopPassageResponse:
         return StopPassageResponse([Passage.from_my_json(p) for p in j["passages"]])
 
-    def to_json(self) -> Dict[str, Any]:
+    def to_json(self) -> MyStopPassageResponseJson:
         return {"passages": [p.to_json() for p in self.passages]}
 
-    def trip_ids(self) -> List[Optional[TripId]]:
+    def trip_ids(self) -> List[Maybe[TripId]]:
         return [p.trip for p in self.passages]
 
     def filter(self, f: Callable[["Passage"], bool]) -> StopPassageResponse:
@@ -130,142 +143,147 @@ class StopPassageResponse(object):
         return t in {p.trip for p in self.passages}
 
 
-class Passage(NamedTuple):
-    id: Optional[PassageId]
-    last_modified: Optional[datetime]
-    trip: Optional[TripId]
-    route: Optional[RouteId]
-    vehicle: Optional[VehicleId]
-    stop: Optional[StopId]
-    pattern: Optional[PatternId]
-    latitude: Optional[float]
-    longitude: Optional[float]
-    bearing: Optional[int]
-    time: Optional[PassageTime]
-    is_deleted: Optional[bool]
-    is_accessible: Optional[bool]
-    has_bike_rack: Optional[bool]
-    direction: Optional[int]
-    congestion: Optional[int]
-    accuracy: Optional[int]
-    status: Optional[int]
-    category: Optional[int]
+@dataclass(frozen=True)
+class Passage(object):
+    id: Maybe[PassageId]
+    last_modified: Maybe[datetime]
+    trip: Maybe[TripId]
+    route: Maybe[RouteId]
+    vehicle: Maybe[VehicleId]
+    stop: Maybe[StopId]
+    pattern: Maybe[PatternId]
+    latitude: Maybe[float]
+    longitude: Maybe[float]
+    bearing: Maybe[int]
+    time: PassageTime
+    is_deleted: Maybe[bool]
+    is_accessible: Maybe[bool]
+    has_bike_rack: Maybe[bool]
+    direction: Maybe[int]
+    congestion: Maybe[int]
+    accuracy: Maybe[int]
+    status: Maybe[int]
+    category: Maybe[int]
 
-    @classmethod
-    def from_json(cls, json: Dict[str, Any]) -> Passage:
+    @staticmethod
+    def from_json(json: Dict[str, Any]) -> Passage:
         time = PassageTime.from_json(json)
         try:
-            return cls(
-                id=PassageId(cast(str, json.get("duid"))),
-                last_modified=omap(
-                    lambda j: datetime.utcfromtimestamp(j / 1000),
-                    cast(Optional[int], json.get("last_modification_timestamp")),
+            return Passage(
+                id=Maybe.of(json.get("duid")).map(PassageId),
+                last_modified=Maybe.of(json.get("last_modification_timestamp")).map(
+                    lambda j: datetime.utcfromtimestamp(j / 1000)
                 ),
-                is_deleted=cast(bool, json.get("is_deleted")),
-                route=omap(
-                    lambda j: j.get("duid"),
-                    cast(Dict[str, Any], json.get("route_duid")),
-                ),
-                direction=cast(int, json.get("direction")),
-                trip=omap(
-                    lambda j: TripId(cast(str, j.get("duid"))),
-                    cast(Dict[str, Any], json.get("trip_duid")),
-                ),
-                stop=omap(
-                    lambda j: StopId(cast(str, j.get("duid"))),
-                    cast(Dict[str, Any], json.get("stop_point_duid")),
-                ),
-                vehicle=omap(
-                    lambda j: VehicleId(cast(str, j.get("duid"))),
-                    cast(Dict[str, Any], json.get("vehicle_duid")),
-                ),
+                is_deleted=Maybe.of(json.get("is_deleted")),
+                route=Maybe.of(json.get("route_duid"))
+                .bind(lambda j: Maybe.of(cast(Dict[str, str], j).get("duid")))
+                .map(RouteId),
+                direction=Maybe.of(json.get("direction")),
+                trip=Maybe.of(json.get("trip_duid"))
+                .map(lambda j: cast(Dict[str, str], j))
+                .bind(lambda j: Maybe.of(j.get("duid")))
+                .map(TripId),
+                stop=Maybe.of(json.get("stop_point_duid"))
+                .map(lambda j: cast(Dict[str, str], j))
+                .bind(lambda j: Maybe.of(j.get("duid")))
+                .map(StopId),
+                vehicle=Maybe.of(json.get("vehicle_duid"))
+                .map(lambda j: cast(Dict[str, str], j))
+                .bind(lambda j: Maybe.of(j.get("duid")))
+                .map(VehicleId),
                 time=time,
-                congestion=cast(int, json.get("congestion_level")),
-                accuracy=cast(int, json.get("accuracy_level")),
-                status=cast(int, json.get("status")),
-                is_accessible=omap(bool, json.get("is_accessible")),
-                latitude=cast(int, json.get("latitude")),
-                longitude=cast(int, json.get("longitude")),
-                bearing=cast(int, json.get("bearing")),
-                pattern=omap(
-                    lambda j: PatternId(cast(str, j.get("duid"))),
-                    cast(Dict[str, Any], json.get("pattern_duid")),
-                ),
-                has_bike_rack=omap(bool, json.get("has_bike_rack")),
-                category=cast(int, json.get("category")),
+                congestion=Maybe.of(json.get("congestion_level")),
+                accuracy=Maybe.of(json.get("accuracy_level")),
+                status=Maybe.of(json.get("status")),
+                is_accessible=Maybe.of(json.get("is_accessible")).map(bool),
+                latitude=Maybe.of(json.get("latitude")),
+                longitude=Maybe.of(json.get("longitude")),
+                bearing=Maybe.of(json.get("bearing")),
+                pattern=Maybe.of(json.get("pattern_duid"))
+                .bind(lambda j: Maybe.of(cast(Dict[str, str], j).get("duid")))
+                .map(PatternId),
+                has_bike_rack=Maybe.of(json.get("has_bike_rack")).map(bool),
+                category=Maybe.of(json.get("category")),
             )
         except KeyError as e:
             raise Exception(json, e)
 
-    def to_json(self) -> Dict[str, Any]:
+    def to_json(self) -> MyPassageJson:
         return {
-            "id": omap(lambda i: i.raw, self.id),
-            "last_modified": omap(lambda dt: dt.isoformat(), self.last_modified),
-            "trip_id": omap(lambda i: i.raw, self.trip),
-            "route_id": omap(lambda i: i.raw, self.route),
-            "vehicle_id": omap(lambda i: i.raw, self.vehicle),
-            "stop_id": omap(lambda i: i.raw, self.stop),
-            "pattern_id": omap(lambda i: i.raw, self.pattern),
-            "latitude": self.latitude,
-            "longitude": self.longitude,
-            "bearing": self.bearing,
-            "time": omap(lambda t: t.to_json(), self.time),
-            "is_deleted": self.is_deleted,
-            "is_accessible": self.is_accessible,
-            "has_bike_rack": self.has_bike_rack,
-            "direction": self.direction,
-            "congestion": self.congestion,
-            "accuracy": self.accuracy,
-            "status": self.status,
-            "category": self.category,
+            "id": self.id.map(lambda i: i.raw).optional(),
+            "last_modified": self.last_modified.map(
+                lambda dt: dt.isoformat()
+            ).optional(),
+            "trip_id": self.trip.map(lambda i: i.raw).optional(),
+            "route_id": self.route.map(lambda i: i.raw).optional(),
+            "vehicle_id": self.vehicle.map(lambda i: i.raw).optional(),
+            "stop_id": self.stop.map(lambda i: i.raw).optional(),
+            "pattern_id": self.pattern.map(lambda i: i.raw).optional(),
+            "latitude": self.latitude.optional(),
+            "longitude": self.longitude.optional(),
+            "bearing": self.bearing.optional(),
+            "time": self.time.to_json(),
+            "is_deleted": self.is_deleted.optional(),
+            "is_accessible": self.is_accessible.optional(),
+            "has_bike_rack": self.has_bike_rack.optional(),
+            "direction": self.direction.optional(),
+            "congestion": self.congestion.optional(),
+            "accuracy": self.accuracy.optional(),
+            "status": self.status.optional(),
+            "category": self.category.optional(),
         }
 
     @staticmethod
-    def from_my_json(j: Dict[str, Any]) -> Passage:
+    def from_my_json(j: MyPassageJson) -> Passage:
         return Passage(
-            id=omap(lambda i: StopId(i), j["id"]),
-            last_modified=omap(lambda s: datetime.fromisoformat(s), j["last_modified"]),
-            trip=omap(lambda s: TripId(s), j["trip_id"]),
-            route=omap(lambda s: RouteId(s), j["route_id"]),
-            vehicle=omap(lambda s: VehicleId(s), j["vehicle_id"]),
-            stop=omap(lambda s: StopId(s), j["stop_id"]),
-            pattern=omap(lambda s: PatternId(s), j["pattern_id"]),
-            latitude=j["latitude"],
-            longitude=j["longitude"],
-            bearing=j["bearing"],
-            time=omap(lambda t: PassageTime.from_json(t), j["time"]),
-            is_deleted=j["is_deleted"],
-            is_accessible=j["is_accessible"],
-            has_bike_rack=j["has_bike_rack"],
-            direction=j["direction"],
-            congestion=j["congestion"],
-            accuracy=j["accuracy"],
-            status=j["status"],
-            category=j["category"],
+            id=Just(PassageId(cast(str, j["id"]))),
+            last_modified=Just(datetime.fromisoformat(cast(str, j["last_modified"]))),
+            trip=Just(TripId(cast(str, j["trip_id"]))),
+            route=Just(RouteId(cast(str, j["route_id"]))),
+            vehicle=Just(VehicleId(cast(str, j["vehicle_id"]))),
+            stop=Just(StopId(cast(str, j["stop_id"]))),
+            pattern=Just(PatternId(cast(str, j["pattern_id"]))),
+            latitude=Just(cast(int, j["latitude"])),
+            longitude=Just(cast(int, j["longitude"])),
+            bearing=Just(cast(int, j["bearing"])),
+            time=PassageTime.from_json(cast(MyPassageTimeJson, j["time"])),
+            is_deleted=Just(cast(bool, j["is_deleted"])),
+            is_accessible=Just(cast(bool, j["is_accessible"])),
+            has_bike_rack=Just(cast(bool, j["has_bike_rack"])),
+            direction=Just(cast(int, j["direction"])),
+            congestion=Just(cast(int, j["congestion"])),
+            accuracy=Just(cast(int, j["accuracy"])),
+            status=Just(cast(int, j["status"])),
+            category=Just(cast(int, j["category"])),
         )
 
 
-class PassageTime(NamedTuple):
-    arrival: Optional[ArrivalTime]
-    departure: Optional[DepartureTime]
+@dataclass(frozen=True)
+class PassageTime(object):
+    arrival: Maybe[ArrivalTime]
+    departure: Maybe[DepartureTime]
 
-    @classmethod
-    def from_json(cls, json: Dict[str, Any]) -> PassageTime:
-        a = omap(ArrivalTime.from_json, json.get("arrival_data"))
-        d = omap(DepartureTime.from_json, json.get("departure_data"))
-        return cls(arrival=a, departure=d)
+    @staticmethod
+    def from_json(json: Dict[str, Any]) -> PassageTime:
+        a = Maybe.of(json.get("arrival_data")).map(ArrivalTime.from_json)
+        d = Maybe.of(json.get("departure_data")).map(DepartureTime.from_json)
+        return PassageTime(arrival=a, departure=d)
 
-    def to_json(self) -> Dict[str, Any]:
+    def to_json(self) -> MyPassageTimeJson:
         return {
-            "arrival": omap(lambda a: a.to_json(), self.arrival),
-            "departure": omap(lambda d: d.to_json(), self.departure),
+            "arrival": self.arrival.map(lambda a: a.to_json()).optional(),
+            "departure": self.departure.map(lambda d: d.to_json()).optional(),
         }
 
     @staticmethod
-    def from_json(j: Dict[str, Any]) -> PassageTime:
+    def from_my_json(j: MyPassageTimeJson) -> PassageTime:
         return PassageTime(
-            arrival=omap(lambda j: ArrivalTime.from_my_json(j), j.get("arrival")),
-            departure=omap(lambda j: DepartureTime.from_my_json(j), j.get("departure")),
+            arrival=Maybe.of(j.get("arrival")).map(
+                lambda j: ArrivalTime.from_my_json(j)
+            ),
+            departure=Maybe.of(j.get("departure")).map(
+                lambda j: DepartureTime.from_my_json(j)
+            ),
         )
 
 
@@ -273,50 +291,51 @@ class PassageTime(NamedTuple):
 class ArrivalDeparture(object):
     T = TypeVar("T", bound="ArrivalDeparture")
 
-    scheduled: Optional[datetime]
-    actual_or_prediction: Optional[datetime]
-    service_mode: Optional[int]
-    type: Optional[int]
-    direction_text: Optional[str]
+    scheduled: Maybe[datetime]
+    actual_or_prediction: Maybe[datetime]
+    service_mode: Maybe[int]
+    type: Maybe[int]
+    direction_text: Maybe[str]
 
     @classmethod
-    def from_json(cls: Any, json: Dict[str, Any]) -> Any:
+    def from_json(cls: Type[T], json: Dict[str, Any]) -> T:
         return cls(
-            scheduled=omap(
-                datetime.utcfromtimestamp, json.get("scheduled_passage_time_utc")
+            scheduled=Maybe.of(json.get("scheduled_passage_time_utc")).map(
+                datetime.utcfromtimestamp
             ),
-            actual_or_prediction=omap(
-                datetime.utcfromtimestamp, json.get("actual_passage_time_utc")
+            actual_or_prediction=Maybe.of(json.get("actual_passage_time_utc")).map(
+                datetime.utcfromtimestamp
             ),
-            service_mode=json.get("service_mode"),
-            type=json.get("type"),
-            direction_text=omap(
-                lambda j: j.get("defaultValue"),
-                cast(Dict[str, Any], json.get("multilingual_direction_text")),
+            service_mode=Maybe.of(json.get("service_mode")),
+            type=Maybe.of(json.get("type")),
+            direction_text=Maybe.of(json.get("multilingual_direction_text")).bind(
+                lambda j: Maybe.of(cast(Dict[str, str], j).get("defaultValue"))
             ),
         )
 
-    def to_json(self) -> Dict[str, Any]:
+    def to_json(self) -> MyArrivalDepartureJson:
         return {
-            "scheduled": omap(lambda dt: dt.isoformat(), self.scheduled),
-            "actual_or_prediction": omap(
-                lambda dt: dt.isoformat(), self.actual_or_prediction
-            ),
-            "service_mode": self.service_mode,
-            "type": self.type,
-            "direction_text": self.direction_text,
+            "scheduled": self.scheduled.map(lambda dt: dt.isoformat()).optional(),
+            "actual_or_prediction": self.actual_or_prediction.map(
+                lambda dt: dt.isoformat()
+            ).optional(),
+            "service_mode": self.service_mode.optional(),
+            "type": self.type.optional(),
+            "direction_text": self.direction_text.optional(),
         }
 
     @classmethod
-    def from_my_json(cls: Type[T], j: Dict[str, Any]) -> T:
+    def from_my_json(cls: Type[T], j: MyArrivalDepartureJson) -> T:
         return cls(
-            scheduled=omap(lambda s: datetime.fromisoformat(s), j["scheduled"]),
-            actual_or_prediction=omap(
-                lambda s: datetime.fromisoformat(s), j["actual_or_prediction"]
+            scheduled=Maybe.of(j.get("scheduled")).map(
+                lambda s: datetime.fromisoformat(cast(str, s))
             ),
-            service_mode=j["service_mode"],
-            type=j["type"],
-            direction_text=j["direction_text"],
+            actual_or_prediction=Maybe.of(j.get("actual_or_prediction")).map(
+                lambda s: datetime.fromisoformat(cast(str, s))
+            ),
+            service_mode=Maybe.of(cast(Optional[int], j.get("service_mode"))),
+            type=Maybe.of(cast(Optional[int], j.get("type"))),
+            direction_text=Maybe.of(cast(Optional[str], j.get("direction_text"))),
         )
 
 
