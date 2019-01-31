@@ -46,7 +46,7 @@ def poll_stops(
 
 
 def check_many_stops() -> None:
-    ids = {m.StopId(s.id) for s in c.stops_on_220 if s is not None}
+    ids = {s.id for s in c.stops_on_220 if s is not None}
     result = poll_continuously(list(ids), 10)
     print(f"Storing result, which has length {len(result)}")
     with shelve.open("resources/experiments/many-stops") as db:
