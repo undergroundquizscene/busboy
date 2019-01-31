@@ -16,6 +16,7 @@ from typing import (
     Union,
     cast,
 )
+from __future__ import annotations
 
 from busboy.geo import DegreeLatitude, DegreeLongitude, LatLon, LonLat
 from busboy.util import Just, Maybe, Nothing, omap
@@ -61,7 +62,7 @@ class Route(object):
     category: int
 
     @staticmethod
-    def from_json(route_json: Dict[str, Any]) -> "Route":
+    def from_json(route_json: Dict[str, Any]) -> Route:
         return Route(
             id=RouteId(route_json["duid"]),
             name=route_json["short_name"],
@@ -81,7 +82,7 @@ class Stop(object):
     number: int
 
     @classmethod
-    def from_json(cls, stop_json: Dict[str, Any]) -> "Stop":
+    def from_json(cls, stop_json: Dict[str, Any]) -> Stop:
         id = StopId(stop_json["duid"])
         name = stop_json["name"]
         latitude = stop_json["lat"]
@@ -98,11 +99,12 @@ class Stop(object):
         return (self.latitude, self.longitude)
 
 
-class StopPassageResponse(NamedTuple):
-    passages: List["Passage"]
+@dataclass(frozen=True)
+class StopPassageResponse(object):
+    passages: List[Passage]
 
     @classmethod
-    def from_json(cls, json: Dict[str, Any]) -> "StopPassageResponse":
+    def from_json(cls, json: Dict[str, Any]) -> StopPassageResponse:
         ps = [
             Passage.from_json(pj)
             for k, pj in json["stopPassageTdi"].items()
@@ -111,7 +113,7 @@ class StopPassageResponse(NamedTuple):
         return cls(ps)
 
     @staticmethod
-    def from_my_json(j: Dict[str, Any]) -> "StopPassageResponse":
+    def from_my_json(j: Dict[str, Any]) -> StopPassageResponse:
         return StopPassageResponse([Passage.from_my_json(p) for p in j["passages"]])
 
     def to_json(self) -> Dict[str, Any]:
@@ -120,7 +122,7 @@ class StopPassageResponse(NamedTuple):
     def trip_ids(self) -> List[Optional[TripId]]:
         return [p.trip for p in self.passages]
 
-    def filter(self, f: Callable[["Passage"], bool]) -> "StopPassageResponse":
+    def filter(self, f: Callable[["Passage"], bool]) -> StopPassageResponse:
         return StopPassageResponse([p for p in self.passages if f(p)])
 
     def contains_trip(self, t: Optional[TripId]) -> bool:
@@ -138,7 +140,7 @@ class Passage(NamedTuple):
     latitude: Optional[float]
     longitude: Optional[float]
     bearing: Optional[int]
-    time: "Optional[PassageTime]"
+    time: Optional[PassageTime]
     is_deleted: Optional[bool]
     is_accessible: Optional[bool]
     has_bike_rack: Optional[bool]
@@ -149,7 +151,7 @@ class Passage(NamedTuple):
     category: Optional[int]
 
     @classmethod
-    def from_json(cls, json: Dict[str, Any]) -> "Passage":
+    def from_json(cls, json: Dict[str, Any]) -> Passage:
         time = PassageTime.from_json(json)
         try:
             return cls(
@@ -218,7 +220,7 @@ class Passage(NamedTuple):
         }
 
     @staticmethod
-    def from_my_json(j: Dict[str, Any]) -> "Passage":
+    def from_my_json(j: Dict[str, Any]) -> Passage:
         return Passage(
             id=omap(lambda i: StopId(i), j["id"]),
             last_modified=omap(lambda s: datetime.fromisoformat(s), j["last_modified"]),
@@ -243,11 +245,11 @@ class Passage(NamedTuple):
 
 
 class PassageTime(NamedTuple):
-    arrival: Optional["ArrivalTime"]
-    departure: Optional["DepartureTime"]
+    arrival: Optional[ArrivalTime]
+    departure: Optional[DepartureTime]
 
     @classmethod
-    def from_json(cls, json: Dict[str, Any]) -> "PassageTime":
+    def from_json(cls, json: Dict[str, Any]) -> PassageTime:
         a = omap(ArrivalTime.from_json, json.get("arrival_data"))
         d = omap(DepartureTime.from_json, json.get("departure_data"))
         return cls(arrival=a, departure=d)
@@ -259,7 +261,7 @@ class PassageTime(NamedTuple):
         }
 
     @staticmethod
-    def from_json(j: Dict[str, Any]) -> "PassageTime":
+    def from_json(j: Dict[str, Any]) -> PassageTime:
         return PassageTime(
             arrival=omap(lambda j: ArrivalTime.from_my_json(j), j.get("arrival")),
             departure=omap(lambda j: DepartureTime.from_my_json(j), j.get("departure")),

@@ -3,6 +3,7 @@ import json
 from dataclasses import InitVar, dataclass, field, fields
 from datetime import date, datetime
 from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
+from __future__ import annotations
 
 import geopandas as gpd
 import pandas as pd
@@ -28,7 +29,7 @@ def entries(
     connection: Optional[connection] = None,
     r: Optional[m.RouteId] = None,
     d: Optional[date] = None,
-) -> List["DatabaseEntry"]:
+) -> List[DatabaseEntry]:
     """Gets entries from the database, optionally filtering by route or date."""
     if connection is None:
         connection = default_connection()
@@ -170,7 +171,7 @@ def routes_by_id() -> Dict[m.RouteId, Route]:
     return {r.id: r for r in routes()}
 
 
-def trip_points(connection: connection, t: TripId) -> "TripPoints":
+def trip_points(connection: connection, t: TripId) -> TripPoints:
     with connection as co:
         with co.cursor() as cu:
             cu.execute(
@@ -187,7 +188,7 @@ def trip_points(connection: connection, t: TripId) -> "TripPoints":
 @dataclass
 class TripPoints(object):
     id: m.TripId
-    points: List["TripPoint"]
+    points: List[TripPoint]
 
     def to_json(self) -> Dict[str, Any]:
         return {"id": self.id.raw, "points": [p.to_json() for p in self.points]}
@@ -226,7 +227,7 @@ class DatabaseEntry(object):
     category: int
 
     @staticmethod
-    def from_db_row(row: Tuple[Any, ...]) -> "DatabaseEntry":
+    def from_db_row(row: Tuple[Any, ...]) -> DatabaseEntry:
         return DatabaseEntry(
             route=m.RouteId(cast(str, row[0])),
             direction=cast(int, row[1]),
