@@ -97,6 +97,12 @@ class Maybe(Generic[A]):
     def optional(self) -> Optional[A]:
         return self.get(None)
 
+    def either(self, default: E) -> Either[E, A]:
+        if isinstance(self, Just):
+            return Right(self.value)
+        else:
+            return Left(default)
+
 
 @dataclass(frozen=True, order=True)
 class Just(Maybe[A]):

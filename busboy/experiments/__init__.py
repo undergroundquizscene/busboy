@@ -32,6 +32,7 @@ from busboy.experiments.types import (
     StopTrips,
 )
 from busboy.geo import LatLon, LonLat
+from busboy.util import Either, Left, Maybe, Nothing, Right
 
 data_files = {
     "many-stops": "resources/experiments/many-stops",
@@ -63,14 +64,14 @@ def trip_presences(pr: PollResult[m.StopPassageResponse]) -> PresenceData:
     return {p: pr.map(lambda spr: spr_trip_time(spr, p.id)) for p in all_trips}
 
 
-def spr_trip_time(spr: m.StopPassageResponse, t: m.TripId) -> Optional[datetime]:
+def spr_trip_time(spr: m.StopPassageResponse, t: m.TripId) -> Either[str, datetime]:
     lmts = [p.last_modified for p in spr.passages if p.trip == t]
     if lmts == []:
-        return None
+        return Left("No times for trip")
     elif len(lmts) == 1:
-        return lmts[0].time().isoformat()
+        return lmts[0].either("No time in only passage")
     else:
-        return Exception("Multiple times")
+        return Left("Multiple times for trip")
 
 
 def presence_display(
