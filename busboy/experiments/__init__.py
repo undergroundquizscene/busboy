@@ -19,10 +19,11 @@ from typing import (
     TypeVar,
 )
 
+import busboy.apis as api
 import busboy.constants as c
 import busboy.database as db
 import busboy.model as m
-import busboy.apis as api
+import busboy.util as u
 from busboy.experiments.types import (
     PassageTrip,
     PollResult,
@@ -30,7 +31,7 @@ from busboy.experiments.types import (
     StopCounts,
     StopTrips,
 )
-import busboy.util as u
+from busboy.geo import LatLon, LonLat
 
 data_files = {
     "many-stops": "resources/experiments/many-stops",
@@ -224,3 +225,15 @@ def display_updates(uts: Dict[Any, List[Tuple[datetime, m.Passage]]]) -> None:
                 f"- (request time: {t}, mod time: {p.last_modified.isoformat()}, trip: {p.trip.raw}, position: {(p.latitude, p.longitude)})"
             )
         print()
+
+
+def positions(
+    uts: Dict[m.VehicleId, List[Tuple[datetime, m.Passage]]]
+) -> Dict[m.VehicleId, List[Tuple[datetime, LatLon]]]:
+    d = {}
+    for v, ps in sorted(uts.items(), key=lambda t: len(t[1])):
+        for (t, p) in ps:
+            d.setdefault(v, []).append(
+                (t, (p.latitude / 3_600_000, p.longitude / 3_600_000))
+            )
+    return d
