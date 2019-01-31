@@ -1,9 +1,10 @@
+from __future__ import annotations
+
 import datetime as dt
 import json
 from dataclasses import InitVar, dataclass, field, fields
 from datetime import date, datetime
 from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
-from __future__ import annotations
 
 import geopandas as gpd
 import pandas as pd

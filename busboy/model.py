@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 from dataclasses import dataclass
 from datetime import datetime, time
@@ -16,7 +18,6 @@ from typing import (
     Union,
     cast,
 )
-from __future__ import annotations
 
 from busboy.geo import DegreeLatitude, DegreeLongitude, LatLon, LonLat
 from busboy.util import Just, Maybe, Nothing, omap
