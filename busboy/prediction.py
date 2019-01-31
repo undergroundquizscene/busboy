@@ -1,7 +1,8 @@
 from collections import namedtuple
+from dataclasses import dataclass
 from datetime import datetime
 from functools import partial
-from typing import Any, Dict, List, NewType, Tuple, cast
+from typing import Any, Dict, Iterable, List, NewType, Tuple, cast
 
 import geopy.distance as gpd
 import numpy as np
@@ -13,6 +14,7 @@ import busboy.constants as c
 import busboy.database as db
 import busboy.model as m
 import busboy.util as u
+from busboy.util import Just, Maybe, Nothing
 
 Latitude = float
 Longitude = float
@@ -105,30 +107,65 @@ def angle_between(v1: DistanceVector, v2: DistanceVector) -> float:
     return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
 
 
-def route_sections(stops: List[m.Stop], width: float) -> List[sg.Polygon]:
+@dataclass(frozen=True)
+class RouteSection(object):
+    s1: m.Stop
+    s2: m.Stop
+    polygon: sg.Polygon
+
+
+def route_sections(stops: List[m.Stop], width: float) -> List[RouteSection]:
     lss = [
-        cast(
-            LineString,
-            sg.MultiPoint([s1.lat_lon, s2.lat_lon]).minimum_rotated_rectangle,
+        (
+            s1,
+            s2,
+            cast(
+                LineString,
+                sg.MultiPoint([s1.lat_lon, s2.lat_lon]).minimum_rotated_rectangle,
+            ),
         )
         for s1, s2 in u.pairwise(stops)
     ]
     return [
-        sg.MultiLineString(
-            [ls, ls.parallel_offset(width, "left"), ls.parallel_offset(width, "right")]
-        ).minimum_rotated_rectangle
-        for ls in lss
+        RouteSection(
+            s1,
+            s2,
+            sg.MultiLineString(
+                [
+                    ls,
+                    ls.parallel_offset(width, "left"),
+                    ls.parallel_offset(width, "right"),
+                ]
+            ).minimum_rotated_rectangle,
+        )
+        for s1, s2, ls in lss
     ]
 
 
 def assign_region(
-    stops: List[m.Stop], e: db.DatabaseEntry, region_width_degrees: float = 0.001
-) -> Tuple[db.DatabaseEntry, List[sg.Polygon]]:
-    rs = route_sections(stops, region_width_degrees)
-    return (e, [r for r in rs if r.contains(e.point)])
+    sections: List[RouteSection], stops: List[m.Stop], e: db.DatabaseEntry
+) -> Tuple[db.DatabaseEntry, List[RouteSection]]:
+    return (e, [s for s in sections if s.polygon.contains(e.point)])
 
 
 def assign_regions(
     es: List[db.DatabaseEntry], stops: List[m.Stop]
-) -> List[Tuple[db.DatabaseEntry, List[sg.Polygon]]]:
-    return [assign_region(stops, e) for e in es]
+) -> List[Tuple[db.DatabaseEntry, List[RouteSection]]]:
+    rs = route_sections(stops, 0.001)
+    return [assign_region(rs, stops, e) for e in es]
+
+
+def most_recent_stops(
+    ts: Iterable[Tuple[db.DatabaseEntry, List[RouteSection]]]
+) -> Iterable[Tuple[db.DatabaseEntry, Maybe[m.Stop]]]:
+    def choose_stop(rs: List[RouteSection]) -> Maybe[m.Stop]:
+        if len(rs) == 0:
+            return Nothing()
+        elif len(rs) == 1:
+            return Just(rs[0].s1)
+        elif rs[0].s2 == rs[1].s1:
+            return Just(rs[0].s2)
+        else:
+            return Just(rs[0].s1)
+
+    return ((e, choose_stop(rs)) for e, rs in ts)
