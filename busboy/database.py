@@ -162,11 +162,11 @@ def routes() -> List[Route]:
     return [Route.from_json(r) for k, r in rs.items() if k != "foo"]
 
 
-def routes_by_name() -> Dict[Maybe[str], Route]:
+def routes_by_name() -> Dict[str, Route]:
     return {r.name: r for r in routes()}
 
 
-def routes_by_id() -> Dict[Maybe[m.RouteId], Route]:
+def routes_by_id() -> Dict[m.RouteId, Route]:
     return {r.id: r for r in routes()}
 
 

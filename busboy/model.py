@@ -55,35 +55,22 @@ class PatternId(object):
 
 @dataclass(frozen=True)
 class Route(object):
-    id: Maybe[RouteId]
-    name: Maybe[str]
-    direction: Maybe[int]
-    direction_name: Maybe[str]
-    number: Maybe[int]
-    category: Maybe[int]
+    id: RouteId
+    name: str
+    direction: int
+    direction_name: str
+    number: int
+    category: int
 
     @staticmethod
     def from_json(route_json: Dict[str, Any]) -> "Route":
-        id: Maybe[RouteId] = Maybe.of(route_json.get("duid")).map(RouteId)
-        name: Maybe[str] = Maybe.of(route_json.get("short_name"))
-        direction_extensions: Maybe[Dict[str, Any]] = Maybe.of(
-            route_json.get("direction_extensions")
-        )
-        direction: Maybe[int] = direction_extensions.bind_optional(
-            lambda j: j.get("direction")
-        )
-        number: Maybe[int] = Maybe.of(route_json.get("number"))
-        category: Maybe[int] = Maybe.of(route_json.get("category"))
-        direction_name: Maybe[str] = direction_extensions.bind_optional(
-            lambda j: j.get("direction_name")
-        )
         return Route(
-            id=id,
-            name=name,
-            direction=direction,
-            number=number,
-            category=category,
-            direction_name=direction_name,
+            id=RouteId(route_json["duid"]),
+            name=route_json["short_name"],
+            direction=route_json["direction_extensions"]["direction"],
+            number=route_json["number"],
+            category=route_json["category"],
+            direction_name=route_json["direction_extensions"]["direction_name"],
         )
 
 
