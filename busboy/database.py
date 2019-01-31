@@ -29,6 +29,7 @@ def entries(
     r: Optional[m.RouteId] = None,
     d: Optional[date] = None,
 ) -> List["DatabaseEntry"]:
+    """Gets entries from the database, optionally filtering by route or date."""
     if connection is None:
         connection = default_connection()
     with connection.cursor() as cu:
