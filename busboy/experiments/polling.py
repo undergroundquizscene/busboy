@@ -2,7 +2,7 @@ import concurrent.futures as cf
 import datetime as dt
 import shelve
 from threading import Event
-from typing import Dict, List
+from typing import Dict, List, Union
 
 import busboy.apis as api
 import busboy.constants as c
@@ -28,14 +28,20 @@ def poll_continuously(
     return prs
 
 
-def poll_stops(stops: List[m.StopId]) -> Dict[m.StopId, m.StopPassageResponse]:
+def poll_stops(
+    stops: List[m.StopId]
+) -> Dict[m.StopId, Union[m.StopPassageResponse, Exception]]:
     with cf.ThreadPoolExecutor(max_workers=60) as executor:
         future_to_stop = {executor.submit(api.stop_passage, s): s for s in stops}
-        sprs = {}
+        sprs: Dict[m.StopId, Union[m.StopPassageResponse, Exception]] = {}
         for f in cf.as_completed(future_to_stop):
             s = future_to_stop[f]
-            spr = f.result()
-            sprs[s] = spr
+            try:
+                spr = f.result()
+            except Exception as e:
+                sprs[s] = e
+            else:
+                sprs[s] = spr
         return sprs
 
 
