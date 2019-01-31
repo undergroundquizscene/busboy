@@ -189,12 +189,12 @@ def update_times(
 
 def vehicle_updates(
     prs: List[PollResult[m.StopPassageResponse]]
-) -> Dict[Optional[m.VehicleId], List[m.Passage]]:
-    times: Dict[Optional[m.VehicleId], Set[m.Passage]] = {}
+) -> Dict[Optional[m.VehicleId], List[Tuple[datetime, m.Passage]]]:
+    times: Dict[Optional[m.VehicleId], Set[Tuple[datetime, m.Passage]]] = {}
     for pr in prs:
         for p in PollResult.all_passages(pr):
-            times.setdefault(p.vehicle, set()).add(p)
-    return {t: sorted(ts, key=lambda p: p.last_modified) for t, ts in times.items()}
+            times.setdefault(p.vehicle, set()).add((pr.time, p))
+    return {t: sorted(ts, key=lambda t: t[0]) for t, ts in times.items()}
 
 
 def vehicle_update_times(
@@ -216,15 +216,11 @@ def display_update_times(uts: Dict[Any, List[Optional[datetime]]]) -> None:
         print()
 
 
-def display_updates(uts: Dict[Any, List[m.Passage]]) -> None:
+def display_updates(uts: Dict[Any, List[Tuple[datetime, m.Passage]]]) -> None:
     for pt, ps in sorted(uts.items(), key=lambda t: len(t[1])):
         print(pt)
-        for p in u.take(1, ps):
+        for (t, p) in ps:
             print(
-                f"- {p.last_modified.isoformat()} (category: {p.category}, status: {p.status})"
-            )
-        for last, p in u.pairwise(ps):
-            print(
-                f"- {p.last_modified.isoformat()} (+{(p.last_modified - last.last_modified)}) (category: {p.category}, status: {p.status}, position: ({p.latitude, p.longitude}))"
+                f"- (request time: {t}, mod time: {p.last_modified.isoformat()}, trip: {p.trip.raw}, position: {(p.latitude, p.longitude)})"
             )
         print()
