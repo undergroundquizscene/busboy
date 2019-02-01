@@ -61,7 +61,7 @@ def drop(n: int, iterable: Iterable[A]) -> Iterable[A]:
 class Maybe(Generic[A]):
     def __iter__(self) -> Iterator[A]:
         if isinstance(self, Just):
-            return iter(self.value)
+            return iter([self.value])
         else:
             return iter([])
 
