@@ -102,9 +102,9 @@ def presence_display(
 
 def trip_stops(
     pr: PollResult[m.StopPassageResponse]
-) -> Dict[Optional[m.TripId], Set[m.StopId]]:
+) -> Dict[Maybe[m.TripId], Set[m.StopId]]:
     """The stops trips were visible at in this poll result."""
-    d: Dict[Optional[m.TripId], Set[m.StopId]] = {}
+    d: Dict[Maybe[m.TripId], Set[m.StopId]] = {}
     for s, spr in pr.results.items():
         for p in spr.passages:
             d.setdefault(p.trip, set()).add(s)
