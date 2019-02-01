@@ -9,6 +9,7 @@ import busboy.apis as api
 import busboy.constants as c
 import busboy.database as db
 import busboy.model as m
+from busboy.util import Either
 
 T = TypeVar("T")
 U = TypeVar("U")
@@ -30,10 +31,10 @@ class PollResult(Generic[T]):
         )
 
     @staticmethod
-    def to_json(pr: "PollResult[m.StopPassageResponse]") -> Dict[str, Any]:
+    def to_json(pr: PollResult[Either[Exception, m.StopPassageResponse]]) -> Dict[str, Any]:
         return {
             "time": pr.time.isoformat(),
-            "results": {s.raw: spr.to_json() for s, spr in pr.results.items()},
+            "results": {s.raw: e.map(lambda spr: spr.to_json()).value for s, e in pr.results.items()},
         }
 
     @staticmethod
