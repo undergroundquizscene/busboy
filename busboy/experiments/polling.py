@@ -54,3 +54,16 @@ def check_many_stops() -> None:
     print(f"Storing result, which has length {len(result)}")
     with shelve.open("resources/experiments/many-stops") as db:
         db["data"] = result
+
+
+def two_second() -> List[PollResult[Either[Exception, m.StopPassageResponse]]]:
+    stops = [c.example_stops["gpc"], c.example_stops["ovens"]]
+    return poll_continuously([s.id for s in stops], 2)
+
+
+def store_two_second(filename: str) -> None:
+    prs = two_second()
+    print(f"Storing {len(prs)} poll results in {filename}…")
+    j = [PollResult.to_json(pr) for pr in prs]
+    with open(filename, "w") as f:
+        json.dump(j, f, indent=4)
