@@ -31,10 +31,15 @@ class PollResult(Generic[T]):
         )
 
     @staticmethod
-    def to_json(pr: PollResult[Either[Exception, m.StopPassageResponse]]) -> Dict[str, Any]:
+    def to_json(
+        pr: PollResult[Either[Exception, m.StopPassageResponse]]
+    ) -> Dict[str, Any]:
         return {
             "time": pr.time.isoformat(),
-            "results": {s.raw: e.map(lambda spr: spr.to_json()).value for s, e in pr.results.items()},
+            "results": {
+                s.raw: e.map(lambda spr: spr.to_json()).value
+                for s, e in pr.results.items()
+            },
         }
 
     @staticmethod
