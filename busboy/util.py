@@ -53,6 +53,11 @@ def take(n: int, iterable: Iterable[A]) -> List[A]:
     return list(islice(iterable, n))
 
 
+def drop(n: int, iterable: Iterable[A]) -> Iterable[A]:
+    """Skip the first n items of an iterable"""
+    return islice(iterable, n, None)
+
+
 class Maybe(Generic[A]):
     def __iter__(self) -> Iterator[A]:
         if isinstance(self, Just):
