@@ -21,6 +21,20 @@ example_stops = {
         DegreeLongitude(-8.55923),
         231601,
     ),
+    "gpc": Stop(
+        StopId("7338653551722184421"),
+        "Grand Parade (Caseys Furniture)",
+        DegreeLatitude(51.89668),
+        DegreeLongitude(-8.47456),
+        241481,
+    ),
+    "ovens": Stop(
+        StopId("7338653551721431071"),
+        "Ovens (EMC Terminus)",
+        DegreeLatitude(51.87687),
+        DegreeLongitude(-8.63864),
+        245791,
+    ),
 }
 
 stops_by_route = {
