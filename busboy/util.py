@@ -4,7 +4,7 @@ import readline
 import rlcompleter
 from dataclasses import dataclass
 from functools import partial
-from itertools import islice, tee
+from itertools import filterfalse, islice, tee
 from typing import (
     Callable,
     Generic,
@@ -48,14 +48,47 @@ def pairwise(xs: Iterable[A]) -> Iterable[Tuple[A, A]]:
     return zip(a, b)
 
 
-def take(n: int, iterable: Iterable[A]) -> List[A]:
-    "Return first n items of the iterable as a list"
-    return list(islice(iterable, n))
+def take(n: int, iterable: Iterable[A]) -> Iterable[A]:
+    """Take the first n items of an iterable"""
+    return islice(iterable, n)
+
+
+def index(n: int, xs: Iterable[A]) -> Maybe[A]:
+    """Get the item at index n in the iterable, if it exists."""
+    return first(drop(n, xs))
+
+
+def first(xs: Iterable[A]) -> Maybe[A]:
+    """Take the first item of an iterable, if it exists."""
+    try:
+        return Just(list(take(1, xs))[0])
+    except IndexError:
+        return Nothing()
 
 
 def drop(n: int, iterable: Iterable[A]) -> Iterable[A]:
     """Skip the first n items of an iterable"""
     return islice(iterable, n, None)
+
+
+def unique(
+    iterable: Iterable[A], key: Optional[Callable[[A], B]] = None
+) -> Iterable[A]:
+    "List unique elements, preserving order. Remember all elements ever seen."
+    # unique_everseen('AAAABBBCCDAABBB') --> A B C D
+    # unique_everseen('ABBCcAD', str.lower) --> A B C D
+    seen = set()
+    seen_add = seen.add
+    if key is None:
+        for element in filterfalse(seen.__contains__, iterable):
+            seen_add(element)
+            yield element
+    else:
+        for element in iterable:
+            k = key(element)
+            if k not in seen:
+                seen_add(k)
+                yield element
 
 
 class Maybe(Generic[A]):
