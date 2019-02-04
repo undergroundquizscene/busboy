@@ -9,6 +9,8 @@ from shapely.geometry import Point
 
 from busboy.util import omap, swap
 
+RawLatitude = NewType("RawLatitude", int)
+RawLongitude = NewType("RawLongitude", int)
 DegreeLongitude = NewType("DegreeLongitude", float)
 DegreeLatitude = NewType("DegreeLatitude", float)
 LonLat = Tuple[DegreeLongitude, DegreeLatitude]

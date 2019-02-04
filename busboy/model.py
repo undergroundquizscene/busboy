@@ -8,6 +8,7 @@ from typing import (
     Any,
     Callable,
     Dict,
+    Iterable,
     List,
     NamedTuple,
     NewType,
@@ -20,7 +21,14 @@ from typing import (
     cast,
 )
 
-from busboy.geo import DegreeLatitude, DegreeLongitude, LatLon, LonLat
+from busboy.geo import (
+    DegreeLatitude,
+    DegreeLongitude,
+    LatLon,
+    LonLat,
+    RawLatitude,
+    RawLongitude,
+)
 from busboy.util import Just, Maybe, Nothing, omap
 
 
@@ -115,20 +123,22 @@ StopPassageResponseJson = Dict[str, Union[int, PassageJson]]
 
 @dataclass(frozen=True)
 class StopPassageResponse(object):
-    passages: List[Passage]
+    passages: Tuple[Passage, ...]
 
     @staticmethod
     def from_json(json: Dict[str, Any]) -> StopPassageResponse:
-        ps = [
+        ps = tuple(
             Passage.from_json(pj)
             for k, pj in json["stopPassageTdi"].items()
             if k != "foo"
-        ]
+        )
         return StopPassageResponse(ps)
 
     @staticmethod
     def from_my_json(j: MyStopPassageResponseJson) -> StopPassageResponse:
-        return StopPassageResponse([Passage.from_my_json(p) for p in j["passages"]])
+        return StopPassageResponse(
+            tuple(Passage.from_my_json(p) for p in j["passages"])
+        )
 
     def to_json(self) -> MyStopPassageResponseJson:
         return {"passages": [p.to_json() for p in self.passages]}
@@ -137,10 +147,13 @@ class StopPassageResponse(object):
         return [p.trip for p in self.passages]
 
     def filter(self, f: Callable[["Passage"], bool]) -> StopPassageResponse:
-        return StopPassageResponse([p for p in self.passages if f(p)])
+        return StopPassageResponse(tuple(p for p in self.passages if f(p)))
 
     def contains_trip(self, t: Optional[TripId]) -> bool:
         return t in {p.trip for p in self.passages}
+
+    def positions(self) -> Iterable[Maybe[Tuple[DegreeLatitude, DegreeLongitude]]]:
+        return (p.position.value for p in self.passages if isinstance(p.position, Just))
 
 
 @dataclass(frozen=True)
@@ -152,8 +165,8 @@ class Passage(object):
     vehicle: Maybe[VehicleId]
     stop: Maybe[StopId]
     pattern: Maybe[PatternId]
-    latitude: Maybe[float]
-    longitude: Maybe[float]
+    latitude: Maybe[RawLatitude]
+    longitude: Maybe[RawLongitude]
     bearing: Maybe[int]
     time: PassageTime
     is_deleted: Maybe[bool]
@@ -164,6 +177,17 @@ class Passage(object):
     accuracy: Maybe[int]
     status: Maybe[int]
     category: Maybe[int]
+
+    @property
+    def position(self) -> Maybe[Tuple[DegreeLatitude, DegreeLongitude]]:
+        return self.latitude.bind(
+            lambda lat: self.longitude.map(
+                lambda lon: (
+                    DegreeLatitude(lat / 3_600_000),
+                    DegreeLongitude(lon / 3_600_000),
+                )
+            )
+        )
 
     @staticmethod
     def from_json(json: Dict[str, Any]) -> Passage:

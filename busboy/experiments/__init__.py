@@ -31,8 +31,15 @@ from busboy.experiments.types import (
     StopCounts,
     StopTrips,
 )
-from busboy.geo import LatLon, LonLat
-from busboy.util import Either, Left, Maybe, Nothing, Right
+from busboy.geo import (
+    DegreeLatitude,
+    DegreeLongitude,
+    LatLon,
+    LonLat,
+    RawLatitude,
+    RawLongitude,
+)
+from busboy.util import Either, Left, Maybe, Nothing, Right, unique
 
 data_files = {
     "many-stops": "resources/experiments/many-stops",
@@ -163,7 +170,7 @@ def convert_shelf_to_json(path: str) -> None:
         json.dump([pr.to_json(pr) for pr in prs], f, indent=2)
 
 
-def route_ids(prs: List[PollResult[m.StopPassageResponse]]) -> Set[m.RouteId]:
+def route_ids(prs: List[PollResult[m.StopPassageResponse]]) -> Set[Maybe[m.RouteId]]:
     return {
         p.route
         for pr in prs
@@ -175,8 +182,8 @@ def route_ids(prs: List[PollResult[m.StopPassageResponse]]) -> Set[m.RouteId]:
 
 def updates(
     prs: List[PollResult[m.StopPassageResponse]]
-) -> Dict[Optional[m.TripId], List[m.Passage]]:
-    times: Dict[Optional[m.TripId], Set[m.Passage]] = {}
+) -> Dict[Maybe[m.TripId], List[m.Passage]]:
+    times: Dict[Maybe[m.TripId], Set[m.Passage]] = {}
     for pr in prs:
         for p in PollResult.all_passages(pr):
             times.setdefault(p.trip, set()).add(p)
@@ -185,27 +192,23 @@ def updates(
 
 def update_times(
     prs: List[PollResult[m.StopPassageResponse]]
-) -> Dict[Optional[m.TripId], List[Optional[datetime]]]:
+) -> Dict[Maybe[m.TripId], List[Maybe[datetime]]]:
     return {t: sorted({p.last_modified for p in ps}) for t, ps in updates(prs).items()}
 
 
 def vehicle_updates(
     prs: List[PollResult[m.StopPassageResponse]]
-) -> Dict[Optional[m.VehicleId], List[Tuple[datetime, m.Passage]]]:
-    times: Dict[Optional[m.VehicleId], Set[Tuple[datetime, m.Passage]]] = {}
+) -> Dict[Maybe[m.VehicleId], Dict[datetime, Dict[m.StopId, List[m.Passage]]]]:
+    times: Dict[
+        Maybe[m.VehicleId], Dict[datetime, Dict[m.StopId, List[m.Passage]]]
+    ] = {}
     for pr in prs:
-        for p in PollResult.all_passages(pr):
-            times.setdefault(p.vehicle, set()).add((pr.time, p))
-    return {t: sorted(ts, key=lambda t: t[0]) for t, ts in times.items()}
-
-
-def vehicle_update_times(
-    prs: List[PollResult[m.StopPassageResponse]]
-) -> Dict[Optional[m.VehicleId], List[Optional[datetime]]]:
-    return {
-        v: sorted({p.last_modified for p in ps})
-        for v, ps in vehicle_updates(prs).items()
-    }
+        for s, spr in pr.results.items():
+            for p in spr.passages:
+                times.setdefault(p.vehicle, {}).setdefault(pr.time, {}).setdefault(
+                    s, []
+                ).append(p)
+    return times
 
 
 def display_update_times(uts: Dict[Any, List[Optional[datetime]]]) -> None:
@@ -228,6 +231,46 @@ def display_updates(uts: Dict[Any, List[Tuple[datetime, m.Passage]]]) -> None:
         print()
 
 
+def display_vehicle_updates(
+    updates: Dict[Maybe[m.VehicleId], Dict[datetime, Dict[m.StopId, List[m.Passage]]]]
+) -> None:
+    for v, ts in updates.items():
+        print(v.optional())
+        for t, stops in ts.items():
+            for s, ps in stops.items():
+                for p in ps:
+                    print(
+                        " " * 4
+                        + ", ".join(
+                            [
+                                f"- time: {t.time().isoformat()}",
+                                f"mod: {p.last_modified.map(lambda t: t.time().isoformat()).optional()}",
+                                f"trip: {p.trip.optional().raw}",
+                                f"position: {p.position.optional()}",
+                            ]
+                        )
+                    )
+        print()
+
+
+def display_nones(
+    updates: Dict[Maybe[m.VehicleId], Dict[datetime, Dict[m.StopId, List[m.Passage]]]]
+) -> None:
+    display_vehicle_updates({k: v for k, v in updates.items() if k == Nothing()})
+
+
+def display_poll_results(prs: List[PollResult[m.StopPassageResponse]]) -> None:
+    for pr in prs:
+        print(pr.time.time().isoformat())
+        for s, spr in pr.results.items():
+            print(" " * 2 + str(s))
+            for p in spr.passages:
+                print(
+                    " " * 4
+                    + f"- (vehicle: {p.vehicle.optional()}, mod: {p.last_modified.map(lambda t: t.isoformat()).optional()}, position: {p.position.optional()})"
+                )
+
+
 def positions(
     uts: Dict[m.VehicleId, List[Tuple[datetime, m.Passage]]]
 ) -> Dict[m.VehicleId, List[Tuple[datetime, LatLon]]]:
@@ -235,6 +278,46 @@ def positions(
     for v, ps in sorted(uts.items(), key=lambda t: len(t[1])):
         for (t, p) in ps:
             d.setdefault(v, []).append(
-                (t, (p.latitude / 3_600_000, p.longitude / 3_600_000))
+                (
+                    t,
+                    (
+                        p.latitude.map(lambda l: l / 3_600_000),
+                        p.longitude.map(lambda l: l / 3_600_000),
+                    ),
+                )
             )
     return d
+
+
+def old_unique_results(
+    prs: List[PollResult[m.StopPassageResponse]]
+) -> Dict[m.StopId, Set[Tuple[datetime, m.StopPassageResponse]]]:
+    d: Dict[m.StopId, Set[Tuple[datetime, m.StopPassageResponse]]] = {}
+    for pr in prs:
+        for s, spr in pr.results.items():
+            t = (pr.time, dataclasses.replace(spr, passages=tuple(spr.passages)))
+            d.setdefault(s, set()).add(t)
+    return d
+
+
+def results(
+    prs: Iterable[PollResult[m.StopPassageResponse]]
+) -> Iterable[Tuple[datetime, m.StopId, m.StopPassageResponse]]:
+    for pr in prs:
+        for s, spr in pr.results.items():
+            yield (pr.time, s, spr)
+
+
+def unique_results(
+    rs: Iterable[Tuple[datetime, m.StopId, m.StopPassageResponse]]
+) -> Iterable[Tuple[datetime, m.StopId, m.StopPassageResponse]]:
+    return unique(rs, key=lambda t: (t[1], t[2]))
+
+
+def unique_positions(
+    prs: Iterable[PollResult[m.StopPassageResponse]]
+) -> Iterable[
+    Tuple[datetime, m.StopId, Iterable[Maybe[Tuple[DegreeLatitude, DegreeLongitude]]]]
+]:
+    for (dt, s, spr) in unique_results(results(prs)):
+        yield (dt, s, spr.positions())

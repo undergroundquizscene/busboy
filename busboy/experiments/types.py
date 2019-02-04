@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import concurrent.futures as cf
 import dataclasses
 import datetime as dt
@@ -9,13 +11,13 @@ import busboy.apis as api
 import busboy.constants as c
 import busboy.database as db
 import busboy.model as m
-from busboy.util import Either
+from busboy.util import Either, Maybe
 
 T = TypeVar("T")
 U = TypeVar("U")
 
 
-@dataclass
+@dataclass(frozen=True)
 class PollResult(Generic[T]):
     time: dt.datetime
     results: Dict[m.StopId, T]
@@ -53,16 +55,16 @@ class PollResult(Generic[T]):
 
     @staticmethod
     def trips(
-        pr: "PollResult[m.StopPassageResponse]"
-    ) -> "PollResult[Set[Optional[m.TripId]]]":
+        pr: PollResult[m.StopPassageResponse]
+    ) -> PollResult[Set[Maybe[m.TripId]]]:
         return pr.map(lambda spr: {p.trip for p in spr.passages})
 
     @staticmethod
-    def all_trips(pr: "PollResult[m.StopPassageResponse]") -> Set[Optional[m.TripId]]:
+    def all_trips(pr: PollResult[m.StopPassageResponse]) -> Set[Maybe[m.TripId]]:
         return {t for ts in PollResult.trips(pr).results.values() for t in ts}
 
     @staticmethod
-    def all_passages(pr: "PollResult[m.StopPassageResponse]") -> Set[m.Passage]:
+    def all_passages(pr: PollResult[m.StopPassageResponse]) -> Set[m.Passage]:
         return {p for _, spr in pr.results.items() for p in spr.passages}
 
 
