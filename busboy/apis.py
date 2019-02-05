@@ -5,7 +5,19 @@ from dataclasses import dataclass
 from datetime import time
 from functools import singledispatch
 from itertools import chain, islice, zip_longest
-from typing import Any, Dict, Iterable, List, Optional, Set, Tuple, Type, TypeVar, Union
+from typing import (
+    Any,
+    Dict,
+    Iterable,
+    List,
+    Optional,
+    Set,
+    Tuple,
+    Type,
+    TypeVar,
+    Union,
+    overload,
+)
 
 import requests
 from bs4 import BeautifulSoup, ResultSet
@@ -71,7 +83,7 @@ def routes_at_stops() -> Dict[str, Set[str]]:
 
 
 @singledispatch
-def stop_passage(params: Dict[str, Union[StopId, TripId]]) -> StopPassageResponse:
+def stop_passage(params: Dict[str, str]) -> StopPassageResponse:
     j = requests.get(stop_passage_tdi, params=params).json()
     return StopPassageResponse.from_json(j)
 
