@@ -1,7 +1,7 @@
 from typing import Sequence, Union
 
-from shapely.geometry.linestring import LineString
 from shapely.geometry.base import BaseMultipartGeometry
+from shapely.geometry.linestring import LineString
 
 Linelike = Union[Sequence[Sequence[float]], LineString]
 

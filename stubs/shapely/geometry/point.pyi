@@ -1,5 +1,6 @@
+from typing import Optional, Sequence, overload
+
 from shapely.geometry.base import BaseGeometry
-from typing import overload, Sequence, Optional
 
 class Point(BaseGeometry):
     @overload

@@ -1,4 +1,5 @@
-from typing import Any, Union, Dict, Iterable, List
+from typing import Any, Dict, Iterable, List, Union
+
 from numpy import ndarray
 
 class DataFrame(object):

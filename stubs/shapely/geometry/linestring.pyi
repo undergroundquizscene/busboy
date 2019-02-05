@@ -1,8 +1,8 @@
 from enum import Enum
 from typing import Union
 
-from shapely.geometry.multilinestring import MultiLineString
 from shapely.geometry.base import BaseGeometry
+from shapely.geometry.multilinestring import MultiLineString
 
 class LineString(BaseGeometry):
     def parallel_offset(

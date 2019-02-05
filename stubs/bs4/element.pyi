@@ -1,4 +1,5 @@
-from typing import Union, List, Any, Optional, Dict, Callable
+from typing import Any, Callable, Dict, List, Optional, Union
+
 from bs4 import ResultSet
 
 class Tag(object):

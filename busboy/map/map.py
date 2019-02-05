@@ -1,12 +1,12 @@
 from typing import List, Optional
 
 import geopy.distance as gpd
-import ipyleaflet as lf
 import pandas as pd
 import shapely.geometry as sg
 
 import busboy.database as db
 import busboy.model as m
+import ipyleaflet as lf
 
 
 def default_map() -> lf.Map:

@@ -1,5 +1,6 @@
-from pandas import Series, DataFrame
-from typing import Dict, Any
+from typing import Any, Dict
+
+from pandas import DataFrame, Series
 
 class GeoSeries(Series):
     crs: Dict[str, str]

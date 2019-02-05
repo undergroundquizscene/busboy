@@ -1,4 +1,5 @@
 from typing import Any, Optional
+
 from shapely.geometry import Polygon
 
 class BaseGeometry(object):
