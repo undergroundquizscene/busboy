@@ -1,16 +1,20 @@
 from __future__ import annotations
 
+import datetime as dt
 import readline
 import rlcompleter
+import time
 from dataclasses import dataclass
 from functools import partial
 from itertools import filterfalse, islice, tee
 from typing import (
     Callable,
+    Generator,
     Generic,
     Iterable,
     Iterator,
     List,
+    NoReturn,
     Optional,
     Tuple,
     TypeVar,
@@ -18,15 +22,11 @@ from typing import (
     cast,
 )
 
+from busboy.util.typevars import *
+
 
 def pipenv_tab_completion() -> None:
     readline.parse_and_bind("tab: complete")
-
-
-A = TypeVar("A")
-B = TypeVar("B")
-C = TypeVar("C")
-E = TypeVar("E")
 
 
 def swap(t: Tuple[A, B]) -> Tuple[B, A]:
@@ -89,6 +89,22 @@ def unique(
             if k not in seen:
                 seen_add(k)
                 yield element
+
+
+def iterate(f: Callable[[A], A], a: A) -> Generator[A, None, NoReturn]:
+    while True:
+        a = f(a)
+        yield a
+
+
+def interval(i: float) -> Generator[dt.datetime, None, NoReturn]:
+    while True:
+        t1 = dt.datetime.now()
+        yield t1
+        t2 = dt.datetime.now()
+        wait = i - (t2 - t1).total_seconds()
+        if wait > 0:
+            time.sleep(wait)
 
 
 class Maybe(Generic[A]):
