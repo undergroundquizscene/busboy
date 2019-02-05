@@ -3,6 +3,7 @@ from concurrent.futures import Executor, ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from datetime import datetime
 from os import makedirs, scandir
+from sys import argv
 from threading import Event, Timer
 from time import localtime, strftime
 from typing import Any, Callable, Dict, Iterable, List, Optional, Set, Tuple
@@ -12,6 +13,7 @@ import requests
 from psycopg2.extras import Json
 
 import busboy.database as db
+import busboy.recording as rec
 from busboy.apis import routes_at_stop, stop_passage
 from busboy.constants import (
     church_cross_east,
@@ -22,40 +24,18 @@ from busboy.constants import (
 from busboy.model import StopId
 
 
-def main(stops: Iterable[str] = cycle_stops) -> None:
-    with ThreadPoolExecutor(max_workers=300) as pool:
-        terminate = Event()
-        cycle(stops, 15, pool, terminate)
-        try:
-            terminate.wait()
-        except KeyboardInterrupt:
-            print("\nExiting…")
-            terminate.set()
-
-
-def cycle(
-    stops: Iterable[str], frequency: float, pool: Executor, terminate: Event
-) -> None:
-    if not terminate.is_set():
-        print(f"Cycling at {strftime('%X')}")
-        Timer(frequency, cycle, args=[stops, frequency, pool, terminate]).start()
-        futures = [pool.submit(make_requests, StopId(stop)) for stop in stops]
-        for i, f in enumerate(as_completed(futures), start=1):
-            results = f.result()
-            errors = (r for r in results if r is not None)
-            bad_errors = [e for e in errors if not isinstance(e, pp2.IntegrityError)]
-            error_types = {repr(e) for e in bad_errors}
-            print(
-                f"Stop {i}: Got {len(results)} results, {len(bad_errors)} errors, error types: {error_types}"
-            )
-
-
-def make_requests(stop: StopId) -> List[Optional[Exception]]:
-    spr = stop_passage(stop)
-    c = db.default_connection()
-    errors = [db.store_trip(p, connection=c) for p in spr.passages]
-    c.close()
-    return errors
+def main() -> None:
+    if len(argv) == 1:
+        rec.loop()
+    elif argv[1] == "coords":
+        lines(argv[2], coords)
+    elif argv[1] == "lmt":
+        p, t = lmt_test(int(argv[2]))
+        print(f"Last modified time is {p}")
+        print(f"Trip last modified time is {t}")
+        print(f"Times are equal? {t == p}")
+    else:
+        rec.loop(argv[1:])
 
 
 def make_request(url: str, trip: str) -> None:
@@ -179,16 +159,4 @@ def lmt_test(passage_number: int) -> Tuple[str, str]:
 
 
 if __name__ == "__main__":
-    from sys import argv
-
-    if len(argv) == 1:
-        main()
-    elif argv[1] == "coords":
-        lines(argv[2], coords)
-    elif argv[1] == "lmt":
-        p, t = lmt_test(int(argv[2]))
-        print(f"Last modified time is {p}")
-        print(f"Trip last modified time is {t}")
-        print(f"Times are equal? {t == p}")
-    else:
-        main(argv[1:])
+    main()
