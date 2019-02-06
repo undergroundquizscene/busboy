@@ -4,11 +4,13 @@ import datetime as dt
 import readline
 import rlcompleter
 import time
+from collections import defaultdict
 from dataclasses import dataclass
 from functools import partial
-from itertools import filterfalse, islice, tee
+from itertools import chain, filterfalse, islice, tee
 from typing import (
     Callable,
+    Dict,
     Generator,
     Generic,
     Iterable,
@@ -105,6 +107,13 @@ def interval(i: float) -> Generator[dt.datetime, None, NoReturn]:
         wait = i - (t2 - t1).total_seconds()
         if wait > 0:
             time.sleep(wait)
+
+
+def combine_dictionaries(xs: Dict[A, B], ys: Dict[A, B]) -> Dict[A, List[B]]:
+    zs: Dict[A, List[B]] = defaultdict(list)
+    for k, v in chain(xs.items(), ys.items()):
+        zs[k].append(v)
+    return zs
 
 
 class Maybe(Generic[A]):
