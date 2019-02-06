@@ -2,7 +2,7 @@ from collections import namedtuple
 from dataclasses import dataclass
 from datetime import datetime
 from functools import partial
-from typing import Any, Dict, Iterable, List, NewType, Tuple, cast
+from typing import Any, Dict, Generator, Iterable, List, NewType, Tuple, cast
 
 import geopy.distance as gpd
 import numpy as np
@@ -143,16 +143,15 @@ def route_sections(stops: List[m.Stop], width: float) -> List[RouteSection]:
 
 
 def assign_region(
-    sections: List[RouteSection], stops: List[m.Stop], e: db.DatabaseEntry
+    sections: Iterable[RouteSection], e: db.DatabaseEntry
 ) -> Tuple[db.DatabaseEntry, List[RouteSection]]:
     return (e, [s for s in sections if s.polygon.contains(e.point)])
 
 
 def assign_regions(
-    es: List[db.DatabaseEntry], stops: List[m.Stop]
-) -> List[Tuple[db.DatabaseEntry, List[RouteSection]]]:
-    rs = route_sections(stops, 0.001)
-    return [assign_region(rs, stops, e) for e in es]
+    rs: Iterable[RouteSection], es: Iterable[db.DatabaseEntry]
+) -> Generator[Tuple[db.DatabaseEntry, List[RouteSection]], None, None]:
+    return (assign_region(rs, e) for e in es)
 
 
 def most_recent_stops(
