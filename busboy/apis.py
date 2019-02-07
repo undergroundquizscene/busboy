@@ -165,7 +165,7 @@ class WebTimetable(object):
             v = []
             for stop, cell in zip(self.stop_names(), drop(1, column)):
                 time = self.cell_time(cell).map(lambda t: True)
-                for t in time:
+                if time.is_just:
                     v.append(stop)
             if v:
                 vs.add((route, tuple(v)))
@@ -174,6 +174,8 @@ class WebTimetable(object):
     @staticmethod
     def cell_time(t: Tag) -> Maybe[time]:
         contents = "".join([s for s in t.stripped_strings])
+        if contents.endswith("[+1]"):
+            contents = contents[:-4]
         try:
             return Just(time.fromisoformat(contents))
         except ValueError:
