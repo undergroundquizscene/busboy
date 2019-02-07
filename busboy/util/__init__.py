@@ -7,7 +7,8 @@ import time
 from collections import defaultdict
 from dataclasses import dataclass
 from functools import partial
-from itertools import chain, filterfalse, islice, tee
+from itertools import chain, filterfalse, groupby, islice, tee
+from operator import itemgetter
 from typing import (
     Callable,
     Dict,
@@ -91,6 +92,13 @@ def unique(
             if k not in seen:
                 seen_add(k)
                 yield element
+
+
+def unique_justseen(iterable: Iterable[A], key=None) -> Iterable[A]:
+    "List unique elements, preserving order. Remember only the element just seen."
+    # unique_justseen('AAAABBBCCDAABBB') --> A B C D A B
+    # unique_justseen('ABBCcAD', str.lower) --> A B C A D
+    return map(next, map(itemgetter(1), groupby(iterable, key)))
 
 
 def iterate(f: Callable[[A], A], a: A) -> Generator[A, None, NoReturn]:

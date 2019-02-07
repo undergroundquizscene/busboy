@@ -27,7 +27,7 @@ from bs4.element import Tag
 
 from busboy.constants import stop_passage_tdi
 from busboy.model import Route, Stop, StopId, StopPassageResponse, TripId
-from busboy.util import Just, Maybe, Nothing, drop, iterate, unique
+from busboy.util import Just, Maybe, Nothing, drop, iterate, unique, unique_justseen
 
 timetable_endpoint = "http://buseireann.ie/inner.php?id=406"
 
@@ -220,7 +220,9 @@ class Timetable(object):
     ) -> Timetable:
         tvs = set()
         for t in wt.variants():
-            stops = tuple(Maybe.justs(unique(stops_from_names(t[1], stops_by_name))))
+            stops = tuple(
+                Maybe.justs(unique_justseen(stops_from_names(t[1], stops_by_name)))
+            )
             tvs.add(TimetableVariant(t[0], stops))
         return Timetable(wt.table.caption.string, tvs)
 
