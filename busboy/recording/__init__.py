@@ -14,10 +14,11 @@ import busboy.constants as c
 import busboy.database as db
 import busboy.model as m
 import busboy.util as u
+from busboy.util import Just
 from busboy.util.typevars import *
 
 
-def loop(stops: Iterable[str] = c.cycle_stops, interval: float = 15) -> None:
+def loop(stops: Iterable[str] = c.cycle_stops, interval: float = 2) -> None:
     stop_ids = [m.StopId(s) for s in stops]
     with ThreadPoolExecutor(max_workers=300) as pool:
         d: RecordingState = {}
@@ -41,11 +42,13 @@ def new_loop(
 ) -> RecordingState:
     futures: Dict[Future[m.StopPassageResponse], m.StopId] = call_stops(pool, stops)
     next_state: RecordingState = {}
-    for f in as_completed(futures):
-        s = futures[f]
-        all_state, new_state = updated_state(state, f.result())
-        store_new_info(new_state)
-        next_state.update(all_state)
+    for i, f in enumerate(as_completed(futures), 1):
+        stop = futures[f]
+        spr = f.result()
+        current = dict(current_state(spr))
+        new_state = updated_state(state, current)
+        store_new_info(new_state, stop, i)
+        next_state.update(current)
     return next_state
 
 
@@ -55,18 +58,25 @@ def call_stops(
     return {pool.submit(api.stop_passage, stop): stop for stop in stops}
 
 
-def updated_state(
-    s: RecordingState, spr: m.StopPassageResponse
-) -> Tuple[RecordingState, RecordingState]:
-    """Those passages which differ between spr and s, or are not in s."""
-    new = {i: p for p in spr.passages for i in p.id if (i not in s or s[i] != p)}
-    all = s.copy()
-    all.update(new)
-    return (all, new)
+def current_state(
+    spr: m.StopPassageResponse
+) -> Generator[Tuple[m.PassageId, m.Passage], None, None]:
+    for p in spr.passages:
+        if isinstance(p.id, Just):
+            yield (p.id.value, p)
 
 
-def store_new_info(state: RecordingState) -> None:
-    print(f"{len(state)} passages were updated.")
+def updated_state(last: RecordingState, current: RecordingState) -> RecordingState:
+    """Those passages which differ between current and last, or are not in last."""
+    return {i: p for i, p in current.items() if (i not in last or last[i] != p)}
+
+
+def store_new_info(state: RecordingState, stop: m.StopId, index: int) -> None:
+    if index == 1:
+        print("-" * 10 + " New poll " + "-" * 10)
+    print(f"{len(state)} passages to update at {stop} (stop {index}):")
+    for id, passage in state.items():
+        print(f"  - {id}")
 
 
 def make_requests(stop: m.StopId) -> List[Optional[Exception]]:
