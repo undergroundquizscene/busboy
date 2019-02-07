@@ -91,6 +91,14 @@ class Stop(object):
     longitude: DegreeLongitude
     number: int
 
+    @property
+    def lon_lat(self) -> LonLat:
+        return (self.longitude, self.latitude)
+
+    @property
+    def lat_lon(self) -> LatLon:
+        return (self.latitude, self.longitude)
+
     @classmethod
     def from_json(cls, stop_json: Dict[str, Any]) -> Stop:
         id = StopId(stop_json["duid"])
@@ -100,13 +108,15 @@ class Stop(object):
         number = stop_json["num"]
         return cls(id, name, latitude, longitude, number)
 
-    @property
-    def lon_lat(self) -> LonLat:
-        return (self.longitude, self.latitude)
-
-    @property
-    def lat_lon(self) -> LatLon:
-        return (self.latitude, self.longitude)
+    @staticmethod
+    def from_db_row(r: Tuple[Any, ...]) -> Stop:
+        return Stop(
+            id=StopId(r[0]),
+            name=r[1],
+            number=r[2],
+            latitude=DegreeLatitude(r[3]),
+            longitude=DegreeLongitude(r[4]),
+        )
 
 
 MyArrivalDepartureJson = Dict[str, Union[str, int, None]]

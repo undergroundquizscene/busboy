@@ -82,12 +82,17 @@ class Map(object):
         self.create_markers_df(df)
         self.add_markers(df.iloc[0].trip)
 
+    def _add_marker(self, x: float, y: float, tooltip: str = "") -> None:
+        self.add_layer(lf.Marker(location=(x, y), draggable=False, title=tooltip))
+
     def add_marker(self, p: sg.Point, tooltip: str = "") -> None:
         self.add_layer(lf.Marker(location=p.coords[0], draggable=False, title=tooltip))
 
-    def add_polygon(self, p: sg.Polygon) -> None:
+    def add_polygon(self, p: sg.Polygon, colour: str = "blue") -> None:
         self.add_layer(
-            lf.Polygon(locations=[list(p.exterior.coords), list(p.interiors)])
+            lf.Polygon(
+                locations=[list(p.exterior.coords), list(p.interiors)], color=colour
+            )
         )
 
     def add_layer(self, l: lf.Layer) -> None:
@@ -97,6 +102,7 @@ class Map(object):
     def clear_layers(self) -> None:
         for l in self.layers:
             self.map.remove_layer(l)
+        self.layers = []
 
 
 def road_cover(df: pd.DataFrame, interval: float) -> pd.DataFrame:

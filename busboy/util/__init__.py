@@ -166,6 +166,18 @@ class Maybe(Generic[A]):
         else:
             return Left(default)
 
+    def is_just(self) -> bool:
+        return isinstance(self, Just)
+
+    def is_nothing(self) -> bool:
+        return isinstance(self, Nothing)
+
+    @staticmethod
+    def justs(ms: Iterable[Maybe[A]]) -> Iterable[A]:
+        for m in ms:
+            if isinstance(m, Just):
+                yield m.value
+
 
 @dataclass(frozen=True, order=True)
 class Just(Maybe[A]):

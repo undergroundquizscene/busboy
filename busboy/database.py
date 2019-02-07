@@ -14,6 +14,7 @@ from psycopg2.extensions import connection, cursor
 
 import busboy.geo as g
 import busboy.model as m
+from busboy.geo import DegreeLatitude, DegreeLongitude
 from busboy.model import Passage, Route, Stop, TripId
 from busboy.util import Maybe
 
@@ -295,7 +296,7 @@ def stops_by_route_name(c: connection, route: str) -> List[m.Stop]:
             """,
             [route],
         )
-        return [Stop(r[0], r[1], r[2], r[3], r[4]) for r in cu.fetchall()]
+        return [Stop.from_db_row(r) for r in cu.fetchall()]
 
 
 def stop_by_name(name: str) -> Optional[Stop]:
@@ -317,7 +318,7 @@ def stop_by_id(c: connection, s: m.StopId) -> Optional[Stop]:
             [s.raw],
         )
         r = cu.fetchone()
-        return Stop(id=r[0], name=r[1], number=r[2], latitude=r[3], longitude=r[4])
+        return Stop.from_db_row(r)
 
 
 def stops(c: Optional[connection] = None) -> List[Stop]:
@@ -326,7 +327,8 @@ def stops(c: Optional[connection] = None) -> List[Stop]:
         c = default_connection()
     with c.cursor() as cu:
         cu.execute("select * from stops")
-        return [
-            Stop(id=r[0], name=r[1], number=r[2], latitude=r[3], longitude=r[4])
-            for r in cu.fetchall()
-        ]
+        return [Stop.from_db_row(r) for r in cu.fetchall()]
+
+
+def stops_by_name(c: Optional[connection] = None) -> Dict[str, Stop]:
+    return {s.name: s for s in stops(c)}
