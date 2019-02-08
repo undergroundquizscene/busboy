@@ -8,6 +8,7 @@ from time import strftime
 from typing import Callable, Dict, Generator, Iterable, List, NoReturn, Optional, Tuple
 
 import psycopg2 as pp2
+from psycopg2.extensions import connection
 
 import busboy.apis as api
 import busboy.constants as c
@@ -40,6 +41,8 @@ RecordingState = Dict[m.PassageId, m.Passage]
 def new_loop(
     pool: ThreadPoolExecutor, stops: Iterable[m.StopId], state: RecordingState
 ) -> RecordingState:
+    time = dt.datetime.now()
+    connection = db.default_connection()
     futures: Dict[Future[m.StopPassageResponse], m.StopId] = call_stops(pool, stops)
     next_state: RecordingState = {}
     for i, f in enumerate(as_completed(futures), 1):
@@ -47,7 +50,7 @@ def new_loop(
         spr = f.result()
         current = dict(current_state(spr))
         new_state = updated_state(state, current)
-        store_new_info(new_state, stop, i)
+        store_state(new_state, time, connection)
         next_state.update(current)
     return next_state
 
@@ -71,17 +74,6 @@ def updated_state(last: RecordingState, current: RecordingState) -> RecordingSta
     return {i: p for i, p in current.items() if (i not in last or last[i] != p)}
 
 
-def store_new_info(state: RecordingState, stop: m.StopId, index: int) -> None:
-    if index == 1:
-        print("-" * 10 + " New poll " + "-" * 10)
-    print(f"{len(state)} passages to update at {stop} (stop {index}):")
-    for id, passage in state.items():
-        print(f"  - {id}")
-
-
-def make_requests(stop: m.StopId) -> List[Optional[Exception]]:
-    spr = api.stop_passage(stop)
-    c = db.default_connection()
-    errors = [db.store_trip(p, connection=c) for p in spr.passages]
-    c.close()
-    return errors
+def store_state(s: RecordingState, poll_time: dt.datetime, c: connection) -> None:
+    for id, passage in s.items():
+        db.store_trip(passage, poll_time, c)

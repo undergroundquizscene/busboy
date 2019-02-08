@@ -99,7 +99,7 @@ def store_stop(r: Stop, conn: Optional[connection] = None) -> None:
 
 
 def store_trip(
-    p: Passage, connection: Optional[connection] = None
+    p: Passage, poll_time: dt.datetime, connection: Optional[connection] = None
 ) -> Optional[Exception]:
     if connection is None:
         try:
@@ -114,11 +114,12 @@ def store_trip(
                     insert into passage_responses(
                         last_modified, trip_id, route_id, vehicle_id, pattern_id,
                         latitude, longitude, bearing, is_accessible, has_bike_rack,
-                        direction, congestion_level, accuracy_level, status, category
+                        direction, congestion_level, accuracy_level, status, category,
+                        poll_time
                     ) values (
                         %s, %s, %s, %s, %s,
                         %s, %s, %s, %s, %s,
-                        %s, %s, %s, %s, %s)
+                        %s, %s, %s, %s, %s, %s)
                     """,
                     [
                         p.last_modified,
@@ -136,6 +137,7 @@ def store_trip(
                         p.accuracy,
                         p.status,
                         p.category,
+                        poll_time
                     ],
                 )
                 return None
