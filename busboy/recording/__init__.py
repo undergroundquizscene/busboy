@@ -30,6 +30,7 @@ def loop_something(f: Callable[[A], A], a: A, interval: float) -> None:
     iterations: Generator[A, None, NoReturn] = u.iterate(f, a)
     try:
         for t in u.interval(interval):
+            print(f"Looping at time {t}")
             _ = next(iterations)
     except KeyboardInterrupt:
         print("\nExiting…")
