@@ -6,7 +6,6 @@ from dataclasses import InitVar, dataclass, field, fields
 from datetime import date, datetime
 from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
 
-import geopandas as gpd
 import pandas as pd
 import psycopg2 as pp2
 import shapely.geometry as sg
@@ -52,20 +51,6 @@ def entries(
             query += b" where" + b" and".join(conditions)
         cu.execute(query)
         return [DatabaseEntry.from_db_row(row) for row in cu.fetchall()]
-
-
-def data_gdf(
-    connection: Optional[connection] = None,
-    r: Optional[m.RouteId] = None,
-    d: Optional[date] = None,
-) -> pd.DataFrame:
-    es = entries(connection, r, d)
-    df = pd.DataFrame([e.as_dict() for e in es])
-    df["Entries"] = es
-    df["Coordinates"] = list(zip(df["longitude"], df["latitude"]))
-    df["Coordinates"] = df["Coordinates"].apply(sg.Point)
-    df = df.set_index("last_modified")
-    return gpd.GeoDataFrame(df, geometry="Coordinates")
 
 
 def store_route(r: Route, conn: Optional[connection] = None) -> None:
