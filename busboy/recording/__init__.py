@@ -22,8 +22,13 @@ from busboy.util.typevars import *
 def loop(stops: Iterable[str] = c.cycle_stops, interval: float = 20) -> None:
     stop_ids = [m.StopId(s) for s in stops]
     with ThreadPoolExecutor(max_workers=300) as pool:
+        def inner(s: RecordingState) -> RecordingState:
+            new_state, errors = new_loop(pool, stop_ids, s)
+            for e in errors:
+                print(f"Got an error: {e}")
+            return new_state
         d: RecordingState = {}
-        loop_something(lambda state: new_loop(pool, stop_ids, state), d, interval)
+        loop_something(inner, d, interval)
 
 
 def loop_something(f: Callable[[A], A], a: A, interval: float) -> None:
@@ -41,19 +46,20 @@ RecordingState = Dict[m.PassageId, m.Passage]
 
 def new_loop(
     pool: ThreadPoolExecutor, stops: Iterable[m.StopId], state: RecordingState
-) -> RecordingState:
+) -> Tuple[RecordingState, List[Exception]]:
     time = dt.datetime.now()
     connection = db.default_connection()
     futures: Dict[Future[m.StopPassageResponse], m.StopId] = call_stops(pool, stops)
     next_state: RecordingState = {}
+    errors = []
     for i, f in enumerate(as_completed(futures), 1):
         stop = futures[f]
         spr = f.result()
         current = dict(current_state(spr))
         new_state = updated_state(state, current)
-        store_state(new_state, time, connection)
+        errors.extend(store_state(new_state, time, connection))
         next_state.update(current)
-    return next_state
+    return next_state, errors
 
 
 def call_stops(
@@ -75,6 +81,10 @@ def updated_state(last: RecordingState, current: RecordingState) -> RecordingSta
     return {i: p for i, p in current.items() if (i not in last or last[i] != p)}
 
 
-def store_state(s: RecordingState, poll_time: dt.datetime, c: connection) -> None:
+def store_state(s: RecordingState, poll_time: dt.datetime, c: connection) -> List[Exception]:
+    errors = []
     for id, passage in s.items():
-        db.store_trip(passage, poll_time, c)
+        e = db.store_trip(passage, poll_time, c)
+        if e is not None:
+            errors.append(e)
+    return errors
