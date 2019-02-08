@@ -19,14 +19,11 @@ from busboy.util import Maybe
 
 
 def default_connection() -> connection:
-    return pp2.connect('dbname=busboy user=Noel host=localhost')
+    return pp2.connect("dbname=busboy user=Noel host=localhost")
 
 
 def test_connection() -> connection:
-    return pp2.connect(
-        dbname='busboy-test',
-        user='Noel',
-        host='localhost')
+    return pp2.connect(dbname="busboy-test", user="Noel", host="localhost")
 
 
 def entries(
@@ -125,7 +122,7 @@ def store_trip(
                         p.accuracy.optional(),
                         p.status.optional(),
                         p.category.optional(),
-                        poll_time
+                        poll_time,
                     ],
                 )
                 return None

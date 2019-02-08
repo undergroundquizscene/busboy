@@ -101,6 +101,14 @@ def unique_justseen(iterable: Iterable[A], key=None) -> Iterable[A]:
     return map(next, map(itemgetter(1), groupby(iterable, key)))
 
 
+def partition(
+    pred: Callable[[A], bool], xs: Iterable[A]
+) -> Tuple[Iterable[A], Iterable[A]]:
+    "Use a predicate to partition entries into false entries and true entries"
+    t1, t2 = tee(xs)
+    return filterfalse(pred, t1), filter(pred, t2)
+
+
 def iterate(f: Callable[[A], A], a: A) -> Generator[A, None, NoReturn]:
     while True:
         a = f(a)

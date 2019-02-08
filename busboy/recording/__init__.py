@@ -15,18 +15,24 @@ import busboy.constants as c
 import busboy.database as db
 import busboy.model as m
 import busboy.util as u
-from busboy.util import Just
+from busboy.util import Just, partition
 from busboy.util.typevars import *
 
 
 def loop(stops: Iterable[str] = c.cycle_stops, interval: float = 20) -> None:
     stop_ids = [m.StopId(s) for s in stops]
     with ThreadPoolExecutor(max_workers=300) as pool:
+
         def inner(s: RecordingState) -> RecordingState:
             new_state, errors = new_loop(pool, stop_ids, s)
-            for e in errors:
-                print(f"Got an error: {e}")
+            others, key_errors = map(
+                list, partition(lambda e: isinstance(e, pp2.IntegrityError), errors)
+            )
+            print(f"Got {len(key_errors)} key errors and {len(others)} other errors:")
+            for e in others:
+                print(e)
             return new_state
+
         d: RecordingState = {}
         loop_something(inner, d, interval)
 
@@ -81,7 +87,9 @@ def updated_state(last: RecordingState, current: RecordingState) -> RecordingSta
     return {i: p for i, p in current.items() if (i not in last or last[i] != p)}
 
 
-def store_state(s: RecordingState, poll_time: dt.datetime, c: connection) -> List[Exception]:
+def store_state(
+    s: RecordingState, poll_time: dt.datetime, c: connection
+) -> List[Exception]:
     errors = []
     for id, passage in s.items():
         e = db.store_trip(passage, poll_time, c)
