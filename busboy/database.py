@@ -217,8 +217,8 @@ class DatabaseEntry(object):
     last_modified: datetime
     trip: m.TripId
     route: m.RouteId
-    vehicle_id: m.VehicleId
-    pattern_id: m.PatternId
+    vehicle: m.VehicleId
+    pattern: m.PatternId
     latitude: g.DegreeLatitude
     longitude: g.DegreeLongitude
     bearing: int
@@ -229,13 +229,14 @@ class DatabaseEntry(object):
     accuracy_level: int
     status: int
     category: int
+    poll_time: datetime
 
     @staticmethod
     def from_db_row(row: Tuple[Any, ...]) -> DatabaseEntry:
         return DatabaseEntry(
             route=m.RouteId(cast(str, row[0])),
             direction=cast(int, row[1]),
-            vehicle_id=m.VehicleId(cast(str, row[2])),
+            vehicle=m.VehicleId(cast(str, row[2])),
             last_modified=cast(datetime, row[3]),
             trip=m.TripId(cast(str, row[4])),
             congestion_level=cast(int, row[5]),
@@ -245,9 +246,10 @@ class DatabaseEntry(object):
             latitude=g.DegreeLatitude(cast(int, row[9]) / 3600000),
             longitude=g.DegreeLongitude(cast(int, row[10]) / 3600000),
             bearing=cast(int, row[11]),
-            pattern_id=m.PatternId(cast(str, row[12])),
+            pattern=m.PatternId(cast(str, row[12])),
             has_bike_rack=cast(bool, row[13]),
             category=cast(int, row[14]),
+            poll_time=cast(datetime, row[15]),
         )
 
     def as_dict(self) -> Dict[str, Any]:
