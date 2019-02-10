@@ -27,7 +27,18 @@ from bs4.element import Tag
 
 from busboy.constants import stop_passage_tdi
 from busboy.model import Route, Stop, StopId, StopPassageResponse, TripId
-from busboy.util import Just, Maybe, Nothing, drop, iterate, unique, unique_justseen
+from busboy.util import (
+    Either,
+    Just,
+    Left,
+    Maybe,
+    Nothing,
+    Right,
+    drop,
+    iterate,
+    unique,
+    unique_justseen,
+)
 
 timetable_endpoint = "http://buseireann.ie/inner.php?id=406"
 
@@ -85,18 +96,21 @@ def routes_at_stops() -> Dict[str, Set[str]]:
 
 
 @singledispatch
-def stop_passage(params: Dict[str, str]) -> StopPassageResponse:
-    j = requests.get(stop_passage_tdi, params=params).json()
-    return StopPassageResponse.from_json(j)
+def stop_passage(params: Dict[str, str]) -> Either[Exception, StopPassageResponse]:
+    try:
+        j = requests.get(stop_passage_tdi, params=params).json()
+        return Right(StopPassageResponse.from_json(j))
+    except Exception as e:
+        return Left(e)
 
 
 @stop_passage.register
-def sp_stop(s: StopId) -> StopPassageResponse:
+def sp_stop(s: StopId) -> Either[Exception, StopPassageResponse]:
     return stop_passage({"stop_point": s.raw})
 
 
 @stop_passage.register
-def sp_trip(t: TripId) -> StopPassageResponse:
+def sp_trip(t: TripId) -> Either[Exception, StopPassageResponse]:
     return stop_passage({"trip": t.raw})
 
 

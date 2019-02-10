@@ -15,7 +15,7 @@ import busboy.constants as c
 import busboy.database as db
 import busboy.model as m
 import busboy.util as u
-from busboy.util import Just, partition
+from busboy.util import Either, Just, Left, Right, partition
 from busboy.util.typevars import *
 
 
@@ -55,22 +55,27 @@ def new_loop(
 ) -> Tuple[RecordingState, List[Exception]]:
     time = dt.datetime.now()
     connection = db.default_connection()
-    futures: Dict[Future[m.StopPassageResponse], m.StopId] = call_stops(pool, stops)
+    futures: Dict[
+        Future[Either[Exception, m.StopPassageResponse]], m.StopId
+    ] = call_stops(pool, stops)
     next_state: RecordingState = {}
-    errors = []
+    errors: List[Exception] = []
     for i, f in enumerate(as_completed(futures), 1):
         stop = futures[f]
         spr = f.result()
-        current = dict(current_state(spr))
-        new_state = updated_state(state, current)
-        errors.extend(store_state(new_state, time, connection))
-        next_state.update(current)
+        if isinstance(spr, Left):
+            errors.append(spr.value)
+        elif isinstance(spr, Right):
+            current = dict(current_state(spr.value))
+            new_state = updated_state(state, current)
+            errors.extend(store_state(new_state, time, connection))
+            next_state.update(current)
     return next_state, errors
 
 
 def call_stops(
     pool: ThreadPoolExecutor, stops: Iterable[m.StopId]
-) -> Dict[Future[m.StopPassageResponse], m.StopId]:
+) -> Dict[Future[Either[Exception, m.StopPassageResponse]], m.StopId]:
     return {pool.submit(api.stop_passage, stop): stop for stop in stops}
 
 
