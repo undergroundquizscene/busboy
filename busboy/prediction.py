@@ -1,8 +1,9 @@
-from collections import namedtuple
+from collections import defaultdict, namedtuple
 from dataclasses import dataclass
 from datetime import datetime
 from functools import partial
-from typing import Any, Dict, Generator, Iterable, List, NewType, Tuple, cast
+from itertools import dropwhile
+from typing import Any, Dict, Generator, Iterable, List, NewType, Set, Tuple, cast
 
 import geopy.distance as gpd
 import numpy as np
@@ -10,11 +11,12 @@ import pandas as pd
 import shapely.geometry as sg
 from shapely.geometry import LineString
 
+import busboy.apis as api
 import busboy.constants as c
 import busboy.database as db
 import busboy.model as m
 import busboy.util as u
-from busboy.util import Just, Maybe, Nothing
+from busboy.util import Just, Maybe, Nothing, first
 
 Latitude = float
 Longitude = float
@@ -114,7 +116,7 @@ class RouteSection(object):
     polygon: sg.Polygon
 
 
-def route_sections(stops: List[m.Stop], width: float) -> List[RouteSection]:
+def route_sections(stops: Iterable[m.Stop], width: float = 0.001) -> List[RouteSection]:
     lss = [
         (
             s1,
@@ -168,3 +170,33 @@ def most_recent_stops(
             return Just(rs[0].s1)
 
     return ((e, choose_stop(rs)) for e, rs in ts)
+
+
+def possible_variants(
+    entries: Iterable[db.DatabaseEntry], timetables: Set[api.TimetableVariant]
+) -> Iterable[Tuple[db.DatabaseEntry, List[RouteSection], Set[api.TimetableVariant]]]:
+    sections = {tv: set(route_sections(tv.stops)) for tv in timetables}
+    entries_with_regions = assign_regions(
+        {r for rs in sections.values() for r in rs}, entries
+    )
+    for (entry, regions) in entries_with_regions:
+        yield entry, regions, {
+            tv for tv, rs in sections.items() if rs.intersection(regions)
+        }
+
+
+def check_variant_order(
+    entries: List[Tuple[db.DatabaseEntry, Set[Tuple[api.TimetableVariant, int]]]]
+) -> Iterable[Tuple[db.DatabaseEntry, Set[Tuple[api.TimetableVariant, int]]]]:
+    for i, (entry, positions) in enumerate(entries):
+        output_positions: Set[Tuple[api.TimetableVariant, int]] = set()
+        for variant, position in positions:
+            later_positions = map(lambda j: entries[j][1], range(i, len(entries)))
+            first_change_positions = dict(
+                first(
+                    dropwhile(lambda ps: (variant, position) in ps, later_positions)
+                ).get([])
+            )
+            if first_change_positions[variant] > position:
+                output_positions.add((variant, position))
+        yield (entry, output_positions)
