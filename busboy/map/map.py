@@ -82,8 +82,10 @@ class Map(object):
         self.create_markers_df(df)
         self.add_markers(df.iloc[0].trip)
 
-    def _add_marker(self, x: float, y: float, tooltip: str = "") -> None:
-        self.add_layer(lf.Marker(location=(x, y), draggable=False, title=tooltip))
+    def _add_marker(self, x: float, y: float, tooltip: str = "") -> lf.Marker:
+        marker = lf.Marker(location=(x, y), draggable=False, title=tooltip)
+        self.add_layer(marker)
+        return marker
 
     def add_marker(self, p: sg.Point, tooltip: str = "") -> None:
         self.add_layer(lf.Marker(location=p.coords[0], draggable=False, title=tooltip))
@@ -99,9 +101,15 @@ class Map(object):
         self.layers.append(l)
         self.map.add_layer(l)
 
+    def remove_layer(self, l: lf.Layer) -> None:
+        self.map.remove_layer(l)
+
     def clear_layers(self) -> None:
         for l in self.layers:
-            self.map.remove_layer(l)
+            try:
+                self.map.remove_layer(l)
+            except Exception:
+                continue
         self.layers = []
 
 
