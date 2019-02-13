@@ -141,7 +141,7 @@ def store_trip(
                         p.accuracy,
                         p.status,
                         p.category,
-                        poll_time
+                        poll_time,
                     ],
                 )
                 return None
