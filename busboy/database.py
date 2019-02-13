@@ -65,21 +65,25 @@ def data_gdf(
     return gpd.GeoDataFrame(df, geometry="Coordinates")
 
 
-def store_route(r: Route, conn: Optional[connection] = None) -> None:
+def store_route(r: Route, conn: Optional[connection] = None) -> Optional[Exception]:
     if conn is None:
         conn = default_connection()
     with conn:
         with conn.cursor() as cursor:
-            cursor.execute(
-                """
-                insert into routes (
-                    id, name, direction, number, category
-                ) values (
-                    %s, %s, %s,
-                    %s, %s)
-                """,
-                [r.id, r.name, r.direction, r.number, r.category],
-            )
+            try:
+                cursor.execute(
+                    """
+                    insert into routes (
+                        id, name, direction, number, category
+                    ) values (
+                        %s, %s, %s,
+                        %s, %s)
+                    """,
+                    [r.id.raw, r.name, r.direction, r.number, r.category],
+                )
+                return None
+            except Exception as e:
+                return e
 
 
 def store_stop(r: Stop, conn: Optional[connection] = None) -> None:
