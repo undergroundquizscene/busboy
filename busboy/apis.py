@@ -100,7 +100,7 @@ def sp_trip(t: TripId) -> StopPassageResponse:
     return stop_passage({"trip": t.raw})
 
 
-def web_timetables(route_name: str) -> List[WebTimetable]:
+def web_timetables(route_name: str) -> Iterable[WebTimetable]:
     html = requests.get(
         timetable_endpoint,
         params={
@@ -165,7 +165,7 @@ class WebTimetable(object):
             v = []
             for stop, cell in zip(self.stop_names(), drop(1, column)):
                 time = self.cell_time(cell).map(lambda t: True)
-                if time.is_just:
+                if time.is_just():
                     v.append(stop)
             if v:
                 vs.add((route, tuple(v)))
