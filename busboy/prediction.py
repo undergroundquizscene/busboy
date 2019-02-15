@@ -5,9 +5,11 @@ from functools import partial, singledispatch
 from itertools import dropwhile
 from typing import (
     Any,
+    Callable,
     Dict,
     Generator,
     Iterable,
+    Iterator,
     List,
     NewType,
     Set,
@@ -221,6 +223,30 @@ def check_variant_order(
                     dropwhile(lambda ps: (variant, position) in ps, later_positions)
                 ).get([])
             )
-            if first_change_positions[variant] > position:
+            if (
+                variant in first_change_positions
+                and first_change_positions[variant] > position
+            ):
                 output_positions.add((variant, position))
         yield (entry, output_positions)
+
+
+def duplicate_positions(e1: db.DatabaseEntry, e2: db.DatabaseEntry) -> bool:
+    return (e1.poll_time, e1.latitude, e1.longitude) == (
+        e2.poll_time,
+        e2.latitude,
+        e2.longitude,
+    )
+
+
+def drop_duplicate_positions(
+    entries: Iterable[db.DatabaseEntry],
+    duplicates: Callable[
+        [db.DatabaseEntry, db.DatabaseEntry], bool
+    ] = duplicate_positions,
+) -> Iterator[db.DatabaseEntry]:
+    last = None
+    for this in entries:
+        if last is None or not duplicates(last, this):
+            yield this
+        last = this
