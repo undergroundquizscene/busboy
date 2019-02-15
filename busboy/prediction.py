@@ -1,21 +1,33 @@
 from collections import defaultdict, namedtuple
 from dataclasses import dataclass
 from datetime import datetime
-from functools import partial
+from functools import partial, singledispatch
 from itertools import dropwhile
-from typing import Any, Dict, Generator, Iterable, List, NewType, Set, Tuple, cast
+from typing import (
+    Any,
+    Dict,
+    Generator,
+    Iterable,
+    List,
+    NewType,
+    Set,
+    Tuple,
+    cast,
+    overload,
+)
 
 import geopy.distance as gpd
 import numpy as np
 import pandas as pd
 import shapely.geometry as sg
-from shapely.geometry import LineString
+from shapely.geometry import LineString, Point
 
 import busboy.apis as api
 import busboy.constants as c
 import busboy.database as db
 import busboy.model as m
 import busboy.util as u
+from busboy.geo import Latitude, Longitude
 from busboy.util import Just, Maybe, Nothing, first
 
 Latitude = float
@@ -115,6 +127,9 @@ class RouteSection(object):
     s2: m.Stop
     polygon: sg.Polygon
 
+    def contains(self, lon: Longitude, lat: Latitude) -> bool:
+        return self.polygon.contains(Point(lat, lon))
+
 
 def route_sections(stops: Iterable[m.Stop], width: float = 0.001) -> List[RouteSection]:
     lss = [
@@ -174,15 +189,24 @@ def most_recent_stops(
 
 def possible_variants(
     entries: Iterable[db.DatabaseEntry], timetables: Set[api.TimetableVariant]
-) -> Iterable[Tuple[db.DatabaseEntry, List[RouteSection], Set[api.TimetableVariant]]]:
-    sections = {tv: set(route_sections(tv.stops)) for tv in timetables}
-    entries_with_regions = assign_regions(
-        {r for rs in sections.values() for r in rs}, entries
-    )
-    for (entry, regions) in entries_with_regions:
-        yield entry, regions, {
-            tv for tv, rs in sections.items() if rs.intersection(regions)
-        }
+) -> Iterable[Tuple[db.DatabaseEntry, Set[Tuple[api.TimetableVariant, int]]]]:
+    sections = {tv: route_sections(tv.stops) for tv in timetables}
+    for entry in entries:
+        positions = set()
+        for tv, rs in sections.items():
+            for i, section in enumerate(rs):
+                if section.contains(entry.longitude, entry.latitude):
+                    positions.add((tv, i))
+        yield (entry, positions)
+
+
+def entries_by_vehicle(
+    entries: List[db.DatabaseEntry]
+) -> Dict[m.VehicleId, List[db.DatabaseEntry]]:
+    ebv: Dict[m.VehicleId, List[db.DatabaseEntry]] = defaultdict(list)
+    for e in entries:
+        ebv[e.vehicle].append(e)
+    return ebv
 
 
 def check_variant_order(

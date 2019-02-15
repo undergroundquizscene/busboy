@@ -1,5 +1,5 @@
 from operator import itemgetter
-from typing import Any, Dict, List, NewType, Optional, Tuple, TypeVar
+from typing import Any, Dict, List, NewType, Optional, Tuple, TypeVar, Union
 
 import geopandas as gpd
 import requests
@@ -9,14 +9,22 @@ from shapely.geometry import Point
 
 from busboy.util import omap, swap
 
+Longitude = Union["MetreLongitude", "RawLongitude", "DegreeLongitude"]
+Latitude = Union["MetreLatitude", "RawLatitude", "DegreeLatitude"]
 RawLatitude = NewType("RawLatitude", int)
 RawLongitude = NewType("RawLongitude", int)
 DegreeLongitude = NewType("DegreeLongitude", float)
 DegreeLatitude = NewType("DegreeLatitude", float)
-LonLat = Tuple[DegreeLongitude, DegreeLatitude]
-LatLon = Tuple[DegreeLatitude, DegreeLongitude]
 MetreLongitude = NewType("MetreLongitude", float)
 MetreLatitude = NewType("MetreLatitude", float)
+DegreeLonLat = Tuple[DegreeLongitude, DegreeLatitude]
+DegreeLatLon = Tuple[DegreeLatitude, DegreeLongitude]
+MetreLonLat = Tuple[MetreLongitude, MetreLatitude]
+MetreLatLon = Tuple[MetreLatitude, MetreLongitude]
+RawLonLat = Tuple[RawLongitude, RawLatitude]
+RawLatLon = Tuple[RawLatitude, RawLongitude]
+LonLat = Union[MetreLonLat, RawLonLat, DegreeLonLat]
+LatLon = Union[MetreLatLon, RawLatLon, DegreeLatLon]
 BoundingBox = Tuple[DegreeLongitude, DegreeLatitude, DegreeLongitude, DegreeLatitude]
 
 
@@ -43,7 +51,7 @@ def buffer(t: Tuple[DegreeLatitude, DegreeLongitude], d: float) -> BoundingBox:
 
 
 def nearby_road_segment(
-    t: LatLon, distance: float
+    t: DegreeLatLon, distance: float
 ) -> Dict[Tuple[str, Optional[str]], List[LatLon]]:
     box = buffer(t, distance)
     box_string = ",".join([str(c) for c in box])
