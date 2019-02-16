@@ -22,19 +22,23 @@ from busboy.util.typevars import *
 def loop(stops: Iterable[str] = c.cycle_stops, interval: float = 20) -> None:
     stop_ids = [m.StopId(s) for s in stops]
     with ThreadPoolExecutor(max_workers=300) as pool:
+        while True:
+            try:
+                def inner(s: RecordingState) -> RecordingState:
+                    new_state, errors = new_loop(pool, stop_ids, s)
+                    others, key_errors = map(
+                        list, partition(lambda e: isinstance(e, pp2.IntegrityError), errors)
+                    )
+                    print(f"Got {len(key_errors)} key errors and {len(others)} other errors:")
+                    for e in others:
+                        print(e)
+                    return new_state
 
-        def inner(s: RecordingState) -> RecordingState:
-            new_state, errors = new_loop(pool, stop_ids, s)
-            others, key_errors = map(
-                list, partition(lambda e: isinstance(e, pp2.IntegrityError), errors)
-            )
-            print(f"Got {len(key_errors)} key errors and {len(others)} other errors:")
-            for e in others:
-                print(e)
-            return new_state
+                d: RecordingState = {}
+                loop_something(inner, d, interval)
+            except Exception as e:
+                print(f"Got error {e}")
 
-        d: RecordingState = {}
-        loop_something(inner, d, interval)
 
 
 def loop_something(f: Callable[[A], A], a: A, interval: float) -> None:
