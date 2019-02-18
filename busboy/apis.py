@@ -115,8 +115,9 @@ def timetables(
     route_name: str, stops_by_name: Dict[str, Stop]
 ) -> Generator[Timetable, None, None]:
     return (
-        Timetable.from_web_timetable(wt, stops_by_name)
+        Timetable.from_web_timetable(wt, stops_by_name, route_name)
         for wt in web_timetables(route_name)
+        if route_name in wt.routes()
     )
 
 
@@ -133,7 +134,7 @@ class WebTimetable(object):
 
     def routes(self) -> Set[str]:
         return {
-            c.string
+            c.string.strip()
             for c in self.table.thead.tr("th")
             if c.string is not None and c.string != "Service Number"
         }
@@ -216,14 +217,15 @@ class Timetable(object):
 
     @staticmethod
     def from_web_timetable(
-        wt: WebTimetable, stops_by_name: Dict[str, Stop]
+        wt: WebTimetable, stops_by_name: Dict[str, Stop], route_name: str
     ) -> Timetable:
         tvs = set()
         for t in wt.variants():
-            stops = tuple(
-                Maybe.justs(unique_justseen(stops_from_names(t[1], stops_by_name)))
-            )
-            tvs.add(TimetableVariant(t[0], stops))
+            if t[0] == route_name:
+                stops = tuple(
+                    Maybe.justs(unique_justseen(stops_from_names(t[1], stops_by_name)))
+                )
+                tvs.add(TimetableVariant(t[0], stops))
         return Timetable(wt.table.caption.string, tvs)
 
     @staticmethod
