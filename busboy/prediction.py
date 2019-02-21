@@ -81,11 +81,11 @@ def include_stop(df: pd.DataFrame, s: m.Stop) -> pd.DataFrame:
     return df
 
 
-def new_stop_distance(e: db.DatabaseEntry, s: m.Stop) -> float:
+def new_stop_distance(e: db.BusSnapshot, s: m.Stop) -> float:
     return gpd.distance((e.latitude, e.longitude), (s.latitude, s.longitude))
 
 
-def new_stop_distances(es: List[db.DatabaseEntry], s: m.Stop) -> List[float]:
+def new_stop_distances(es: List[db.BusSnapshot], s: m.Stop) -> List[float]:
     return [new_stop_distance(e, s) for e in es]
 
 
@@ -162,20 +162,20 @@ def route_sections(stops: Iterable[m.Stop], width: float = 0.001) -> List[RouteS
 
 
 def assign_region(
-    sections: Iterable[RouteSection], e: db.DatabaseEntry
-) -> Tuple[db.DatabaseEntry, List[RouteSection]]:
+    sections: Iterable[RouteSection], e: db.BusSnapshot
+) -> Tuple[db.BusSnapshot, List[RouteSection]]:
     return (e, [s for s in sections if s.polygon.contains(e.point)])
 
 
 def assign_regions(
-    rs: Iterable[RouteSection], es: Iterable[db.DatabaseEntry]
-) -> Generator[Tuple[db.DatabaseEntry, List[RouteSection]], None, None]:
+    rs: Iterable[RouteSection], es: Iterable[db.BusSnapshot]
+) -> Generator[Tuple[db.BusSnapshot, List[RouteSection]], None, None]:
     return (assign_region(rs, e) for e in es)
 
 
 def most_recent_stops(
-    ts: Iterable[Tuple[db.DatabaseEntry, List[RouteSection]]]
-) -> Iterable[Tuple[db.DatabaseEntry, Maybe[m.Stop]]]:
+    ts: Iterable[Tuple[db.BusSnapshot, List[RouteSection]]]
+) -> Iterable[Tuple[db.BusSnapshot, Maybe[m.Stop]]]:
     def choose_stop(rs: List[RouteSection]) -> Maybe[m.Stop]:
         if len(rs) == 0:
             return Nothing()
@@ -190,25 +190,25 @@ def most_recent_stops(
 
 
 def possible_variants(
-    entries: Iterable[db.DatabaseEntry], timetables: Set[api.TimetableVariant]
-) -> Iterable[Tuple[db.DatabaseEntry, Set[Tuple[api.TimetableVariant, int]]]]:
+    snapshots: Iterable[db.BusSnapshot], timetables: Set[api.TimetableVariant]
+) -> Iterable[Tuple[db.BusSnapshot, Set[Tuple[api.TimetableVariant, int]]]]:
     sections = {tv: route_sections(tv.stops) for tv in timetables}
-    for entry in entries:
+    for snapshot in snapshots:
         positions = set()
         for tv, rs in sections.items():
             for i, section in enumerate(rs):
-                if section.contains(entry.longitude, entry.latitude):
+                if section.contains(snapshot.longitude, snapshot.latitude):
                     positions.add((tv, i))
-        yield (entry, positions)
+        yield (snapshot, positions)
 
 
 def check_variant_order(
-    entries: List[Tuple[db.DatabaseEntry, Set[Tuple[api.TimetableVariant, int]]]]
-) -> Iterable[Tuple[db.DatabaseEntry, Set[Tuple[api.TimetableVariant, int]]]]:
-    for i, (entry, positions) in enumerate(entries):
+    snapshots: List[Tuple[db.BusSnapshot, Set[Tuple[api.TimetableVariant, int]]]]
+) -> Iterable[Tuple[db.BusSnapshot, Set[Tuple[api.TimetableVariant, int]]]]:
+    for i, (snapshot, positions) in enumerate(snapshots):
         output_positions: Set[Tuple[api.TimetableVariant, int]] = set()
         for variant, position in positions:
-            later_positions = map(lambda j: entries[j][1], range(i, len(entries)))
+            later_positions = map(lambda j: snapshots[j][1], range(i, len(snapshots)))
             first_change_positions = dict(
                 first(
                     dropwhile(
@@ -222,41 +222,41 @@ def check_variant_order(
                 and first_change_positions[variant] > position
             ):
                 output_positions.add((variant, position))
-        yield (entry, output_positions)
+        yield (snapshot, output_positions)
 
 
-def duplicate_positions(e1: db.DatabaseEntry, e2: db.DatabaseEntry) -> bool:
-    return (e1.poll_time, e1.latitude, e1.longitude) == (
-        e2.poll_time,
-        e2.latitude,
-        e2.longitude,
+def duplicate_positions(s1: db.BusSnapshot, s2: db.BusSnapshot) -> bool:
+    return (s1.poll_time, s1.latitude, s1.longitude) == (
+        s2.poll_time,
+        s2.latitude,
+        s2.longitude,
     )
 
 
 def drop_duplicate_positions(
-    entries: Iterable[db.DatabaseEntry],
+    snapshots: Iterable[db.BusSnapshot],
     duplicates: Callable[
-        [db.DatabaseEntry, db.DatabaseEntry], bool
+        [db.BusSnapshot, db.BusSnapshot], bool
     ] = duplicate_positions,
-) -> Iterator[db.DatabaseEntry]:
+) -> Iterator[db.BusSnapshot]:
     last = None
-    for this in entries:
+    for this in snapshots:
         if last is None or not duplicates(last, this):
             yield this
         last = this
 
 
 def stop_times(
-    entries: List[Tuple[db.DatabaseEntry, Dict[api.TimetableVariant, Set[int]]]]
+    snapshots: List[Tuple[db.BusSnapshot, Dict[api.TimetableVariant, Set[int]]]]
 ) -> Dict[api.TimetableVariant, Dict[int, List[Tuple[datetime, datetime]]]]:
-    all_variants = {t for (_, vs) in entries for t in vs}
+    all_variants = {t for (_, vs) in snapshots for t in vs}
     lasts: Dict[api.TimetableVariant, Dict[int, datetime]] = defaultdict(dict)
     output: Dict[
         api.TimetableVariant, Dict[int, List[Tuple[datetime, datetime]]]
     ] = defaultdict(dict)
-    for entry in entries:
+    for snapshot in snapshots:
         for variant in all_variants:
-            these_positions = entry[1].get(variant)
+            these_positions = snapshot[1].get(variant)
             last_positions = lasts.get(variant)
             if these_positions is not None:
                 if last_positions is not None:
@@ -264,29 +264,29 @@ def stop_times(
                     for (position, time) in last_positions.items():
                         if position not in these_positions:
                             output[variant].setdefault(position + 1, []).append(
-                                (time, entry[0].poll_time)
+                                (time, snapshot[0].poll_time)
                             )
                             positions_to_clear.append(position)
                     for position in positions_to_clear:
                         del last_positions[position]
                 for position in these_positions:
-                    lasts[variant][position] = entry[0].poll_time
+                    lasts[variant][position] = snapshot[0].poll_time
     return output
 
 
 def stop_times_proximity(
-    entries: Iterable[db.DatabaseEntry],
+    snapshots: Iterable[db.BusSnapshot],
     stops: Iterable[m.Stop],
     distance_limit: float = 100,
 ) -> Iterator[Tuple[m.Stop, datetime]]:
-    for entry in entries:
+    for snapshot in snapshots:
         for stop in stops:
-            distance = stop_distance_geopandas(entry, stop)
+            distance = stop_distance_geopandas(snapshot, stop)
             if distance < distance_limit:
-                yield (stop, entry.poll_time)
+                yield (stop, snapshot.poll_time)
 
 
-def stop_distance_geopandas(snapshot: db.DatabaseEntry, stop: m.Stop) -> float:
+def stop_distance_geopandas(snapshot: db.BusSnapshot, stop: m.Stop) -> float:
     snapshot_point = to_metre_point((snapshot.longitude, snapshot.latitude))
     stop_point = to_metre_point((stop.longitude, stop.latitude))
     return snapshot_point.distance(stop_point)

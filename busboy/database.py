@@ -27,11 +27,11 @@ def test_connection() -> connection:
     return pp2.connect(dbname="busboy-test", user="Noel")
 
 
-def entries(
+def snapshots(
     connection: Optional[connection] = None,
     r: Optional[m.RouteId] = None,
     d: Optional[date] = None,
-) -> List[DatabaseEntry]:
+) -> List[BusSnapshot]:
     """Gets entries from the database, optionally filtering by route or date."""
     if connection is None:
         connection = default_connection()
@@ -48,7 +48,7 @@ def entries(
         if conditions != []:
             query += b" where" + b" and".join(conditions)
         cu.execute(query)
-        return [DatabaseEntry.from_db_row(row) for row in cu.fetchall()]
+        return [BusSnapshot.from_db_row(row) for row in cu.fetchall()]
 
 
 def data_gdf(
@@ -56,9 +56,9 @@ def data_gdf(
     r: Optional[m.RouteId] = None,
     d: Optional[date] = None,
 ) -> pd.DataFrame:
-    es = entries(connection, r, d)
-    df = pd.DataFrame([e.as_dict() for e in es])
-    df["Entries"] = es
+    snapshots = snapshots(connection, r, d)
+    df = pd.DataFrame([snapshot.as_dict() for snapshot in snapshots])
+    df["Snapshot"] = snapshots
     df["Coordinates"] = list(zip(df["longitude"], df["latitude"]))
     df["Coordinates"] = df["Coordinates"].apply(sg.Point)
     df = df.set_index("last_modified")
@@ -217,7 +217,7 @@ class TripPoint(object):
 
 
 @dataclass(frozen=True)
-class DatabaseEntry(object):
+class BusSnapshot(object):
     last_modified: datetime
     trip: m.TripId
     route: m.RouteId
@@ -236,8 +236,8 @@ class DatabaseEntry(object):
     poll_time: datetime
 
     @staticmethod
-    def from_db_row(row: Tuple[Any, ...]) -> DatabaseEntry:
-        return DatabaseEntry(
+    def from_db_row(row: Tuple[Any, ...]) -> BusSnapshot:
+        return BusSnapshot(
             route=m.RouteId(cast(str, row[0])),
             direction=cast(int, row[1]),
             vehicle=m.VehicleId(cast(str, row[2])),
