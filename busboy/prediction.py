@@ -1,6 +1,6 @@
 from collections import defaultdict, namedtuple
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import partial, singledispatch
 from itertools import dropwhile
 from typing import (
@@ -31,7 +31,7 @@ import busboy.database as db
 import busboy.model as m
 import busboy.util as u
 from busboy.geo import Latitude, Longitude, to_metre_point
-from busboy.util import Just, Maybe, Nothing, first
+from busboy.util import Just, Maybe, Nothing, first, pairwise
 
 Coord = Tuple[Latitude, Longitude]
 DistanceVector = NewType("DistanceVector", Tuple[float, float])
@@ -272,6 +272,35 @@ def stop_times(
                 for position in these_positions:
                     lasts[variant][position] = snapshot[0].poll_time
     return output
+
+
+def travel_times(
+    arrival_times: Dict[int, List[Tuple[datetime, datetime]]]
+) -> Iterator[Tuple[Tuple[int, int], List[Tuple[timedelta, timedelta]]]]:
+    """The travel times between adjacent stops.
+
+    Each travel time is represented as a (min, max) pair.
+    """
+    for first, second in pairwise(sorted(arrival_times.items(), key=lambda t: t[0])):
+        first_position, first_times = first
+        second_position, second_times = second
+        travel_times = [
+            travel_window((start, end), next_time)
+            for start, end in first_times
+            for next_time in (min(second_times, key=lambda time: time[0] - end),)
+        ]
+        yield ((first_position, second_position), travel_times)
+
+
+def travel_window(
+    window1: Tuple[datetime, datetime], window2: Tuple[datetime, datetime]
+) -> Tuple[timedelta, timedelta]:
+    """The (min, max) travel times between two arrival windows.
+
+    If I arrived at 1 between 2 and 3, and arrived at 2 between 4 and 6,
+    the travel window is: (4 - 3, 6 - 2)
+    """
+    return (window2[0] - window1[1], window2[1] - window1[0])
 
 
 def stop_times_proximity(
