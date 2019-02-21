@@ -38,6 +38,10 @@ def to_metres(
     return metre_geoseries(t)[0].coords[0]
 
 
+def to_metre_point(point: DegreeLonLat) -> Point:
+    return metre_geoseries(point)[0].coords[0]
+
+
 def metre_geoseries(t: Tuple[DegreeLongitude, DegreeLatitude]) -> gpd.GeoSeries:
     s = gpd.GeoSeries(Point(t))
     s.crs = degree_crs

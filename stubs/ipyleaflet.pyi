@@ -13,6 +13,13 @@ class Marker(Layer):
     draggable: bool
     title: str
 
+@dataclass
+class Circle(Layer):
+    location: t.Tuple[float, float]
+    radius: float
+    color: str
+    fill_color: str
+
 class Layer(object): ...
 
 @dataclass

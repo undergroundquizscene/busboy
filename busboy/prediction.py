@@ -30,22 +30,20 @@ import busboy.constants as c
 import busboy.database as db
 import busboy.model as m
 import busboy.util as u
-from busboy.geo import Latitude, Longitude
+from busboy.geo import Latitude, Longitude, to_metre_point
 from busboy.util import Just, Maybe, Nothing, first
 
-Latitude = float
-Longitude = float
 Coord = Tuple[Latitude, Longitude]
 DistanceVector = NewType("DistanceVector", Tuple[float, float])
 
 
-def stop_distance(r: Any, stop: Coord) -> float:
+def pd_stop_distance(r: Any, stop: Coord) -> float:
     return gpd.distance(stop, (r.latitude, r.longitude)).m
 
 
-def stop_distances(df: pd.DataFrame, stop: Coord) -> pd.DataFrame:
+def pd_stop_distances(df: pd.DataFrame, stop: Coord) -> pd.DataFrame:
     df2 = df.copy()
-    df2["stop_distance"] = [stop_distance(r, stop) for r in df.itertuples()]
+    df2["stop_distance"] = [pd_stop_distance(r, stop) for r in df.itertuples()]
     return df2
 
 
@@ -54,7 +52,7 @@ def stop_times_220(df: pd.DataFrame) -> pd.DataFrame:
     dfs = []
     for s in c.stops_on_220:
         if s is not None:
-            ndf = stop_distances(df, (s.latitude, s.longitude))
+            ndf = pd_stop_distances(df, (s.latitude, s.longitude))
             ndf = ndf[ndf["stop_distance"] < 100]
             include_stop(ndf, s)
             dfs.append(ndf)
@@ -64,12 +62,13 @@ def stop_times_220(df: pd.DataFrame) -> pd.DataFrame:
 def closest_stops_220(df: pd.DataFrame) -> pd.DataFrame:
     """Given the dataframe for a 220 trip, work out the closest stop for the bus at each point."""
     df["closest_stop"] = [
-        closest_stop(r.latitude, r.longitude, c.stops_on_220) for r in df.itertuples()
+        closest_stop_gpd(r.latitude, r.longitude, c.stops_on_220)
+        for r in df.itertuples()
     ]
     return df
 
 
-def closest_stop(latitude: float, longitude: float, stops: List[m.Stop]) -> m.Stop:
+def closest_stop_gpd(latitude: float, longitude: float, stops: List[m.Stop]) -> m.Stop:
     return min(
         stops,
         key=lambda s: gpd.distance((s.latitude, s.longitude), (latitude, longitude)),
@@ -273,3 +272,21 @@ def stop_times(
                 for position in these_positions:
                     lasts[variant][position] = entry[0].poll_time
     return output
+
+
+def stop_times_proximity(
+    entries: Iterable[db.DatabaseEntry],
+    stops: Iterable[m.Stop],
+    distance_limit: float = 100,
+) -> Iterator[Tuple[m.Stop, datetime]]:
+    for entry in entries:
+        for stop in stops:
+            distance = stop_distance_geopandas(entry, stop)
+            if distance < distance_limit:
+                yield (stop, entry.poll_time)
+
+
+def stop_distance_geopandas(snapshot: db.DatabaseEntry, stop: m.Stop) -> float:
+    snapshot_point = to_metre_point((snapshot.longitude, snapshot.latitude))
+    stop_point = to_metre_point((stop.longitude, stop.latitude))
+    return snapshot_point.distance(stop_point)

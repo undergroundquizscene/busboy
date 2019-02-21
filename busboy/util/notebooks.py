@@ -3,7 +3,7 @@ Utility functions for jupyter notebooks.
 """
 import time
 from collections import deque
-from typing import Deque, List, Tuple
+from typing import Callable, Deque, List, Tuple
 
 import ipyleaflet as lf
 
@@ -11,20 +11,29 @@ from busboy.database import DatabaseEntry
 from busboy.map.map import Map
 
 
+def entry_to_marker(entry: DatabaseEntry) -> lf.Marker:
+    return lf.Marker(
+        location=(entry.latitude, entry.longitude),
+        draggable=False,
+        title=entry.poll_time.time().isoformat(),
+    )
+
+
 def plot_entries(
     m: Map,
     entries: List[DatabaseEntry],
     interval: float = 0.1,
     initial_delay: float = 0.5,
+    entry_to_layer: Callable[[DatabaseEntry], lf.Layer] = entry_to_marker,
+    clear: bool = True,
 ) -> None:
     """Displays a list of entries gradually on a leaflet map."""
     time.sleep(initial_delay)
-    m.clear_layers()
+    if clear:
+        m.clear_layers()
     last = None
     for entry in sorted(entries, key=lambda e: e.poll_time):
-        m._add_marker(
-            entry.latitude, entry.longitude, entry.poll_time.time().isoformat()
-        )
+        m.add_layer(entry_to_layer(entry))
         if last is None or entry.poll_time != last:
             time.sleep(interval)
         last = entry.poll_time
