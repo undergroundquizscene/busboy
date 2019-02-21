@@ -235,9 +235,7 @@ def duplicate_positions(s1: db.BusSnapshot, s2: db.BusSnapshot) -> bool:
 
 def drop_duplicate_positions(
     snapshots: Iterable[db.BusSnapshot],
-    duplicates: Callable[
-        [db.BusSnapshot, db.BusSnapshot], bool
-    ] = duplicate_positions,
+    duplicates: Callable[[db.BusSnapshot, db.BusSnapshot], bool] = duplicate_positions,
 ) -> Iterator[db.BusSnapshot]:
     last = None
     for this in snapshots:

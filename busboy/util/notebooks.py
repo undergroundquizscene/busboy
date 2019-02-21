@@ -56,7 +56,9 @@ def plot_snapshot_trail(
             (
                 snapshot,
                 m._add_marker(
-                    snapshot.latitude, snapshot.longitude, snapshot.poll_time.time().isoformat()
+                    snapshot.latitude,
+                    snapshot.longitude,
+                    snapshot.poll_time.time().isoformat(),
                 ),
             )
         )
