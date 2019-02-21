@@ -12,6 +12,7 @@ from typing import (
     Iterator,
     List,
     NewType,
+    Optional,
     Set,
     Tuple,
     cast,
@@ -202,15 +203,6 @@ def possible_variants(
         yield (entry, positions)
 
 
-def entries_by_vehicle(
-    entries: List[db.DatabaseEntry]
-) -> Dict[m.VehicleId, List[db.DatabaseEntry]]:
-    ebv: Dict[m.VehicleId, List[db.DatabaseEntry]] = defaultdict(list)
-    for e in entries:
-        ebv[e.vehicle].append(e)
-    return ebv
-
-
 def check_variant_order(
     entries: List[Tuple[db.DatabaseEntry, Set[Tuple[api.TimetableVariant, int]]]]
 ) -> Iterable[Tuple[db.DatabaseEntry, Set[Tuple[api.TimetableVariant, int]]]]:
@@ -220,7 +212,10 @@ def check_variant_order(
             later_positions = map(lambda j: entries[j][1], range(i, len(entries)))
             first_change_positions = dict(
                 first(
-                    dropwhile(lambda ps: (variant, position) in ps, later_positions)
+                    dropwhile(
+                        lambda ps: len(ps) == 0 or (variant, position) in ps,
+                        later_positions,
+                    )
                 ).get([])
             )
             if (
@@ -250,3 +245,31 @@ def drop_duplicate_positions(
         if last is None or not duplicates(last, this):
             yield this
         last = this
+
+
+def stop_times(
+    entries: List[Tuple[db.DatabaseEntry, Dict[api.TimetableVariant, Set[int]]]]
+) -> Dict[api.TimetableVariant, Dict[int, List[Tuple[datetime, datetime]]]]:
+    all_variants = {t for (_, vs) in entries for t in vs}
+    lasts: Dict[api.TimetableVariant, Dict[int, datetime]] = defaultdict(dict)
+    output: Dict[
+        api.TimetableVariant, Dict[int, List[Tuple[datetime, datetime]]]
+    ] = defaultdict(dict)
+    for entry in entries:
+        for variant in all_variants:
+            these_positions = entry[1].get(variant)
+            last_positions = lasts.get(variant)
+            if these_positions is not None:
+                if last_positions is not None:
+                    positions_to_clear = []
+                    for (position, time) in last_positions.items():
+                        if position not in these_positions:
+                            output[variant].setdefault(position + 1, []).append(
+                                (time, entry[0].poll_time)
+                            )
+                            positions_to_clear.append(position)
+                    for position in positions_to_clear:
+                        del last_positions[position]
+                for position in these_positions:
+                    lasts[variant][position] = entry[0].poll_time
+    return output

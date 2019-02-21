@@ -19,6 +19,7 @@ from typing import (
     List,
     NoReturn,
     Optional,
+    Set,
     Tuple,
     TypeVar,
     Union,
@@ -122,6 +123,26 @@ def combine_dictionaries(xs: Dict[A, B], ys: Dict[A, B]) -> Dict[A, List[B]]:
     for k, v in chain(xs.items(), ys.items()):
         zs[k].append(v)
     return zs
+
+
+def dict_collect_list(xs: Iterable[A], key: Callable[[A], B]) -> Dict[B, List[A]]:
+    return dict_collect(xs, key, lambda xs, x: xs + [x], list)
+
+
+def dict_collect_set(xs: Iterable[A], key: Callable[[A], B]) -> Dict[B, Set[A]]:
+    return dict_collect(xs, key, lambda xs, x: xs.union({x}), set)
+
+
+def dict_collect(
+    xs: Iterable[A],
+    key: Callable[[A], B],
+    join: Callable[[C, A], C],
+    empty: Callable[[], C],
+) -> Dict[B, C]:
+    output: Dict[B, C] = defaultdict(empty)
+    for x in xs:
+        output[key(x)] = join(output[key(x)], x)
+    return output
 
 
 class Maybe(Generic[A]):
