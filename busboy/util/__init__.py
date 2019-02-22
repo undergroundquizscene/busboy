@@ -7,7 +7,7 @@ import time
 from collections import defaultdict
 from dataclasses import dataclass
 from functools import partial
-from itertools import chain, filterfalse, groupby, islice, tee
+from itertools import chain, filterfalse, groupby, islice, repeat, tee, zip_longest
 from operator import itemgetter
 from typing import (
     Callable,
@@ -50,6 +50,21 @@ def pairwise(xs: Iterable[A]) -> Iterable[Tuple[A, A]]:
     a, b = tee(xs)
     next(b, None)
     return zip(a, b)
+
+
+def sliding_window(size: int, xs: Iterable[A]) -> Iterator[Tuple[A, ...]]:
+    """A sliding window across the iterable xs.
+
+    sliding_window(3, [1,2,3,4,5]) -> ((1,2,3), (2,3,4), (3,4,5))
+    """
+    return zip(*(drop(i, ys) for i, ys in enumerate(tee(xs, size))))
+
+
+def tuplewise_padded(
+    n: int, xs: Iterable[A], pad_value: B = None
+) -> Iterator[Tuple[Union[A, B], ...]]:
+    start_padding, end_padding = tee(repeat(pad_value, n - 1))
+    return sliding_window(n, chain(start_padding, xs, end_padding))
 
 
 def take(n: int, iterable: Iterable[A]) -> Iterable[A]:
@@ -180,14 +195,14 @@ class Maybe(Generic[A]):
         else:
             return Just(x)
 
-    def get(self, default: B) -> Union[A, B]:
+    def or_else(self, default: B) -> Union[A, B]:
         if isinstance(self, Just):
             return self.value
         else:
             return default
 
     def optional(self) -> Optional[A]:
-        return self.get(None)
+        return self.or_else(None)
 
     def either(self, default: E) -> Either[E, A]:
         if isinstance(self, Just):

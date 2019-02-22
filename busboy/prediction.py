@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from collections import defaultdict, namedtuple
 from dataclasses import dataclass
 from datetime import datetime, timedelta
@@ -15,6 +17,7 @@ from typing import (
     Optional,
     Set,
     Tuple,
+    Union,
     cast,
     overload,
 )
@@ -31,7 +34,7 @@ import busboy.database as db
 import busboy.model as m
 import busboy.util as u
 from busboy.geo import Latitude, Longitude, to_metre_point
-from busboy.util import Just, Maybe, Nothing, first, pairwise
+from busboy.util import Just, Maybe, Nothing, drop, first, pairwise, tuplewise_padded
 
 Coord = Tuple[Latitude, Longitude]
 DistanceVector = NewType("DistanceVector", Tuple[float, float])
@@ -133,6 +136,29 @@ class RouteSection(object):
         return self.polygon.contains(Point(lat, lon))
 
 
+NewRouteSection = Union["RoadSection", "StopCircle"]
+
+
+@dataclass(frozen=True)
+class AbstractRouteSection(object):
+    polygon: sg.Polygon
+
+
+@dataclass(frozen=True)
+class RoadSection(AbstractRouteSection):
+    def difference(self, circle: StopCircle) -> Maybe[RoadSection]:
+        new_polygon = self.polygon.difference(circle.polygon)
+        if isinstance(new_polygon, sg.Polygon):
+            return Just(RoadSection(new_polygon))
+        else:
+            return Nothing()
+
+
+@dataclass(frozen=True)
+class StopCircle(AbstractRouteSection):
+    stop: m.Stop
+
+
 def route_sections(stops: Iterable[m.Stop], width: float = 0.001) -> List[RouteSection]:
     lss = [
         (
@@ -159,6 +185,58 @@ def route_sections(stops: Iterable[m.Stop], width: float = 0.001) -> List[RouteS
         )
         for s1, s2, ls in lss
     ]
+
+
+def new_route_sections(
+    stops: Iterable[m.Stop],
+    rectangle_width: float = 0.001,
+    circle_radius: float = 0.001,
+) -> Iterator[NewRouteSection]:
+    def make_circle(stop: m.Stop) -> StopCircle:
+        return StopCircle(
+            cast(sg.Polygon, sg.Point(stop.lat_lon).buffer(circle_radius)), stop
+        )
+
+    def shapes() -> Iterator[NewRouteSection]:
+        for s1, s2 in pairwise(stops):
+            yield make_circle(s1)
+            yield RoadSection(
+                widen_line(
+                    cast(
+                        LineString,
+                        sg.MultiPoint(
+                            [s1.lat_lon, s2.lat_lon]
+                        ).minimum_rotated_rectangle,
+                    ),
+                    rectangle_width,
+                )
+            )
+        yield make_circle(s2)
+
+    for section1, section2, section3 in drop(
+        1, (tuplewise_padded(3, map(lambda x: Just(x), shapes()), pad_value=Nothing()))
+    ):
+        if isinstance(section2, Just):
+            if isinstance(section2.value, RoadSection):
+                if isinstance(section1, Just) and isinstance(
+                    section1.value, StopCircle
+                ):
+                    section2 = section2.value.difference(section1.value)
+                if isinstance(section3, Just) and isinstance(
+                    section3.value, StopCircle
+                ):
+                    section2 = section2.bind(lambda s: s.difference(section3.value))
+        if isinstance(section2, Just):
+            yield section2.value
+
+
+def widen_line(linestring: sg.LineString, width: float) -> sg.Polygon:
+    linestrings = [
+        linestring,
+        linestring.parallel_offset(width, "left"),
+        linestring.parallel_offset(width, "right"),
+    ]
+    return sg.MultiLineString(linestrings).minimum_rotated_rectangle
 
 
 def assign_region(

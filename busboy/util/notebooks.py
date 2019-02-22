@@ -7,6 +7,8 @@ from typing import Callable, Deque, List, Tuple
 
 import ipyleaflet as lf
 
+import busboy.prediction as prediction
+from busboy.apis import Timetable
 from busboy.database import BusSnapshot
 from busboy.map.map import Map
 
@@ -65,3 +67,30 @@ def plot_snapshot_trail(
         while len(trail) > trail_size:
             old_snapshot, layer = trail.popleft()
             m.remove_layer(layer)
+
+
+def show_timetables(map: Map, timetables: List[Timetable]) -> None:
+    for i, timetable in enumerate(timetables):
+        for j, variant in enumerate(timetable.variants):
+            group = lf.LayerGroup(name=f"{timetable.caption}, variant {j}")
+            for stop in variant.stops:
+                group.add_layer(
+                    lf.Marker(
+                        location=(stop.latitude, stop.longitude),
+                        draggable=False,
+                        title=stop.name,
+                    )
+                )
+            map.add_layer(group)
+            section_group = lf.LayerGroup(
+                name=f"(Shapes) {timetable.caption}, variant {j}"
+            )
+            for section in prediction.new_route_sections(variant.stops):
+                p = section.polygon
+                section_group.add_layer(
+                    lf.Polygon(
+                        locations=[list(p.exterior.coords), list(p.interiors)],
+                        color="blue",
+                    )
+                )
+            map.add_layer(section_group)
