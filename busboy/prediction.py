@@ -126,22 +126,15 @@ def angle_between(v1: DistanceVector, v2: DistanceVector) -> float:
     return np.arccos(np.clip(np.dot(v1_u, v2_u), -1.0, 1.0))
 
 
-@dataclass(frozen=True)
-class RouteSection(object):
-    s1: m.Stop
-    s2: m.Stop
-    polygon: sg.Polygon
-
-    def contains(self, lon: Longitude, lat: Latitude) -> bool:
-        return self.polygon.contains(Point(lat, lon))
-
-
-NewRouteSection = Union["RoadSection", "StopCircle"]
+RouteSection = Union["RoadSection", "StopCircle"]
 
 
 @dataclass(frozen=True)
 class AbstractRouteSection(object):
     polygon: sg.Polygon
+
+    def contains(self, lon: Longitude, lat: Latitude) -> bool:
+        return self.polygon.contains(Point(lat, lon))
 
 
 @dataclass(frozen=True)
@@ -159,45 +152,17 @@ class StopCircle(AbstractRouteSection):
     stop: m.Stop
 
 
-def route_sections(stops: Iterable[m.Stop], width: float = 0.001) -> List[RouteSection]:
-    lss = [
-        (
-            s1,
-            s2,
-            cast(
-                LineString,
-                sg.MultiPoint([s1.lat_lon, s2.lat_lon]).minimum_rotated_rectangle,
-            ),
-        )
-        for s1, s2 in u.pairwise(stops)
-    ]
-    return [
-        RouteSection(
-            s1,
-            s2,
-            sg.MultiLineString(
-                [
-                    ls,
-                    ls.parallel_offset(width, "left"),
-                    ls.parallel_offset(width, "right"),
-                ]
-            ).minimum_rotated_rectangle,
-        )
-        for s1, s2, ls in lss
-    ]
-
-
-def new_route_sections(
+def route_sections(
     stops: Iterable[m.Stop],
     rectangle_width: float = 0.001,
     circle_radius: float = 0.001,
-) -> Iterator[NewRouteSection]:
+) -> Iterator[RouteSection]:
     def make_circle(stop: m.Stop) -> StopCircle:
         return StopCircle(
             cast(sg.Polygon, sg.Point(stop.lat_lon).buffer(circle_radius)), stop
         )
 
-    def shapes() -> Iterator[NewRouteSection]:
+    def shapes() -> Iterator[RouteSection]:
         for s1, s2 in pairwise(stops):
             yield make_circle(s1)
             yield RoadSection(
@@ -214,7 +179,7 @@ def new_route_sections(
         yield make_circle(s2)
 
     for section1, section2, section3 in drop(
-        1, (tuplewise_padded(3, map(lambda x: Just(x), shapes()), pad_value=Nothing()))
+        1, (tuplewise_padded(3, (Just(x) for x in shapes()), pad_value=Nothing()))
     ):
         if isinstance(section2, Just):
             if isinstance(section2.value, RoadSection):
@@ -320,6 +285,39 @@ def drop_duplicate_positions(
         if last is None or not duplicates(last, this):
             yield this
         last = this
+
+
+EntryWindow = Tuple[datetime, datetime]
+ExitWindow = Tuple[datetime, datetime]
+
+def section_times(
+    snapshots: List[Tuple[db.BusSnapshot, Dict[api.TimetableVariant, Set[int]]]],
+    sections: Dict[api.TimetableVariant, List[RouteSection]]
+) -> Dict[api.TimetableVariant, List[Tuple[RouteSection, EntryWindow, ExitWindow]]]:
+    """Calculates entry and exit times for each section in snapshots."""
+    section_windows: Dict[api.TimetableVariant, List[Tuple[RouteSection, EntryWindow, ExitWindow]]] = defaultdict(list)
+    sections_entered: Dict[Tuple[api.TimetableVariant, int], EntryWindow] = {}
+    last_positions: Dict[api.TimetableVariant, Set[int]] = defaultdict(set)
+    last_time: Optional[datetime] = None
+    for snapshot, positions in snapshots:
+        for variant, these_positions in positions.items():
+            if not these_positions:
+                continue
+            for position in these_positions.difference(last_positions[variant]):
+                if last_time is None:
+                    window = (snapshot.poll_time, snapshot.poll_time)
+                else:
+                    window = (last_time, snapshot.poll_time)
+                sections_entered[(variant, position)] = window
+            for position in last_positions[variant].difference(these_positions):
+                if last_time is None:
+                    exit_interval = snapshot.poll_time, snapshot.poll_time
+                else:
+                    exit_interval = last_time, snapshot.poll_time
+                section_time = (sections[variant][position], sections_entered[(variant, position)], exit_interval)
+                section_windows[variant].append(section_time)
+    return section_windows
+
 
 
 def stop_times(
