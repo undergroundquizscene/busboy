@@ -235,7 +235,7 @@ def most_recent_stops(
 def possible_variants(
     snapshots: Iterable[db.BusSnapshot], timetables: Set[api.TimetableVariant]
 ) -> Iterable[Tuple[db.BusSnapshot, Set[Tuple[api.TimetableVariant, int]]]]:
-    sections = {tv: route_sections(tv.stops) for tv in timetables}
+    sections = {tv: list(route_sections(tv.stops)) for tv in timetables}
     for snapshot in snapshots:
         positions = set()
         for tv, rs in sections.items():
@@ -258,7 +258,7 @@ def check_variant_order(
                         lambda ps: len(ps) == 0 or (variant, position) in ps,
                         later_positions,
                     )
-                ).get([])
+                ).or_else([])
             )
             if (
                 variant in first_change_positions
@@ -287,64 +287,95 @@ def drop_duplicate_positions(
         last = this
 
 
-EntryWindow = Tuple[datetime, datetime]
-ExitWindow = Tuple[datetime, datetime]
+EntryWindow = Tuple[Maybe[datetime], Maybe[datetime]]
+ExitWindow = Tuple[Maybe[datetime], Maybe[datetime]]
+
 
 def section_times(
     snapshots: List[Tuple[db.BusSnapshot, Dict[api.TimetableVariant, Set[int]]]],
-    sections: Dict[api.TimetableVariant, List[RouteSection]]
-) -> Dict[api.TimetableVariant, List[Tuple[RouteSection, EntryWindow, ExitWindow]]]:
-    """Calculates entry and exit times for each section in snapshots."""
-    section_windows: Dict[api.TimetableVariant, List[Tuple[RouteSection, EntryWindow, ExitWindow]]] = defaultdict(list)
+    sections: Dict[api.TimetableVariant, List[RouteSection]],
+) -> Dict[api.TimetableVariant, List[Tuple[int, EntryWindow, ExitWindow]]]:
+    """Calculates entry and exit times for each section in snapshots.
+
+    Arguments:
+        snapshots: The bus snapshots, each with, for each timetable variant,
+            the sections that snapshot falls in.
+        sections: The sections in each timetable variant (in order).
+
+    Returns:
+        For each timetable variant, the route sections that were entered and
+        exited in snapshots, in order of exit.
+    """
+    section_windows: Dict[
+        api.TimetableVariant, List[Tuple[int, EntryWindow, ExitWindow]]
+    ] = defaultdict(list)
     sections_entered: Dict[Tuple[api.TimetableVariant, int], EntryWindow] = {}
-    last_positions: Dict[api.TimetableVariant, Set[int]] = defaultdict(set)
-    last_time: Optional[datetime] = None
+    last_positions: Dict[api.TimetableVariant, Set[int]] = {}
+    last_time: Maybe[datetime] = Nothing()
     for snapshot, positions in snapshots:
+        update_positions = False
         for variant, these_positions in positions.items():
             if not these_positions:
                 continue
-            for position in these_positions.difference(last_positions[variant]):
-                if last_time is None:
-                    window = (snapshot.poll_time, snapshot.poll_time)
-                else:
-                    window = (last_time, snapshot.poll_time)
+            else:
+                update_positions = True
+            for position in these_positions.difference(
+                last_positions.get(variant, set())
+            ):
+                window = (last_time, Just(snapshot.poll_time))
                 sections_entered[(variant, position)] = window
-            for position in last_positions[variant].difference(these_positions):
-                if last_time is None:
-                    exit_interval = snapshot.poll_time, snapshot.poll_time
-                else:
-                    exit_interval = last_time, snapshot.poll_time
-                section_time = (sections[variant][position], sections_entered[(variant, position)], exit_interval)
+            for position in last_positions.get(variant, set()).difference(
+                these_positions
+            ):
+                exit_interval = last_time, Just(snapshot.poll_time)
+                section_time = (
+                    position,
+                    sections_entered[(variant, position)],
+                    exit_interval,
+                )
                 section_windows[variant].append(section_time)
+        if update_positions:
+            last_positions = positions
+            last_time = Just(snapshot.poll_time)
     return section_windows
 
 
-
 def stop_times(
-    snapshots: List[Tuple[db.BusSnapshot, Dict[api.TimetableVariant, Set[int]]]]
-) -> Dict[api.TimetableVariant, Dict[int, List[Tuple[datetime, datetime]]]]:
-    all_variants = {t for (_, vs) in snapshots for t in vs}
-    lasts: Dict[api.TimetableVariant, Dict[int, datetime]] = defaultdict(dict)
+    snapshots: List[Tuple[db.BusSnapshot, Dict[api.TimetableVariant, Set[int]]]],
+    sections: Dict[api.TimetableVariant, List[RouteSection]],
+) -> Dict[
+    api.TimetableVariant, List[List[Tuple[Optional[datetime], Optional[datetime]]]]
+]:
+    section_windows: Dict[
+        api.TimetableVariant, List[Tuple[int, EntryWindow, ExitWindow]]
+    ] = section_times(snapshots, sections)
     output: Dict[
-        api.TimetableVariant, Dict[int, List[Tuple[datetime, datetime]]]
-    ] = defaultdict(dict)
-    for snapshot in snapshots:
-        for variant in all_variants:
-            these_positions = snapshot[1].get(variant)
-            last_positions = lasts.get(variant)
-            if these_positions is not None:
-                if last_positions is not None:
-                    positions_to_clear = []
-                    for (position, time) in last_positions.items():
-                        if position not in these_positions:
-                            output[variant].setdefault(position + 1, []).append(
-                                (time, snapshot[0].poll_time)
-                            )
-                            positions_to_clear.append(position)
-                    for position in positions_to_clear:
-                        del last_positions[position]
-                for position in these_positions:
-                    lasts[variant][position] = snapshot[0].poll_time
+        api.TimetableVariant, List[List[Tuple[Optional[datetime], Optional[datetime]]]]
+    ] = {}
+    last_exit: Optional[ExitWindow] = None
+    last_position = 0
+    for variant, windows in section_windows.items():
+        variant_sections = sections[variant]
+        for position, entry, exit in windows:
+            # advance (with recording) variant_sections to match position
+            if last_position > position:
+                trips = output.setdefault(variant, [[]])
+                for section in variant_sections[last_position:-1]:
+                    if isinstance(section, StopCircle):
+                        trips[-1].append(
+                            (last_exit[0] if last_exit is not None else last_exit, None)
+                        )
+                trips.append([])
+                last_position = 0
+            for section in variant_sections[last_position:position]:
+                if isinstance(section, StopCircle):
+                    output.setdefault(variant, [[]])[-1].append(
+                        (last_exit[0] if last_exit is not None else last_exit, entry[1])
+                    )
+            section = sections[variant][position]
+            if isinstance(section, StopCircle):
+                output.setdefault(variant, [[]])[-1].append((entry[1], exit[0]))
+            last_exit = exit
     return output
 
 

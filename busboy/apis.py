@@ -241,6 +241,8 @@ class TimetableVariant(object):
     def __str__(self) -> str:
         return f"(route: {self.route}, start: {self.stops[0].name}, end: {self.stops[-1].name})"
 
+    __repr__ = __str__
+
 
 def stops_from_names(
     names: Iterable[str], sbn: Dict[str, Stop]
