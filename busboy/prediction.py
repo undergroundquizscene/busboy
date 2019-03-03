@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections import defaultdict, namedtuple
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from functools import partial, singledispatch
+from functools import partial, reduce, singledispatch
 from itertools import dropwhile
 from typing import (
     Any,
@@ -297,6 +297,8 @@ def section_times(
 ) -> Dict[api.TimetableVariant, List[Tuple[int, EntryWindow, ExitWindow]]]:
     """Calculates entry and exit times for each section in snapshots.
 
+    Currently misses the last section seen in a route, and I’m not sure why.
+
     Arguments:
         snapshots: The bus snapshots, each with, for each timetable variant,
             the sections that snapshot falls in.
@@ -338,6 +340,39 @@ def section_times(
             last_positions = positions
             last_time = Just(snapshot.poll_time)
     return section_windows
+
+
+def journeys(
+    section_times: Dict[api.TimetableVariant, List[Tuple[int, EntryWindow, ExitWindow]]]
+) -> Dict[api.TimetableVariant, List[List[Tuple[int, EntryWindow, ExitWindow]]]]:
+    """Splits a vehicle’s positions on a timetable into journeys from start to
+    end.
+    """
+    Accumulator = Tuple[
+        int,
+        List[Tuple[int, EntryWindow, ExitWindow]],
+        List[List[Tuple[int, EntryWindow, ExitWindow]]],
+    ]
+
+    def f(acc: Accumulator, x: Tuple[int, EntryWindow, ExitWindow]) -> Accumulator:
+        position, _, _ = x
+        last_position, this_journey, journeys = acc
+        if position < last_position:
+            return (position, [x], journeys + [this_journey])
+        else:
+            return (position, this_journey + [x], journeys)
+
+    return {v: reduce(f, ts, (0, [], []))[2] for v, ts in section_times.items()}
+    # journeys = []
+    # this_journey: List[Tuple[int, EntryWindow, ExitWindow]] = []
+    # last_position = 0
+    # for position, entry, exit in times:
+    #     if position < last_position:
+    #         journeys.append(this_journey)
+    #         this_journey = []
+    #     this_journey.append((position, entry, exit))
+    #     last_position = position
+    # output[variant] = journeys
 
 
 def stop_times(
