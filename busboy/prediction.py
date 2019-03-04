@@ -309,9 +309,7 @@ def section_times(
         For each timetable variant, the route sections that were entered and
         exited in snapshots, in order of exit.
     """
-    section_windows: Dict[
-        api.TimetableVariant, List[SectionTime]
-    ] = defaultdict(list)
+    section_windows: Dict[api.TimetableVariant, List[SectionTime]] = defaultdict(list)
     sections_entered: Dict[Tuple[api.TimetableVariant, int], EntryWindow] = {}
     last_positions: Dict[api.TimetableVariant, Set[int]] = {}
     last_time: Maybe[datetime] = Nothing()
@@ -331,11 +329,9 @@ def section_times(
                 these_positions
             ):
                 exit_interval = last_time, Just(snapshot.poll_time)
-                section_time = SectionTime((
-                    position,
-                    sections_entered[(variant, position)],
-                    exit_interval,
-                ))
+                section_time = SectionTime(
+                    (position, sections_entered[(variant, position)], exit_interval)
+                )
                 section_windows[variant].append(section_time)
         if update_positions:
             last_positions = positions
@@ -372,7 +368,9 @@ def journeys(
     # output[variant] = journeys
 
 
-def pad_journeys(variant_journeys: Dict[api.TimetableVariant, List[List[SectionTime]]]) -> Dict[api.TimetableVariant, List[List[SectionTime]]]:
+def pad_journeys(
+    variant_journeys: Dict[api.TimetableVariant, List[List[SectionTime]]]
+) -> Dict[api.TimetableVariant, List[List[SectionTime]]]:
     """Fill in missing sections in journeys."""
     output = {}
     for variant, journeys in variant_journeys.items():
@@ -384,7 +382,15 @@ def pad_journeys(variant_journeys: Dict[api.TimetableVariant, List[List[SectionT
             for time in journey:
                 position, entry, exit = time
                 for missing_position in range(last_position + 1, position):
-                    output_journey.append(SectionTime((missing_position, (last_exit[0], Nothing()), (Nothing(), last_exit[1]))))
+                    output_journey.append(
+                        SectionTime(
+                            (
+                                missing_position,
+                                (last_exit[0], Nothing()),
+                                (Nothing(), last_exit[1]),
+                            )
+                        )
+                    )
                 output_journey.append(time)
                 last_position = position
                 last_exit = exit
@@ -393,17 +399,15 @@ def pad_journeys(variant_journeys: Dict[api.TimetableVariant, List[List[SectionT
     return output
 
 
-
-
 def stop_times(
     snapshots: List[Tuple[db.BusSnapshot, Dict[api.TimetableVariant, Set[int]]]],
     sections: Dict[api.TimetableVariant, List[RouteSection]],
 ) -> Dict[
     api.TimetableVariant, List[List[Tuple[Optional[datetime], Optional[datetime]]]]
 ]:
-    section_windows: Dict[
-        api.TimetableVariant, List[List[SectionTime]]
-    ] = pad_journeys(journeys(section_times(snapshots, sections)))
+    section_windows: Dict[api.TimetableVariant, List[List[SectionTime]]] = pad_journeys(
+        journeys(section_times(snapshots, sections))
+    )
     output: Dict[
         api.TimetableVariant, List[List[Tuple[Optional[datetime], Optional[datetime]]]]
     ] = {}
