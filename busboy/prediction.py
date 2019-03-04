@@ -345,17 +345,21 @@ def journeys(
     """Splits a vehicle’s positions on a timetable into journeys from start to
     end.
     """
-    Accumulator = Tuple[int, List[SectionTime], List[List[SectionTime]]]
+    Accumulator = NewType(
+        "Accumulator", Tuple[int, List[SectionTime], List[List[SectionTime]]]
+    )
 
     def f(acc: Accumulator, x: SectionTime) -> Accumulator:
         position, _, _ = x
         last_position, this_journey, journeys = acc
         if position < last_position:
-            return (position, [x], journeys + [this_journey])
+            return Accumulator((position, [x], journeys + [this_journey]))
         else:
-            return (position, this_journey + [x], journeys)
+            return Accumulator((position, this_journey + [x], journeys))
 
-    return {v: reduce(f, ts, (0, [], []))[2] for v, ts in section_times.items()}
+    return {
+        v: reduce(f, ts, Accumulator((0, [], [])))[2] for v, ts in section_times.items()
+    }
     # journeys = []
     # this_journey: List[Tuple[int, EntryWindow, ExitWindow]] = []
     # last_position = 0
