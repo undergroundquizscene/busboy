@@ -298,8 +298,6 @@ def section_times(
 ) -> Dict[api.TimetableVariant, List[SectionTime]]:
     """Calculates entry and exit times for each section in snapshots.
 
-    Currently misses the last section seen in a route, and I’m not sure why.
-
     Arguments:
         snapshots: The bus snapshots, each with, for each timetable variant,
             the sections that snapshot falls in.
@@ -333,6 +331,15 @@ def section_times(
                     (position, sections_entered[(variant, position)], exit_interval)
                 )
                 section_windows[variant].append(section_time)
+        for variant, old_positions in last_positions.items():
+            if variant not in positions:
+                for position in list(old_positions):
+                    exit_interval = last_time, Just(snapshot.poll_time)
+                    section_time = SectionTime(
+                        (position, sections_entered[(variant, position)], exit_interval)
+                    )
+                    section_windows[variant].append(section_time)
+                    old_positions.remove(position)
         if update_positions:
             last_positions = positions
             last_time = Just(snapshot.poll_time)
