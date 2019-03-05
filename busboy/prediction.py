@@ -403,33 +403,44 @@ def pad_journeys(
     return output
 
 
-ArrivalWindow = NewType("ArrivalWindow", Tuple[Maybe[datetime], Maybe[datetime]])
-DepartureWindow = NewType("DepartureWindow", Tuple[Maybe[datetime], Maybe[datetime]])
+StopArrival = Union["SeenAtStop", "NotSeenAtStop"]
+
+
+@dataclass
+class SeenAtStop(object):
+    last_before: Maybe[datetime]
+    first_at: datetime
+    last_at: datetime
+    last_after: Maybe[datetime]
+
+
+@dataclass
+class NotSeenAtStop(object):
+    last_before: Maybe[datetime]
+    first_after: Maybe[datetime]
 
 
 def stop_times(
     snapshots: List[Tuple[db.BusSnapshot, Dict[api.TimetableVariant, Set[int]]]],
     sections: Dict[api.TimetableVariant, List[RouteSection]],
-) -> Dict[api.TimetableVariant, List[List[Tuple[ArrivalWindow, DepartureWindow]]]]:
+) -> Dict[api.TimetableVariant, List[List[StopArrival]]]:
     """Calculate time windows in which a bus reached each stop on its route."""
     section_windows: Dict[api.TimetableVariant, List[List[SectionTime]]] = pad_journeys(
         journeys(section_times(snapshots, sections))
     )
-    output: Dict[
-        api.TimetableVariant, List[List[Tuple[ArrivalWindow, DepartureWindow]]]
-    ] = {}
+    output: Dict[api.TimetableVariant, List[List[StopArrival]]] = {}
     for variant, variant_journeys in section_windows.items():
         journey_stops = []
         for journey in variant_journeys:
-            stops = []
+            stops: List[StopArrival] = []
             for position, entry, exit in journey:
                 if isinstance(sections[variant][position], StopCircle):
-                    if entry[1] == Nothing() and exit[0] == Nothing():
-                        arrival = ArrivalWindow((entry[0], exit[1]))
-                        departure = DepartureWindow((entry[0], exit[1]))
-                        stops.append((arrival, departure))
+                    if isinstance(entry[1], Just) and isinstance(exit[0], Just):
+                        stops.append(
+                            SeenAtStop(entry[0], entry[1].value, exit[0].value, exit[1])
+                        )
                     else:
-                        stops.append((ArrivalWindow(entry), DepartureWindow(exit)))
+                        stops.append(NotSeenAtStop(entry[0], exit[1]))
             journey_stops.append(stops)
         output[variant] = journey_stops
     return output
