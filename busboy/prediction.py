@@ -403,42 +403,35 @@ def pad_journeys(
     return output
 
 
+ArrivalWindow = NewType("ArrivalWindow", Tuple[Maybe[datetime], Maybe[datetime]])
+DepartureWindow = NewType("DepartureWindow", Tuple[Maybe[datetime], Maybe[datetime]])
+
+
 def stop_times(
     snapshots: List[Tuple[db.BusSnapshot, Dict[api.TimetableVariant, Set[int]]]],
     sections: Dict[api.TimetableVariant, List[RouteSection]],
-) -> Dict[
-    api.TimetableVariant, List[List[Tuple[Optional[datetime], Optional[datetime]]]]
-]:
+) -> Dict[api.TimetableVariant, List[List[Tuple[ArrivalWindow, DepartureWindow]]]]:
+    """Calculate time windows in which a bus reached each stop on its route."""
     section_windows: Dict[api.TimetableVariant, List[List[SectionTime]]] = pad_journeys(
         journeys(section_times(snapshots, sections))
     )
     output: Dict[
-        api.TimetableVariant, List[List[Tuple[Optional[datetime], Optional[datetime]]]]
+        api.TimetableVariant, List[List[Tuple[ArrivalWindow, DepartureWindow]]]
     ] = {}
-    last_exit: Optional[ExitWindow] = None
-    last_position = 0
-    for variant, windows in section_windows.items():
-        variant_sections = sections[variant]
-        for position, entry, exit in windows:
-            # advance (with recording) variant_sections to match position
-            if last_position > position:
-                trips = output.setdefault(variant, [[]])
-                for section in variant_sections[last_position:-1]:
-                    if isinstance(section, StopCircle):
-                        trips[-1].append(
-                            (last_exit[0] if last_exit is not None else last_exit, None)
-                        )
-                trips.append([])
-                last_position = 0
-            for section in variant_sections[last_position:position]:
-                if isinstance(section, StopCircle):
-                    output.setdefault(variant, [[]])[-1].append(
-                        (last_exit[0] if last_exit is not None else last_exit, entry[1])
-                    )
-            section = sections[variant][position]
-            if isinstance(section, StopCircle):
-                output.setdefault(variant, [[]])[-1].append((entry[1], exit[0]))
-            last_exit = exit
+    for variant, variant_journeys in section_windows.items():
+        journey_stops = []
+        for journey in variant_journeys:
+            stops = []
+            for position, entry, exit in journey:
+                if isinstance(sections[variant][position], StopCircle):
+                    if entry[1] == Nothing() and exit[0] == Nothing():
+                        arrival = ArrivalWindow((entry[0], exit[1]))
+                        departure = DepartureWindow((entry[0], exit[1]))
+                        stops.append((arrival, departure))
+                    else:
+                        stops.append((ArrivalWindow(entry), DepartureWindow(exit)))
+            journey_stops.append(stops)
+        output[variant] = journey_stops
     return output
 
 
