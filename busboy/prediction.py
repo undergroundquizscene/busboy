@@ -411,7 +411,7 @@ class SeenAtStop(object):
     last_before: Maybe[datetime]
     first_at: datetime
     last_at: datetime
-    last_after: Maybe[datetime]
+    first_after: Maybe[datetime]
 
 
 @dataclass
