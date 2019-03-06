@@ -85,7 +85,7 @@ def show_timetables(map: Map, timetables: List[Timetable]) -> None:
             section_group = lf.LayerGroup(
                 name=f"(Shapes) {timetable.caption}, variant {j}"
             )
-            for section in prediction.new_route_sections(variant.stops):
+            for section in prediction.route_sections(variant.stops):
                 p = section.polygon
                 section_group.add_layer(
                     lf.Polygon(
