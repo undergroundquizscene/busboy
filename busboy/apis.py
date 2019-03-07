@@ -86,7 +86,7 @@ def routes_at_stops() -> Dict[str, Set[str]]:
 
 @singledispatch
 def stop_passage(params: Dict[str, str]) -> StopPassageResponse:
-    j = requests.get(stop_passage_tdi, params=params).json()
+    j = requests.get(stop_passage_tdi, params=params, verify=False).json()
     return StopPassageResponse.from_json(j)
 
 
