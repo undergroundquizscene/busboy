@@ -1,4 +1,4 @@
-from sys import argv
+from sys import argv, warnoptions
 
 import busboy.recording as rec
 
@@ -11,4 +11,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
+    if not warnoptions:
+        import warnings
+
+        warnings.simplefilter("ignore")
+
     main()
