@@ -38,9 +38,26 @@ create table stops (
         longitude double precision
 );
 
-create table route_stops (
+create table timetables (
+        id int generated always as identity primary key,
+        caption text
+);
+
+create table route_timetables (
         route varchar(30) references routes(id),
+        timetable int references timetables(id),
+        primary key (route, timetable)
+);
+
+create table timetable_variants (
+        id int generated always as identity primary key,
+        route_name varchar(10),
+        timetable_id int references timetables(id)
+);
+
+create table variant_stops (
+        position int,
+        variant int references timetable_variants(id),
         stop varchar(30) references stops(id),
-        order_position integer,
-        variants smallint array
+        primary key (variant, position)
 );

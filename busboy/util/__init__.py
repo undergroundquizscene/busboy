@@ -201,6 +201,12 @@ class Maybe(Generic[A]):
         else:
             return default
 
+    def or_else_lazy(self, default: Callable[[], B]) -> Union[A, B]:
+        if isinstance(self, Just):
+            return self.value
+        else:
+            return default()
+
     def optional(self) -> Optional[A]:
         return self.or_else(None)
 

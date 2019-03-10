@@ -4,7 +4,7 @@ import datetime as dt
 import json
 from dataclasses import InitVar, dataclass, field, fields
 from datetime import date, datetime
-from typing import Any, Dict, List, Optional, Set, Tuple, Union, cast
+from typing import Any, Dict, Iterator, List, Optional, Set, Tuple, Union, cast
 
 import geopandas as gpd
 import pandas as pd
@@ -14,9 +14,12 @@ from psycopg2.extensions import connection, cursor
 
 import busboy.geo as g
 import busboy.model as m
+from busboy.apis import Timetable, TimetableVariant
+import busboy.apis as api
+from busboy.constants import stops_by_route
 from busboy.geo import DegreeLatitude, DegreeLongitude
-from busboy.model import Passage, Route, Stop, TripId
-from busboy.util import Maybe
+from busboy.model import Passage, Route, RouteId, Stop, StopId, TripId
+from busboy.util import Either, Just, Left, Maybe, Nothing, Right
 
 
 def default_connection() -> connection:
@@ -147,6 +150,120 @@ def store_trip(
                 return None
         except Exception as e:
             return e
+
+
+def store_timetables() -> None:
+    sbn = stops_by_name()
+    rbn = routes_by_name()
+    conn = default_connection()
+    for route in stops_by_route:
+        for timetable in api.timetables(route, sbn):
+            store_timetable(timetable, rbn[route].id, conn)
+
+
+def store_timetable(timetable: Timetable, route: RouteId, conn: Optional[connection] = None) -> None:
+    if conn is None:
+        conn = default_connection()
+    with conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """
+                insert into timetables (caption) values (%s) returning id
+                """,
+                [timetable.caption],
+            )
+            row = cast(Tuple[Any, ...], cursor.fetchone())
+            timetable_id = row[0]
+            cursor.execute(
+                """
+                insert into route_timetables (route, timetable)
+                values (%s, %s)
+                """,
+                [route.raw, timetable_id]
+            )
+            for variant in timetable.variants:
+                cursor.execute(
+                    """
+                    insert into timetable_variants (route_name, timetable_id)
+                    values (%s, %s) returning id
+                    """,
+                    [variant.route.strip(), timetable_id]
+                )
+                variant_id = cast(Tuple[Any, ...], cursor.fetchone())[0]
+                for position, stop in enumerate(variant.stops):
+                    cursor.execute(
+                        """
+                        insert into variant_stops (position, variant, stop)
+                        values (%s, %s, %s)
+                        """,
+                        [position, variant_id, stop.id.raw]
+                    )
+
+def timetables(route: RouteId, connection: Maybe[connection] = Nothing()) -> Iterator[Either[str, Timetable]]:
+    """Gets the timetables for a specific route from the database."""
+    with connection.or_else_lazy(default_connection) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """
+                select timetable from route_timetables
+                where route = %s
+                """,
+                [route.raw],
+            )
+            for (timetable_id,) in cursor.fetchall():
+                yield timetable(timetable_id, Just(conn))
+
+
+def timetable(timetable_id: int, connection: Maybe[connection] = Nothing()) -> Either[str, Timetable]:
+    with connection.or_else_lazy(default_connection) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """
+                select caption from timetables
+                where id = %s
+                """,
+                [timetable_id],
+            )
+            result = cursor.fetchone()
+            if result is None:
+                return Left(f"Timetable {timetable_id} not in database")
+            caption = result[0]
+            cursor.execute(
+                """
+                select id from timetable_variants
+                where timetable_id = %s
+                """,
+                [timetable_id],
+            )
+            variants = (timetable_variant(id, Just(conn)) for (id,) in cursor.fetchall())
+            return Right(Timetable(caption, {v.value for v in variants if isinstance(v, Right)}))
+
+
+def timetable_variant(variant_id: int, connection: Maybe[connection] = Nothing()) -> Either[str, TimetableVariant]:
+    with connection.or_else_lazy(default_connection) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                """
+                select route_name from timetable_variants
+                where id = %s
+                """,
+                [variant_id],
+            )
+            variant_row = cursor.fetchone()
+            if variant_row is None:
+                return Left(f"Variant {variant_id} not in database")
+            route_name = variant_row[0]
+            cursor.execute(
+                """
+                select stop from variant_stops
+                where variant = %s
+                order by position asc
+                """,
+                [variant_id]
+            )
+            stop_ids = (stop for (stop,) in cursor.fetchall())
+            stops = (stop_by_id(conn, StopId(s)) for s in stop_ids)
+            return Right(TimetableVariant(route_name, tuple(s for s in stops if s is not None)))
 
 
 def test_database() -> None:
@@ -316,7 +433,7 @@ def stop_by_name(name: str) -> Optional[Stop]:
         return None
 
 
-def stop_by_id(c: connection, s: m.StopId) -> Optional[Stop]:
+def stop_by_id(c: connection, s: m.StopId) -> Maybe[Stop]:
     with c.cursor() as cu:
         cu.execute(
             """
@@ -325,8 +442,7 @@ def stop_by_id(c: connection, s: m.StopId) -> Optional[Stop]:
             """,
             [s.raw],
         )
-        r = cu.fetchone()
-        return Stop.from_db_row(r)
+        return Maybe.of(cu.fetchone()).map(Stop.from_db_row)
 
 
 def stops(c: Optional[connection] = None) -> List[Stop]:
