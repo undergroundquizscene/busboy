@@ -453,6 +453,45 @@ def stop_times(
     return output
 
 
+def journeys_dataframe(
+    journeys: Iterable[Tuple[api.TimetableVariant, List[List[Optional[Tuple[datetime, datetime]]]]]]
+) -> Iterator[Tuple[api.TimetableVariant, pd.DataFrame]]:
+    for variant, js in journeys:
+        data: Dict[str, List[Optional[datetime]]] = {}
+        for stop in variant.stops:
+            data[f"{stop.name} [arrival]"] = []
+            data[f"{stop.name} [departure]"] = []
+        for journey in js:
+            for position, stop in enumerate(variant.stops):
+                time = journey[position] if position < len(journey) else None
+                if time is None:
+                    arrival_time = None
+                    departure_time = None
+                else:
+                    arrival_time, departure_time = time
+                data[f"{stop.name} [arrival]"].append(arrival_time)
+                data[f"{stop.name} [departure]"].append(departure_time)
+        yield (variant, pd.DataFrame(data))
+
+
+def estimate_arrival(
+    variant_journeys: Iterable[Tuple[api.TimetableVariant, List[List[StopArrival]]]]
+) -> Iterator[Tuple[api.TimetableVariant, List[List[Optional[Tuple[datetime, datetime]]]]]]:
+    def estimate(arrival: StopArrival) -> Maybe[Tuple[datetime, datetime]]:
+        if isinstance(arrival, SeenAtStop):
+            return Just((arrival.first_at, arrival.last_at))
+        elif isinstance(arrival, NotSeenAtStop):
+            return arrival.last_before.bind(lambda before:
+                arrival.first_after.map(lambda after:
+                    before + ((after - before) / 2)
+                ).map(lambda a: (a, a))
+            )
+
+    for variant, journeys in variant_journeys:
+        new_journeys = [[estimate(a).or_else(None) for a in j] for j in journeys]
+        yield (variant, new_journeys)
+
+
 def travel_times(
     arrival_times: Dict[int, List[Tuple[datetime, datetime]]]
 ) -> Iterator[Tuple[Tuple[int, int], List[Tuple[timedelta, timedelta]]]]:
