@@ -492,34 +492,6 @@ def estimate_arrival(
         yield (variant, new_journeys)
 
 
-def travel_times(
-    arrival_times: Dict[int, List[Tuple[datetime, datetime]]]
-) -> Iterator[Tuple[Tuple[int, int], List[Tuple[timedelta, timedelta]]]]:
-    """The travel times between adjacent stops.
-
-    Each travel time is represented as a (min, max) pair.
-    """
-    for first, second in pairwise(sorted(arrival_times.items(), key=lambda t: t[0])):
-        first_position, first_times = first
-        second_position, second_times = second
-        travel_times = [
-            travel_window((start, end), next_time)
-            for start, end in first_times
-            for next_time in (min(second_times, key=lambda time: time[0] - end),)
-        ]
-        yield ((first_position, second_position), travel_times)
-
-
-def travel_window(
-    window1: Tuple[datetime, datetime], window2: Tuple[datetime, datetime]
-) -> Tuple[timedelta, timedelta]:
-    """The (min, max) travel times between two arrival windows.
-
-    If I arrived at 1 between 2 and 3, and arrived at 2 between 4 and 6,
-    the travel window is: (4 - 3, 6 - 2)
-    """
-    return (window2[0] - window1[1], window2[1] - window1[0])
-
 
 def stop_times_proximity(
     snapshots: Iterable[db.BusSnapshot],
