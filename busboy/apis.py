@@ -107,6 +107,7 @@ def web_timetables(route_name: str) -> Iterable[WebTimetable]:
             "form-view-timetables-route": route_name,
             "form-view-timetables-submit": 1,
         },
+        verify=False
     ).text
     return WebTimetable.from_page(BeautifulSoup(html, features="html.parser"))
 
