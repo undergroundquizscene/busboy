@@ -236,12 +236,12 @@ def possible_variants(
     snapshots: Iterable[db.BusSnapshot], sections: Dict[api.TimetableVariant, List[RouteSection]]
 ) -> Iterable[Tuple[db.BusSnapshot, Set[Tuple[api.TimetableVariant, int]]]]:
     for snapshot in snapshots:
-        positions = set()
+        positions = []
         for tv, rs in sections.items():
             for i, section in enumerate(rs):
                 if section.contains(snapshot.longitude, snapshot.latitude):
-                    positions.add((tv, i))
-        yield (snapshot, positions)
+                    positions.append((tv, i))
+        yield (snapshot, set(positions))
 
 
 def check_variant_order(
