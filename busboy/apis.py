@@ -236,7 +236,6 @@ class Timetable(object):
 
 @dataclass(frozen=True)
 class TimetableVariant(object):
-    id: int
     route: str
     stops: Tuple[Stop, ...]
 
@@ -244,9 +243,6 @@ class TimetableVariant(object):
         return f"(route: {self.route}, start: {self.stops[0].name}, end: {self.stops[-1].name})"
 
     __repr__ = __str__
-
-    def __hash__(self) -> int:
-        return hash(("TimetableVariant", self.id))
 
 
 def stops_from_names(
