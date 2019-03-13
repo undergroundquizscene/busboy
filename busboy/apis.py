@@ -244,6 +244,9 @@ class TimetableVariant(object):
 
     __repr__ = __str__
 
+    def __hash__(self) -> int:
+        return hash(tuple(stop.id for stop in self.stops))
+
 
 def stops_from_names(
     names: Iterable[str], sbn: Dict[str, Stop]
