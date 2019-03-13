@@ -265,7 +265,7 @@ def timetable_variant(variant_id: int, connection: Maybe[connection] = Nothing()
             stops = tuple(stop_by_id(conn, StopId(s)) for s in stop_ids)
             if all(map(lambda s: isinstance(s, Just), stops)):
                 just_stops = cast(Tuple[Just[Stop], ...], stops)
-                return Right(TimetableVariant(route_name, tuple(s.value for s in just_stops)))
+                return Right(TimetableVariant(variant_id, route_name, tuple(s.value for s in just_stops)))
             else:
                 return Left("Error in database, stop in variant_stops but not in stops")
 
