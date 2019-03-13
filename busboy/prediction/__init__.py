@@ -133,6 +133,9 @@ RouteSection = Union["RoadSection", "StopCircle"]
 class AbstractRouteSection(object):
     polygon: sg.Polygon
 
+    def contains_point(self, point: Point) -> bool:
+        return self.polygon.contains(point)
+
     def contains(self, lon: Longitude, lat: Latitude) -> bool:
         return self.polygon.contains(Point(lat, lon))
 
@@ -240,7 +243,7 @@ def possible_variants(
         positions = []
         for tv, rs in sections.items():
             for i, section in enumerate(rs):
-                if section.contains(snapshot.longitude, snapshot.latitude):
+                if section.contains_point(snapshot.point):
                     positions.append((tv, i))
         yield (snapshot, set(positions))
 

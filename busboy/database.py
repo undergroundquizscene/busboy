@@ -370,9 +370,12 @@ class BusSnapshot(object):
     status: int
     category: int
     poll_time: datetime
+    point: sg.Point
 
     @staticmethod
     def from_db_row(row: Tuple[Any, ...]) -> BusSnapshot:
+        latitude = g.DegreeLatitude(cast(int, row[9]) / 3_600_000)
+        longitude = g.DegreeLongitude(cast(int, row[10]) / 3_600_000)
         return BusSnapshot(
             route=m.RouteId(cast(str, row[0])),
             direction=cast(int, row[1]),
@@ -383,21 +386,18 @@ class BusSnapshot(object):
             accuracy_level=cast(int, row[6]),
             status=cast(int, row[7]),
             is_accessible=cast(bool, row[8]),
-            latitude=g.DegreeLatitude(cast(int, row[9]) / 3600000),
-            longitude=g.DegreeLongitude(cast(int, row[10]) / 3600000),
+            latitude=latitude,
+            longitude=longitude,
             bearing=cast(int, row[11]),
             pattern=m.PatternId(cast(str, row[12])),
             has_bike_rack=cast(bool, row[13]),
             category=cast(int, row[14]),
             poll_time=cast(datetime, row[15]),
+            point=sg.Point(latitude, longitude),
         )
 
     def as_dict(self) -> Dict[str, Any]:
         return {f.name: self.__dict__[f.name] for f in fields(self)}
-
-    @property
-    def point(self) -> sg.Point:
-        return sg.Point(self.latitude, self.longitude)
 
 
 def trips_on_day(c: connection, d: date, r: Optional[str] = None) -> Set[TripId]:
