@@ -157,7 +157,7 @@ def dict_collect(
     output: Dict[B, C] = defaultdict(empty)
     for x in xs:
         output[key(x)] = join(output[key(x)], x)
-    return output
+    return dict(output)
 
 
 class Maybe(Generic[A]):

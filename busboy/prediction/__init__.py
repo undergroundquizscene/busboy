@@ -233,9 +233,8 @@ def most_recent_stops(
 
 
 def possible_variants(
-    snapshots: Iterable[db.BusSnapshot], timetables: Set[api.TimetableVariant]
+    snapshots: Iterable[db.BusSnapshot], sections: Dict[api.TimetableVariant, List[RouteSection]]
 ) -> Iterable[Tuple[db.BusSnapshot, Set[Tuple[api.TimetableVariant, int]]]]:
-    sections = {tv: list(route_sections(tv.stops)) for tv in timetables}
     for snapshot in snapshots:
         positions = set()
         for tv, rs in sections.items():
