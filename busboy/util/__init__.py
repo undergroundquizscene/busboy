@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import datetime as dt
-import readline
 import rlcompleter
 import time
 from collections import defaultdict
@@ -27,10 +26,6 @@ from typing import (
 )
 
 from busboy.util.typevars import *
-
-
-def pipenv_tab_completion() -> None:
-    readline.parse_and_bind("tab: complete")
 
 
 def swap(t: Tuple[A, B]) -> Tuple[B, A]:
