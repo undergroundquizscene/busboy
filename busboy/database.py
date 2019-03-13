@@ -12,10 +12,10 @@ import psycopg2 as pp2
 import shapely.geometry as sg
 from psycopg2.extensions import connection, cursor
 
+import busboy.apis as api
 import busboy.geo as g
 import busboy.model as m
 from busboy.apis import Timetable, TimetableVariant
-import busboy.apis as api
 from busboy.constants import stops_by_route
 from busboy.geo import DegreeLatitude, DegreeLongitude
 from busboy.model import Passage, Route, RouteId, Stop, StopId, TripId
@@ -161,7 +161,9 @@ def store_timetables() -> None:
             store_timetable(timetable, rbn[route].id, conn)
 
 
-def store_timetable(timetable: Timetable, route: RouteId, conn: Optional[connection] = None) -> None:
+def store_timetable(
+    timetable: Timetable, route: RouteId, conn: Optional[connection] = None
+) -> None:
     if conn is None:
         conn = default_connection()
     with conn:
@@ -179,7 +181,7 @@ def store_timetable(timetable: Timetable, route: RouteId, conn: Optional[connect
                 insert into route_timetables (route, timetable)
                 values (%s, %s)
                 """,
-                [route.raw, timetable_id]
+                [route.raw, timetable_id],
             )
             for variant in timetable.variants:
                 cursor.execute(
@@ -187,7 +189,7 @@ def store_timetable(timetable: Timetable, route: RouteId, conn: Optional[connect
                     insert into timetable_variants (route_name, timetable_id)
                     values (%s, %s) returning id
                     """,
-                    [variant.route.strip(), timetable_id]
+                    [variant.route.strip(), timetable_id],
                 )
                 variant_id = cast(Tuple[Any, ...], cursor.fetchone())[0]
                 for position, stop in enumerate(variant.stops):
@@ -196,10 +198,13 @@ def store_timetable(timetable: Timetable, route: RouteId, conn: Optional[connect
                         insert into variant_stops (position, variant, stop)
                         values (%s, %s, %s)
                         """,
-                        [position, variant_id, stop.id.raw]
+                        [position, variant_id, stop.id.raw],
                     )
 
-def timetables(route: RouteId, connection: Maybe[connection] = Nothing()) -> Iterator[Either[str, Timetable]]:
+
+def timetables(
+    route: RouteId, connection: Maybe[connection] = Nothing()
+) -> Iterator[Either[str, Timetable]]:
     """Gets the timetables for a specific route from the database."""
     with connection.or_else_lazy(default_connection) as conn:
         with conn.cursor() as cursor:
@@ -214,7 +219,9 @@ def timetables(route: RouteId, connection: Maybe[connection] = Nothing()) -> Ite
                 yield timetable(timetable_id, Just(conn))
 
 
-def timetable(timetable_id: int, connection: Maybe[connection] = Nothing()) -> Either[str, Timetable]:
+def timetable(
+    timetable_id: int, connection: Maybe[connection] = Nothing()
+) -> Either[str, Timetable]:
     with connection.or_else_lazy(default_connection) as conn:
         with conn.cursor() as cursor:
             cursor.execute(
@@ -235,11 +242,17 @@ def timetable(timetable_id: int, connection: Maybe[connection] = Nothing()) -> E
                 """,
                 [timetable_id],
             )
-            variants = (timetable_variant(id, Just(conn)) for (id,) in cursor.fetchall())
-            return Right(Timetable(caption, {v.value for v in variants if isinstance(v, Right)}))
+            variants = (
+                timetable_variant(id, Just(conn)) for (id,) in cursor.fetchall()
+            )
+            return Right(
+                Timetable(caption, {v.value for v in variants if isinstance(v, Right)})
+            )
 
 
-def timetable_variant(variant_id: int, connection: Maybe[connection] = Nothing()) -> Either[str, TimetableVariant]:
+def timetable_variant(
+    variant_id: int, connection: Maybe[connection] = Nothing()
+) -> Either[str, TimetableVariant]:
     with connection.or_else_lazy(default_connection) as conn:
         with conn.cursor() as cursor:
             cursor.execute(
@@ -259,13 +272,15 @@ def timetable_variant(variant_id: int, connection: Maybe[connection] = Nothing()
                 where variant = %s
                 order by position asc
                 """,
-                [variant_id]
+                [variant_id],
             )
             stop_ids = (stop for (stop,) in cursor.fetchall())
             stops = tuple(stop_by_id(conn, StopId(s)) for s in stop_ids)
             if all(map(lambda s: isinstance(s, Just), stops)):
                 just_stops = cast(Tuple[Just[Stop], ...], stops)
-                return Right(TimetableVariant(route_name, tuple(s.value for s in just_stops)))
+                return Right(
+                    TimetableVariant(route_name, tuple(s.value for s in just_stops))
+                )
             else:
                 return Left("Error in database, stop in variant_stops but not in stops")
 

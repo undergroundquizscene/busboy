@@ -27,6 +27,7 @@ def main() -> None:
                     latitude, longitude = coords
                 writer.writerow([vehicle, time, latitude, longitude])
 
+
 @dataclass
 class RouteRecord(object):
     positions: Dict[Maybe[VehicleId], List[Tuple[dt.datetime, Maybe[DegreeLatLon]]]]
@@ -52,24 +53,30 @@ class RouteRecord(object):
                 yield (id_text, time, coords)
 
 
-
 def check_for_updates(stop: StopId, record: RouteRecord) -> None:
     time = dt.datetime.now()
     response = stop_passage(stop)
     for passage in response.passages:
-        position = cast(Maybe[DegreeLatLon], passage.longitude.bind(
-            lambda lon: passage.latitude.map(
-                lambda lat: (lat / 3_600_000, lon / 3_600_000)
-            )
-        ))
+        position = cast(
+            Maybe[DegreeLatLon],
+            passage.longitude.bind(
+                lambda lon: passage.latitude.map(
+                    lambda lat: (lat / 3_600_000, lon / 3_600_000)
+                )
+            ),
+        )
         if passage.vehicle not in record.positions:
             record.positions.setdefault(passage.vehicle, []).append((time, position))
         else:
             old_position = record.positions[passage.vehicle][-1][1]
             if position != old_position:
-                record.positions.setdefault(passage.vehicle, []).append((time, position))
+                record.positions.setdefault(passage.vehicle, []).append(
+                    (time, position)
+                )
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     import warnings
+
     warnings.simplefilter("ignore")
     main()

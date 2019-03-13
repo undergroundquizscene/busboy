@@ -2,11 +2,10 @@ import datetime as dt
 import json
 from typing import Optional
 
-from flask import Flask, abort, send_file
-
 import busboy.constants as c
 import busboy.database as db
 from busboy.model import TripId
+from flask import Flask, abort, send_file
 
 app = Flask(__name__)
 

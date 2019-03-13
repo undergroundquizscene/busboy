@@ -16,6 +16,7 @@ from busboy.util import dict_collect, dict_collect_list, dict_collect_set
 @dataclass
 class TravelTimeTransformer(BaseEstimator, TransformerMixin):
     """Transforms an array of stop times into travel times for two stops."""
+
     stop_names: List[str]
     target_stop: str
     last_known_stop: str
@@ -25,21 +26,33 @@ class TravelTimeTransformer(BaseEstimator, TransformerMixin):
 
 
 def journeys(
-    snapshots: List[db.BusSnapshot],
-    timetable_variants: Set[api.TimetableVariant],
+    snapshots: List[db.BusSnapshot], timetable_variants: Set[api.TimetableVariant]
 ) -> Dict[api.TimetableVariant, pd.DataFrame]:
-    route_sections = {v: list(prediction.route_sections(v.stops)) for v in timetable_variants}
+    route_sections = {
+        v: list(prediction.route_sections(v.stops)) for v in timetable_variants
+    }
     pvars = sorted(
         prediction.possible_variants(
-            prediction.drop_duplicate_positions(snapshots),
-            route_sections
+            prediction.drop_duplicate_positions(snapshots), route_sections
         ),
-        key = lambda t: t[0].poll_time
+        key=lambda t: t[0].poll_time,
     )
     order_pvars = prediction.check_variant_order(pvars)
-    stop_shaped_entries = [(e, {v: {t[1] for t in ts} for v, ts in dict_collect_set(vs, lambda tpl: tpl[0]).items()}) for (e, vs) in order_pvars]
+    stop_shaped_entries = [
+        (
+            e,
+            {
+                v: {t[1] for t in ts}
+                for v, ts in dict_collect_set(vs, lambda tpl: tpl[0]).items()
+            },
+        )
+        for (e, vs) in order_pvars
+    ]
     stop_times = prediction.stop_times(stop_shaped_entries, route_sections)
-    return dict(prediction.journeys_dataframe(prediction.estimate_arrival(stop_times.items())))
+    return dict(
+        prediction.journeys_dataframe(prediction.estimate_arrival(stop_times.items()))
+    )
+
 
 def join_journeys(
     journeys: List[Dict[api.TimetableVariant, pd.DataFrame]],
