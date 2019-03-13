@@ -1,0 +1,304 @@
+         1546132249 function calls (1546130498 primitive calls) in 1236.332 seconds
+
+   Ordered by: standard name
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+   293150    0.319    0.000    0.514    0.000 <frozen importlib._bootstrap>:1009(_handle_fromlist)
+      504    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap>:416(parent)
+        1    0.000    0.000 1236.491 1236.491 <ipython-input-195-3727bdd7e030>:1(get_all_journeys)
+        1    0.065    0.065 1236.491 1236.491 <ipython-input-195-3727bdd7e030>:3(<listcomp>)
+        1    0.002    0.002 1236.493 1236.493 <string>:1(<module>)
+       27    0.000    0.000    0.000    0.000 <string>:1(__hash__)
+   619985    0.279    0.000    0.279    0.000 <string>:1(__init__)
+ 49884387   73.218    0.000 1162.108    0.000 __init__.py:136(contains)
+    40635    0.135    0.000    8.559    0.000 __init__.py:142(difference)
+    33457    0.022    0.000    0.740    0.000 __init__.py:147(dict_collect_set)
+   156703    0.091    0.000    0.202    0.000 __init__.py:148(<lambda>)
+    33457    0.305    0.000    0.718    0.000 __init__.py:151(dict_collect)
+    40581    0.184    0.000   34.432    0.001 __init__.py:155(route_sections)
+    20709    0.089    0.000    2.014    0.000 __init__.py:160(make_circle)
+    41418    0.155    0.000   25.289    0.001 __init__.py:165(shapes)
+    13776    0.019    0.000    0.049    0.000 __init__.py:170(map)
+    41466    0.037    0.000    4.538    0.000 __init__.py:176(bind)
+    41418    0.072    0.000   25.483    0.001 __init__.py:182(<genexpr>)
+    20250    0.013    0.000    4.433    0.000 __init__.py:193(<lambda>)
+   388133    0.137    0.000    0.190    0.000 __init__.py:198(or_else)
+    20385    0.124    0.000   21.663    0.001 __init__.py:198(widen_line)
+      504    0.000    0.000    0.001    0.000 __init__.py:205(iteritems)
+   142695    0.051    0.000    0.088    0.000 __init__.py:22(wrapper)
+    33484   25.068    0.001 1187.735    0.035 __init__.py:235(possible_variants)
+    33484    2.078    0.000    7.769    0.000 __init__.py:247(check_variant_order)
+  1621821    0.241    0.000    0.241    0.000 __init__.py:253(<lambda>)
+  1621821    0.916    0.000    1.664    0.000 __init__.py:257(<lambda>)
+   106584    0.140    0.000    0.140    0.000 __init__.py:270(duplicate_positions)
+    33484    0.068    0.000    0.208    0.000 __init__.py:278(drop_duplicate_positions)
+       27    0.556    0.021    1.481    0.055 __init__.py:294(section_times)
+       27    0.001    0.000    0.069    0.003 __init__.py:348(journeys)
+    67748    0.040    0.000    0.046    0.000 __init__.py:358(f)
+       27    0.000    0.000    0.068    0.003 __init__.py:366(<dictcomp>)
+       27    0.175    0.006    0.335    0.012 __init__.py:381(pad_journeys)
+       27    0.496    0.018    2.495    0.092 __init__.py:429(stop_times)
+      279    0.090    0.000    2.749    0.010 __init__.py:455(journeys_dataframe)
+      279    0.001    0.000    0.269    0.001 __init__.py:476(estimate_arrival)
+    58877    0.064    0.000    0.210    0.000 __init__.py:479(estimate)
+      324    0.001    0.000    0.001    0.000 __init__.py:48(pairwise)
+     6888    0.007    0.000    0.057    0.000 __init__.py:483(<lambda>)
+     6888    0.007    0.000    0.007    0.000 __init__.py:484(<lambda>)
+     6888    0.001    0.000    0.001    0.000 __init__.py:486(<lambda>)
+   101925    0.168    0.000    0.168    0.000 __init__.py:489(cast)
+      252    0.001    0.000    0.269    0.001 __init__.py:490(<listcomp>)
+      324    0.001    0.000    0.003    0.000 __init__.py:55(sliding_window)
+     1296    0.001    0.000    0.001    0.000 __init__.py:60(<genexpr>)
+      324    0.001    0.000    0.005    0.000 __init__.py:63(tuplewise_padded)
+   329256    0.102    0.000    0.102    0.000 __init__.py:70(take)
+   329256    1.259    0.000    3.812    0.000 __init__.py:80(first)
+     1296    0.001    0.000    0.001    0.000 __init__.py:88(drop)
+      185    0.000    0.000    0.001    0.000 _dtype.py:190(_datetime_metadata_str)
+      656    0.002    0.000    0.006    0.000 _dtype.py:319(_name_get)
+      404    0.001    0.000    0.005    0.000 _dtype.py:46(__str__)
+      252    0.000    0.000    0.000    0.000 _internal.py:886(npy_ctypes_check)
+      252    0.000    0.000    0.002    0.000 _methods.py:42(_any)
+    64680    0.018    0.000    0.040    0.000 abc.py:137(__instancecheck__)
+   611550    0.522    0.000    1.246    0.000 affinity.py:65(affine_pts)
+   101925    1.090    0.000    7.873    0.000 affinity.py:8(affine_transform)
+  7876857    2.331    0.000    3.270    0.000 apis.py:248(__hash__)
+    32214    0.020    0.000    0.024    0.000 base.py:2067(__getitem__)
+150836841  115.226    0.000  115.226    0.000 base.py:222(empty)
+ 50414910   24.548    0.000  109.730    0.000 base.py:233(__del__)
+      252    0.000    0.000    0.001    0.000 base.py:2445(equals)
+252500043   35.653    0.000   35.653    0.000 base.py:253(_geom)
+  504/252    0.008    0.000    0.041    0.000 base.py:255(__new__)
+ 50414910   34.858    0.000   50.478    0.000 base.py:257(_geom)
+   122310    0.328    0.000    0.843    0.000 base.py:320(_get_coords)
+ 50128872   27.126    0.000   95.476    0.000 base.py:347(geometryType)
+ 50128872   16.999    0.000  112.475    0.000 base.py:350(type)
+    81540    0.089    0.000    0.421    0.000 base.py:429(area)
+      504    0.000    0.000    0.000    0.000 base.py:444(<genexpr>)
+      252    0.001    0.000    0.002    0.000 base.py:473(_simple_new)
+    40770    0.077    0.000    0.864    0.000 base.py:478(convex_hull)
+    81540    0.126    0.000    1.442    0.000 base.py:488(envelope)
+     1512    0.001    0.000    0.001    0.000 base.py:4914(_ensure_index)
+    40770    0.239    0.000   13.019    0.000 base.py:493(minimum_rotated_rectangle)
+   101925    0.171    0.000    0.439    0.000 base.py:507(<genexpr>)
+   101925    0.459    0.000    9.220    0.000 base.py:510(_transformed_rects)
+    81540    0.046    0.000    0.467    0.000 base.py:529(<lambda>)
+    20709    0.058    0.000    1.504    0.000 base.py:532(buffer)
+    44593    0.037    0.000    0.084    0.000 base.py:61(is_dtype)
+    40635    0.089    0.000    8.268    0.000 base.py:614(difference)
+      252    0.000    0.000    0.000    0.000 base.py:615(is_)
+   101925    0.091    0.000    0.370    0.000 base.py:634(has_z)
+      504    0.000    0.000    0.000    0.000 base.py:635(_reset_identity)
+   448470    0.557    0.000    1.887    0.000 base.py:640(is_empty)
+     1260    0.001    0.000    0.001    0.000 base.py:641(__len__)
+ 50353296   62.512    0.000   62.512    0.000 base.py:67(geometry_type_name)
+ 49884387   51.672    0.000  446.849    0.000 base.py:689(contains)
+   224424    1.133    0.000    2.964    0.000 base.py:73(geom_factory)
+    23966    0.060    0.000    0.126    0.000 cast.py:1207(construct_1d_object_array_from_listlike)
+     8500    0.004    0.000    0.020    0.000 cast.py:1232(construct_1d_ndarray_preserving_na)
+    23714    0.054    0.000    0.521    0.000 cast.py:44(maybe_convert_platform)
+    32214    0.098    0.000    0.604    0.000 cast.py:867(maybe_infer_to_datetimelike)
+    21584    0.020    0.000    0.190    0.000 cast.py:908(try_datetime)
+    32214    0.109    0.000    0.801    0.000 cast.py:971(maybe_cast_to_datetime)
+      252    0.000    0.000    0.002    0.000 common.py:1043(is_datetime64_any_dtype)
+    41118    0.013    0.000    0.078    0.000 common.py:122(is_sparse)
+      252    0.001    0.000    0.005    0.000 common.py:123(_default_index)
+      252    0.000    0.000    0.000    0.000 common.py:1527(is_float_dtype)
+      252    0.000    0.000    0.000    0.000 common.py:154(_all_none)
+      252    0.000    0.000    0.001    0.000 common.py:1578(is_bool_dtype)
+     8500    0.008    0.000    0.120    0.000 common.py:1629(is_extension_type)
+     2282    0.003    0.000    0.010    0.000 common.py:1688(is_extension_array_dtype)
+    33726    0.048    0.000    0.079    0.000 common.py:1835(_get_dtype_type)
+      252    0.001    0.000    0.001    0.000 common.py:191(_dict_keys_to_ordered_list)
+    10782    0.006    0.000    0.044    0.000 common.py:195(is_categorical)
+    32551    0.016    0.000    0.115    0.000 common.py:227(is_datetimetz)
+      504    0.002    0.000    0.009    0.000 common.py:301(_asarray_tuplesafe)
+      252    0.000    0.000    0.001    0.000 common.py:332(is_datetime64_dtype)
+    32803    0.014    0.000    0.073    0.000 common.py:369(is_datetime64tz_dtype)
+      252    0.000    0.000    0.001    0.000 common.py:407(is_timedelta64_dtype)
+     1008    0.001    0.000    0.004    0.000 common.py:477(is_interval_dtype)
+    11790    0.005    0.000    0.029    0.000 common.py:513(is_categorical_dtype)
+      252    0.000    0.000    0.000    0.000 common.py:858(is_signed_integer_dtype)
+    40714    0.024    0.000    0.105    0.000 common.py:89(is_object_dtype)
+      252    0.000    0.000    0.000    0.000 common.py:907(is_unsigned_integer_dtype)
+   122310    0.043    0.000    0.043    0.000 coords.py:41(__init__)
+   285390    0.497    0.000    0.532    0.000 coords.py:44(_update)
+   142695    0.361    0.000    0.624    0.000 coords.py:48(__len__)
+     8752    0.006    0.000    0.006    0.000 dtypes.py:266(construct_from_string)
+     8500    0.010    0.000    0.018    0.000 dtypes.py:401(__new__)
+     8500    0.009    0.000    0.027    0.000 dtypes.py:459(construct_from_string)
+      252    0.000    0.000    0.001    0.000 dtypes.py:675(construct_from_string)
+      504    0.001    0.000    0.003    0.000 dtypes.py:707(is_dtype)
+      252    0.002    0.000    2.374    0.009 frame.py:334(__init__)
+      252    0.018    0.000    2.371    0.009 frame.py:426(_init_dict)
+      252    0.002    0.000    0.002    0.000 frame.py:457(<listcomp>)
+      252    0.001    0.000    2.309    0.009 frame.py:7349(_arrays_to_mgr)
+      252    0.037    0.000    0.107    0.000 frame.py:7367(extract_index)
+      252    0.047    0.000    1.778    0.007 frame.py:7644(_homogenize)
+      252    0.001    0.000    0.001    0.000 generic.py:124(__init__)
+   259897    0.079    0.000    0.111    0.000 generic.py:7(_check)
+ 50659206    8.231    0.000    8.231    0.000 geos.py:545(errcheck_predicate)
+    40770    7.302    0.000    7.302    0.000 geos.py:802(parallel_offset)
+ 50740746   11.632    0.000   11.632    0.000 impl.py:56(__getitem__)
+      252    0.000    0.000    0.000    0.000 inference.py:119(is_iterator)
+    64680    0.032    0.000    0.115    0.000 inference.py:251(is_list_like)
+      404    0.001    0.000    0.012    0.000 internals.py:116(__init__)
+      404    0.000    0.000    0.000    0.000 internals.py:127(_check_ndim)
+      152    0.000    0.000    0.003    0.000 internals.py:2298(__init__)
+     1212    0.000    0.000    0.000    0.000 internals.py:233(mgr_locs)
+      404    0.002    0.000    0.009    0.000 internals.py:237(mgr_locs)
+      185    0.001    0.000    0.007    0.000 internals.py:2632(__init__)
+      185    0.000    0.000    0.000    0.000 internals.py:2637(_maybe_coerce_values)
+    32618    0.051    0.000    0.198    0.000 internals.py:3148(get_block_type)
+      404    0.001    0.000    0.019    0.000 internals.py:3191(make_block)
+      252    0.001    0.000    0.028    0.000 internals.py:3265(__init__)
+      252    0.000    0.000    0.001    0.000 internals.py:3266(<listcomp>)
+      756    0.002    0.000    0.004    0.000 internals.py:3307(shape)
+     2268    0.001    0.000    0.003    0.000 internals.py:3309(<genexpr>)
+      404    0.000    0.000    0.000    0.000 internals.py:3311(ndim)
+      252    0.004    0.000    0.012    0.000 internals.py:3363(_rebuild_blknos_and_blklocs)
+      252    0.000    0.000    0.000    0.000 internals.py:3384(_get_items)
+      404    0.000    0.000    0.000    0.000 internals.py:348(shape)
+      252    0.001    0.000    0.004    0.000 internals.py:3488(_verify_integrity)
+      656    0.000    0.000    0.001    0.000 internals.py:3490(<genexpr>)
+      404    0.000    0.000    0.000    0.000 internals.py:352(dtype)
+      404    0.000    0.000    0.008    0.000 internals.py:356(ftype)
+      252    0.000    0.000    0.000    0.000 internals.py:3776(is_consolidated)
+      252    0.001    0.000    0.009    0.000 internals.py:3784(_consolidate_check)
+      252    0.000    0.000    0.009    0.000 internals.py:3785(<listcomp>)
+      252    0.000    0.000    0.000    0.000 internals.py:4101(_consolidate_inplace)
+      252    0.002    0.000    0.423    0.002 internals.py:4869(create_block_manager_from_arrays)
+      252    0.050    0.000    0.393    0.002 internals.py:4880(form_blocks)
+      337    0.001    0.000    0.087    0.000 internals.py:4972(_simple_blockify)
+       67    0.002    0.000    0.031    0.000 internals.py:4986(_multi_blockify)
+     8500    0.001    0.000    0.001    0.000 internals.py:4990(<lambda>)
+      404    0.029    0.000    0.096    0.000 internals.py:5017(_stack_arrays)
+    32214    0.018    0.000    0.065    0.000 internals.py:5020(_asarray_compat)
+      404    0.000    0.000    0.001    0.000 internals.py:5026(_shape_compat)
+    40770    0.118    0.000    8.199    0.000 linestring.py:117(parallel_offset)
+    61479    0.024    0.000    0.024    0.000 model.py:98(lat_lon)
+    20385    0.283    0.000    0.505    0.000 multilinestring.py:111(geos_multilinestring_from_py)
+    20385    0.062    0.000    0.596    0.000 multilinestring.py:31(__init__)
+    20385    0.208    0.000    0.643    0.000 multipoint.py:155(geos_multipoint_from_py)
+    20385    0.067    0.000    0.746    0.000 multipoint.py:33(__init__)
+    32466    0.008    0.000    0.020    0.000 numeric.py:469(asarray)
+      404    0.002    0.000    0.007    0.000 numeric.py:676(require)
+      404    0.001    0.000    0.001    0.000 numeric.py:748(<setcomp>)
+     1312    0.001    0.000    0.002    0.000 numerictypes.py:293(issubclass_)
+      656    0.001    0.000    0.003    0.000 numerictypes.py:365(issubdtype)
+ 49905096   78.194    0.000  483.967    0.000 point.py:127(_set_coords)
+ 49945866  304.629    0.000  337.069    0.000 point.py:191(geos_point_from_py)
+ 49905096   44.232    0.000  534.025    0.000 point.py:37(__init__)
+   101925    0.079    0.000    0.091    0.000 polygon.py:129(__init__)
+   101925    0.063    0.000    0.198    0.000 polygon.py:134(__iter__)
+   101925    0.088    0.000    0.088    0.000 polygon.py:139(__next__)
+   203850    0.235    0.000    0.235    0.000 polygon.py:150(__len__)
+   101925    0.157    0.000    1.030    0.000 polygon.py:218(__init__)
+   122310    0.305    0.000    0.878    0.000 polygon.py:246(exterior)
+   101925    0.098    0.000    0.650    0.000 polygon.py:260(interiors)
+   142695    0.116    0.000    0.869    0.000 polygon.py:31(__init__)
+   101925    0.484    0.000    0.746    0.000 polygon.py:485(geos_polygon_from_py)
+   101925    0.134    0.000    0.754    0.000 polygon.py:66(_set_coords)
+ 49884387  167.617    0.000  383.748    0.000 predicates.py:11(__call__)
+   550395    1.009    0.000    1.430    0.000 predicates.py:23(__call__)
+      252    0.001    0.000    0.002    0.000 range.py:131(_simple_new)
+      252    0.000    0.000    0.000    0.000 range.py:158(_validate_dtype)
+    32970    0.023    0.000    0.039    0.000 range.py:481(__len__)
+      252    0.001    0.000    0.004    0.000 range.py:68(__new__)
+      504    0.000    0.000    0.001    0.000 range.py:84(_ensure_int)
+    32214    0.137    0.000    1.713    0.000 series.py:4019(_sanitize_array)
+     8500    0.014    0.000    0.295    0.000 series.py:4036(_try_cast)
+       27    0.032    0.001 1236.315   45.789 sklearn.py:27(journeys)
+       27    0.015    0.001   34.448    1.276 sklearn.py:31(<dictcomp>)
+    33457    0.019    0.000    0.019    0.000 sklearn.py:37(<lambda>)
+    33457    0.108    0.000    0.228    0.000 sklearn.py:40(<dictcomp>)
+   313406    0.042    0.000    0.042    0.000 sklearn.py:40(<lambda>)
+       27    0.058    0.002    8.800    0.326 sklearn.py:40(<listcomp>)
+   155642    0.060    0.000    0.060    0.000 sklearn.py:40(<setcomp>)
+100665768   47.329    0.000  195.496    0.000 topology.py:16(_validate)
+    81540    0.237    0.000    0.315    0.000 topology.py:54(__call__)
+    40635    7.355    0.000    7.561    0.000 topology.py:63(__call__)
+   183789    1.773    0.000    9.219    0.000 topology.py:76(__call__)
+        6    0.000    0.000    0.000    0.000 typing.py:110(_type_check)
+       27    0.000    0.000    0.000    0.000 typing.py:1413(NewType)
+   194390    0.019    0.000    0.019    0.000 typing.py:1432(new_type)
+        4    0.000    0.000    0.000    0.000 typing.py:162(_collect_type_vars)
+        3    0.000    0.000    0.000    0.000 typing.py:173(<listcomp>)
+        2    0.000    0.000    0.000    0.000 typing.py:177(_subs_tvars)
+        3    0.000    0.000    0.000    0.000 typing.py:196(_check_generic)
+    14436    0.004    0.000    0.005    0.000 typing.py:245(inner)
+        3    0.000    0.000    0.000    0.000 typing.py:314(__eq__)
+       29    0.000    0.000    0.000    0.000 typing.py:587(_is_dunder)
+        4    0.000    0.000    0.000    0.000 typing.py:600(__init__)
+       10    0.000    0.000    0.000    0.000 typing.py:610(<genexpr>)
+        2    0.000    0.000    0.000    0.000 typing.py:618(__getitem__)
+        4    0.000    0.000    0.000    0.000 typing.py:626(<genexpr>)
+        3    0.000    0.000    0.000    0.000 typing.py:630(copy_with)
+        6    0.000    0.000    0.000    0.000 typing.py:652(__eq__)
+  216/189    0.000    0.000    0.000    0.000 typing.py:661(__hash__)
+       29    0.000    0.000    0.000    0.000 typing.py:701(__setattr__)
+       27    0.000    0.000    0.000    0.000 typing.py:741(__getitem__)
+        1    0.000    0.000    0.000    0.000 typing.py:757(__getitem_inner__)
+        4    0.000    0.000    0.000    0.000 typing.py:769(<genexpr>)
+   744912    0.781    0.000    0.958    0.000 typing.py:806(__new__)
+        1    0.000    0.000    0.000    0.000 typing.py:816(__class_getitem__)
+        2    0.000    0.000    0.000    0.000 typing.py:824(<genexpr>)
+    55422    0.007    0.000    0.007    0.000 typing.py:890(cast)
+   745416    0.178    0.000    0.178    0.000 {built-in method __new__ of type object at 0x10c177050}
+    64680    0.022    0.000    0.022    0.000 {built-in method _abc._abc_instancecheck}
+   101925    0.024    0.000    0.024    0.000 {built-in method _ctypes.POINTER}
+   224235    0.055    0.000    0.055    0.000 {built-in method _ctypes.byref}
+      252    0.021    0.000    0.067    0.000 {built-in method _functools.reduce}
+   224424    0.363    0.000    0.792    0.000 {built-in method builtins.__import__}
+      252    0.000    0.000    0.000    0.000 {built-in method builtins.all}
+        4    0.000    0.000    0.000    0.000 {built-in method builtins.callable}
+        1    0.000    0.000 1236.493 1236.493 {built-in method builtins.exec}
+   637693    0.100    0.000    0.100    0.000 {built-in method builtins.getattr}
+   224424    0.051    0.000    0.051    0.000 {built-in method builtins.globals}
+100416222   30.725    0.000  142.755    0.000 {built-in method builtins.hasattr}
+7877100/7877073    0.939    0.000    0.939    0.000 {built-in method builtins.hash}
+102189814   17.750    0.000   17.901    0.000 {built-in method builtins.isinstance}
+   199735    0.026    0.000    0.026    0.000 {built-in method builtins.issubclass}
+      504    0.000    0.000    0.000    0.000 {built-in method builtins.iter}
+152249356/152248096   15.727    0.000   15.766    0.000 {built-in method builtins.len}
+   224424    0.196    0.000    0.196    0.000 {built-in method builtins.locals}
+    32970    0.015    0.000    0.015    0.000 {built-in method builtins.max}
+    20385    0.118    0.000    9.879    0.000 {built-in method builtins.min}
+      324    0.000    0.000    0.000    0.000 {built-in method builtins.next}
+       27    0.035    0.001 1187.789   43.992 {built-in method builtins.sorted}
+      252    0.000    0.000    0.001    0.000 {built-in method builtins.sum}
+      972    0.001    0.000    0.001    0.000 {built-in method itertools.tee}
+    81540    0.022    0.000    0.022    0.000 {built-in method math.sqrt}
+      656    0.002    0.000    0.002    0.000 {built-in method numpy.arange}
+    73584    0.063    0.000    0.063    0.000 {built-in method numpy.array}
+      185    0.000    0.000    0.000    0.000 {built-in method numpy.datetime_data}
+    24874    0.066    0.000    0.066    0.000 {built-in method numpy.empty}
+    23714    0.004    0.000    0.004    0.000 {built-in method pandas._libs.algos.ensure_object}
+    23714    0.017    0.000    0.017    0.000 {built-in method pandas._libs.lib.infer_datetimelike_array}
+      252    0.000    0.000    0.000    0.000 {built-in method pandas._libs.lib.is_integer}
+    32970    0.005    0.000    0.005    0.000 {built-in method pandas._libs.lib.is_scalar}
+    21584    0.155    0.000    0.155    0.000 {built-in method pandas._libs.tslib.array_to_datetime}
+   156703    0.054    0.000    0.111    0.000 {method 'add' of 'set' objects}
+      252    0.000    0.000    0.002    0.000 {method 'any' of 'numpy.ndarray' objects}
+   810734    0.142    0.000    0.142    0.000 {method 'append' of 'list' objects}
+   311284    0.054    0.000    0.054    0.000 {method 'difference' of 'set' objects}
+        1    0.000    0.000    0.000    0.000 {method 'disable' of '_lsprof.Profiler' objects}
+       17    0.000    0.000    0.000    0.000 {method 'endswith' of 'str' objects}
+      407    0.000    0.000    0.000    0.000 {method 'extend' of 'list' objects}
+      504    0.001    0.000    0.001    0.000 {method 'fill' of 'numpy.ndarray' objects}
+  841/656    0.004    0.000    0.009    0.000 {method 'format' of 'str' objects}
+   311284    0.096    0.000    0.214    0.000 {method 'get' of 'dict' objects}
+   134440    0.032    0.000    0.032    0.000 {method 'items' of 'dict' objects}
+      252    0.000    0.000    0.000    0.000 {method 'keys' of 'dict' objects}
+      252    0.002    0.000    0.002    0.000 {method 'reduce' of 'numpy.ufunc' objects}
+     6510    0.001    0.000    0.001    0.000 {method 'remove' of 'set' objects}
+    21584    0.015    0.000    0.015    0.000 {method 'reshape' of 'numpy.ndarray' objects}
+      504    0.000    0.000    0.000    0.000 {method 'rpartition' of 'str' objects}
+     8500    0.007    0.000    0.007    0.000 {method 'search' of 're.Pattern' objects}
+       29    0.000    0.000    0.000    0.000 {method 'startswith' of 'str' objects}
+   156703    0.055    0.000    0.055    0.000 {method 'union' of 'set' objects}
+      404    0.000    0.000    0.000    0.000 {method 'upper' of 'str' objects}
+      252    0.004    0.000    0.005    0.000 {pandas._libs.lib.infer_dtype}
+    23714    0.334    0.000    0.334    0.000 {pandas._libs.lib.maybe_convert_objects}
+   142695    0.037    0.000    0.037    0.000 {shapely.speedups._speedups.coordseq_iter}
+   203850    0.619    0.000    0.635    0.000 {shapely.speedups._speedups.geos_linearring_from_py}
+    61155    0.095    0.000    0.106    0.000 {shapely.speedups._speedups.geos_linestring_from_py}
