@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections import defaultdict, namedtuple
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from functools import partial, reduce, singledispatch
+from functools import lru_cache, partial, reduce, singledispatch
 from itertools import dropwhile
 from typing import (
     Any,
@@ -155,31 +155,36 @@ class StopCircle(AbstractRouteSection):
     stop: m.Stop
 
 
+@lru_cache(maxsize=4096)
+def make_circle(stop: m.Stop, circle_radius: float) -> StopCircle:
+    return StopCircle(
+        cast(sg.Polygon, sg.Point(stop.lat_lon).buffer(circle_radius)), stop
+    )
+
+
+@lru_cache(maxsize=4096)
+def make_rectangle(s1: m.Stop, s2: m.Stop, rectangle_width: float) -> RoadSection:
+    return RoadSection(
+        widen_line(
+            cast(
+                LineString,
+                sg.MultiPoint([s1.lat_lon, s2.lat_lon]).minimum_rotated_rectangle,
+            ),
+            rectangle_width,
+        )
+    )
+
+
 def route_sections(
     stops: Iterable[m.Stop],
     rectangle_width: float = 0.001,
     circle_radius: float = 0.001,
 ) -> Iterator[RouteSection]:
-    def make_circle(stop: m.Stop) -> StopCircle:
-        return StopCircle(
-            cast(sg.Polygon, sg.Point(stop.lat_lon).buffer(circle_radius)), stop
-        )
-
     def shapes() -> Iterator[RouteSection]:
         for s1, s2 in pairwise(stops):
-            yield make_circle(s1)
-            yield RoadSection(
-                widen_line(
-                    cast(
-                        LineString,
-                        sg.MultiPoint(
-                            [s1.lat_lon, s2.lat_lon]
-                        ).minimum_rotated_rectangle,
-                    ),
-                    rectangle_width,
-                )
-            )
-        yield make_circle(s2)
+            yield make_circle(s1, circle_radius)
+            yield make_rectangle(s1, s2, rectangle_width)
+        yield make_circle(s2, circle_radius)
 
     for section1, section2, section3 in drop(
         1, (tuplewise_padded(3, (Just(x) for x in shapes()), pad_value=Nothing()))
