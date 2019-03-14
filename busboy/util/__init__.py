@@ -136,22 +136,22 @@ def combine_dictionaries(xs: Dict[A, B], ys: Dict[A, B]) -> Dict[A, List[B]]:
 
 
 def dict_collect_list(xs: Iterable[A], key: Callable[[A], B]) -> Dict[B, List[A]]:
-    return dict_collect(xs, key, lambda xs, x: xs + [x], list)
+    return dict_collect(xs, key, lambda xs, x: xs.append(x), list)
 
 
 def dict_collect_set(xs: Iterable[A], key: Callable[[A], B]) -> Dict[B, Set[A]]:
-    return dict_collect(xs, key, lambda xs, x: xs.union({x}), set)
+    return dict_collect(xs, key, lambda xs, x: xs.add(x), set)
 
 
 def dict_collect(
     xs: Iterable[A],
     key: Callable[[A], B],
-    join: Callable[[C, A], C],
+    join: Callable[[C, A], None],
     empty: Callable[[], C],
 ) -> Dict[B, C]:
     output: Dict[B, C] = defaultdict(empty)
     for x in xs:
-        output[key(x)] = join(output[key(x)], x)
+        join(output[key(x)], x)
     return dict(output)
 
 
