@@ -3,8 +3,8 @@ from __future__ import annotations
 from collections import defaultdict, namedtuple
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from functools import partial, reduce, singledispatch
-from itertools import dropwhile
+from functools import lru_cache, partial, reduce, singledispatch
+from itertools import chain, dropwhile
 from typing import (
     Any,
     Callable,
@@ -128,16 +128,44 @@ def angle_between(v1: DistanceVector, v2: DistanceVector) -> float:
 
 RouteSection = Union["RoadSection", "StopCircle"]
 
+contains_cache: Dict[
+    Tuple[Tuple[Tuple[float, float], ...], Tuple[float, float]], bool
+] = {}
+
+
+@lru_cache(maxsize=100_000)
+def cached_contains(polygon: sg.Polygon, point: sg.Point) -> bool:
+    return polygon.contains(point)
+
+
+def hash_point(point: sg.Point) -> int:
+    return hash(tuple(point.coords))
+
+
+def hash_polygon(polygon: sg.Polygon) -> int:
+    return hash(
+        tuple(
+            chain(
+                polygon.exterior.coords,
+                chain.from_iterable(z.coords for z in polygon.interiors),
+            )
+        )
+    )
+
+
+sg.Point.__hash__ = hash_point
+sg.Polygon.__hash__ = hash_polygon
+
 
 @dataclass(frozen=True)
 class AbstractRouteSection(object):
     polygon: sg.Polygon
 
     def contains_point(self, point: Point) -> bool:
-        return self.polygon.contains(point)
+        return cached_contains(self.polygon, point)
 
     def contains(self, lon: Longitude, lat: Latitude) -> bool:
-        return self.polygon.contains(Point(lat, lon))
+        return cached_contains(self.polygon, Point(lat, lon))
 
 
 @dataclass(frozen=True)
