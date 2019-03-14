@@ -10,6 +10,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 import busboy.apis as api
 import busboy.database as db
 from busboy import prediction
+from busboy.prediction import RouteSection
 from busboy.util import dict_collect, dict_collect_list, dict_collect_set
 
 
@@ -26,11 +27,10 @@ class TravelTimeTransformer(BaseEstimator, TransformerMixin):
 
 
 def journeys(
-    snapshots: List[db.BusSnapshot], timetable_variants: Set[api.TimetableVariant]
+    snapshots: List[db.BusSnapshot],
+    timetable_variants: Set[api.TimetableVariant],
+    route_sections: Dict[api.TimetableVariant, List[RouteSection]],
 ) -> Dict[api.TimetableVariant, pd.DataFrame]:
-    route_sections = {
-        v: list(prediction.route_sections(v.stops)) for v in timetable_variants
-    }
     pvars = sorted(
         prediction.possible_variants(
             prediction.drop_duplicate_positions(snapshots), route_sections
