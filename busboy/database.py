@@ -34,6 +34,7 @@ def snapshots(
     connection: Optional[connection] = None,
     r: Optional[m.RouteId] = None,
     d: Optional[date] = None,
+    date_span: Optional[Tuple[date, date]] = None,
 ) -> List[BusSnapshot]:
     """Gets entries from the database, optionally filtering by route or date."""
     if connection is None:
@@ -43,8 +44,12 @@ def snapshots(
         conditions: List[bytes] = []
         if r is not None:
             conditions.append(cu.mogrify(" route_id = %s", (r.raw,)))
-        if d is not None:
-            dt1, dt2 = day_span(d)
+        if d is not None or date_span is not None:
+            if date_span is not None:
+                dt1, dt2 = day_span(list(date_span))
+            elif d is not None:
+                dt1, dt2 = day_span([d])
+
             conditions.append(
                 cu.mogrify(" last_modified between %s and %s", (dt1, dt2))
             )
@@ -419,11 +424,15 @@ def trips_on_day(c: connection, d: date, r: Optional[str] = None) -> Set[TripId]
         return {TripId(row[0]) for row in cu.fetchall()}
 
 
-def day_span(d: date) -> Tuple[datetime, datetime]:
+def day_span(dates: List[date]) -> Tuple[datetime, datetime]:
+    """Creates a datetime span from a list of dates.
+
+    Input list must not be empty.
+    """
     midnight = dt.time()
     day = dt.timedelta(days=1)
-    dt1 = datetime.combine(d, midnight)
-    dt2 = datetime.combine(d + day, midnight)
+    dt1 = datetime.combine(dates[0], midnight)
+    dt2 = datetime.combine(dates[-1] + day, midnight)
     return dt1, dt2
 
 
