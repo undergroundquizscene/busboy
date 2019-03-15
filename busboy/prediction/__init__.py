@@ -157,13 +157,13 @@ class StopCircle(AbstractRouteSection):
     stop: m.Stop
 
 
-polygon_ids = count()
-sg.Polygon.__hash__ = hash_polygon  # type: ignore
-
-
 def hash_polygon(polygon: sg.Polygon) -> int:
     """polygon should be a monkey-patched Polygon"""
     return polygon._busboy_id  # type:ignore
+
+
+polygon_ids = count()
+sg.Polygon.__hash__ = hash_polygon  # type: ignore
 
 
 def monkey_patch_polygon(polygon: sg.Polygon) -> sg.Polygon:
