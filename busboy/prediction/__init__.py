@@ -417,7 +417,7 @@ def pad_journeys(
         output_journeys = []
         for journey in journeys:
             output_journey: List[SectionTime] = []
-            last_position = 0
+            last_position = -1
             last_exit: ExitWindow = (Nothing(), Nothing())
             for time in journey:
                 position, entry, exit = time
