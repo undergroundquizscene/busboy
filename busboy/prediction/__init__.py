@@ -4,7 +4,7 @@ from collections import defaultdict, namedtuple
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from functools import lru_cache, partial, reduce, singledispatch
-from itertools import dropwhile
+from itertools import count, dropwhile
 from typing import (
     Any,
     Callable,
@@ -129,15 +129,17 @@ def angle_between(v1: DistanceVector, v2: DistanceVector) -> float:
 RouteSection = Union["RoadSection", "StopCircle"]
 
 
+@lru_cache(maxsize=None)
+def cached_contains(polygon: sg.Polygon, lon: Longitude, lat: Latitude) -> bool:
+    return polygon.contains(Point(lat, lon))
+
+
 @dataclass(frozen=True)
 class AbstractRouteSection(object):
     polygon: sg.Polygon
 
-    def contains_point(self, point: Point) -> bool:
-        return self.polygon.contains(point)
-
     def contains(self, lon: Longitude, lat: Latitude) -> bool:
-        return self.polygon.contains(Point(lat, lon))
+        return cached_contains(self.polygon, lon, lat)
 
 
 @dataclass(frozen=True)
@@ -145,7 +147,7 @@ class RoadSection(AbstractRouteSection):
     def difference(self, circle: StopCircle) -> Maybe[RoadSection]:
         new_polygon = self.polygon.difference(circle.polygon)
         if isinstance(new_polygon, sg.Polygon):
-            return Just(RoadSection(new_polygon))
+            return Just(RoadSection(monkey_patch_polygon(new_polygon)))
         else:
             return Nothing()
 
@@ -155,22 +157,41 @@ class StopCircle(AbstractRouteSection):
     stop: m.Stop
 
 
+polygon_ids = count()
+sg.Polygon.__hash__ = hash_polygon  # type: ignore
+
+
+def hash_polygon(polygon: sg.Polygon) -> int:
+    """polygon should be a monkey-patched Polygon"""
+    return polygon._busboy_id  # type:ignore
+
+
+def monkey_patch_polygon(polygon: sg.Polygon) -> sg.Polygon:
+    polygon._busboy_id = next(polygon_ids)  # type:ignore
+    return polygon
+
+
 @lru_cache(maxsize=4096)
 def make_circle(stop: m.Stop, circle_radius: float) -> StopCircle:
     return StopCircle(
-        cast(sg.Polygon, sg.Point(stop.lat_lon).buffer(circle_radius)), stop
+        monkey_patch_polygon(
+            cast(sg.Polygon, sg.Point(stop.lat_lon).buffer(circle_radius))
+        ),
+        stop,
     )
 
 
 @lru_cache(maxsize=4096)
 def make_rectangle(s1: m.Stop, s2: m.Stop, rectangle_width: float) -> RoadSection:
     return RoadSection(
-        widen_line(
-            cast(
-                LineString,
-                sg.MultiPoint([s1.lat_lon, s2.lat_lon]).minimum_rotated_rectangle,
-            ),
-            rectangle_width,
+        monkey_patch_polygon(
+            widen_line(
+                cast(
+                    LineString,
+                    sg.MultiPoint([s1.lat_lon, s2.lat_lon]).minimum_rotated_rectangle,
+                ),
+                rectangle_width,
+            )
         )
     )
 
@@ -248,7 +269,7 @@ def possible_variants(
         positions = []
         for tv, rs in sections.items():
             for i, section in enumerate(rs):
-                if section.contains_point(snapshot.point):
+                if section.contains(snapshot.longitude, snapshot.latitude):
                     positions.append((tv, i))
         yield (snapshot, set(positions))
 
