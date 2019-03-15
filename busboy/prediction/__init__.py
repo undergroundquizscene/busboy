@@ -129,7 +129,7 @@ def angle_between(v1: DistanceVector, v2: DistanceVector) -> float:
 RouteSection = Union["RoadSection", "StopCircle"]
 
 
-@lru_cache(maxsize=None)
+@lru_cache(maxsize=2 ** 24)
 def cached_contains(polygon: sg.Polygon, lon: Longitude, lat: Latitude) -> bool:
     return polygon.contains(Point(lat, lon))
 
