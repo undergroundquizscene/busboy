@@ -14,18 +14,6 @@ from busboy.prediction import RouteSection
 from busboy.util import dict_collect, dict_collect_list, dict_collect_set
 
 
-@dataclass
-class TravelTimeTransformer(BaseEstimator, TransformerMixin):
-    """Transforms an array of stop times into travel times for two stops."""
-
-    stop_names: List[str]
-    target_stop: str
-    last_known_stop: str
-
-    def fit(self, X, y=None) -> TravelTimeTransformer:
-        return self
-
-
 def journeys(
     snapshots: List[db.BusSnapshot],
     timetable_variants: Set[api.TimetableVariant],
