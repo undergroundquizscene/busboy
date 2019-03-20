@@ -12,6 +12,7 @@ def travel_times(
     last = journeys[last_known_column]
     return (target - last).values
 
+
 def travel_times_df(
     journeys: pd.DataFrame, stops: List[str], last_known_column: str, target_column: str
 ) -> pd.DataFrame:
@@ -19,6 +20,8 @@ def travel_times_df(
         {
             "start_time": journeys[last_known_column],
             "end_time": journeys[target_column],
-            "travel_time": (journeys[target_column] - journeys[last_known_column]).values,
+            "travel_time": (
+                journeys[target_column] - journeys[last_known_column]
+            ).values,
         }
     )

@@ -3,14 +3,18 @@ Utility functions for jupyter notebooks.
 """
 import time
 from collections import deque
-from typing import Callable, Deque, List, Tuple
+from os import scandir
+from typing import Callable, Deque, Iterable, Iterator, List, Tuple
 
 import ipyleaflet as lf
+import pandas as pd
 
+import busboy.database as db
 import busboy.prediction as prediction
-from busboy.apis import Timetable
+from busboy.apis import Timetable, TimetableVariant
 from busboy.database import BusSnapshot
 from busboy.map.map import Map
+from busboy.util import Right, drop
 
 
 def snapshot_to_marker(entry: BusSnapshot) -> lf.Marker:
@@ -94,3 +98,35 @@ def show_timetables(map: Map, timetables: List[Timetable]) -> None:
                     )
                 )
             map.add_layer(section_group)
+
+
+def read_preprocessed_data(
+    route_name: str
+) -> List[Tuple[TimetableVariant, pd.DataFrame]]:
+    rbn = db.routes_by_name()
+    route_id = rbn[route_name].id
+    timetables = db.timetables(route_id)
+    timetable_variants = {
+        t
+        for timetable in timetables
+        for t in timetable.value.variants
+        if isinstance(timetable, Right)
+    }
+    dfs = []
+    with scandir("data") as dir:
+        for entry in dir:
+            if entry.name.startswith(f"{route_name}-preprocessed"):
+                df = pd.read_csv(entry.path, index_col=0)
+                for variant in timetable_variants:
+                    if list(df.columns) == list(
+                        column_names(stop.name for stop in variant.stops)
+                    ):
+                        dfs.append((variant, df))
+                        break
+    return dfs
+
+
+def column_names(stop_names: Iterable[str]) -> Iterator[str]:
+    for name in stop_names:
+        yield f"{name} [arrival]"
+        yield f"{name} [departure]"
