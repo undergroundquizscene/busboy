@@ -116,7 +116,7 @@ def read_preprocessed_data(
     with scandir("data") as dir:
         for entry in dir:
             if entry.name.startswith(f"{route_name}-preprocessed"):
-                df = pd.read_csv(entry.path, index_col=0)
+                df = pd.read_csv(entry.path, index_col=0).astype("datetime64")
                 for variant in timetable_variants:
                     if list(df.columns) == list(
                         column_names(stop.name for stop in variant.stops)

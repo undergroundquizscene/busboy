@@ -14,7 +14,7 @@ def travel_times(
 
 
 def travel_times_df(
-    journeys: pd.DataFrame, stops: List[str], last_known_column: str, target_column: str
+    journeys: pd.DataFrame, last_known_column: str, target_column: str
 ) -> pd.DataFrame:
     return pd.DataFrame(
         {
