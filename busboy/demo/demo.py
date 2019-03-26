@@ -109,6 +109,8 @@ def evaluate_predictions(
     print(f"Bus {passage.vehicle} arrived – {len(responses_with_passage)} snapshots.")
     df = pd.DataFrame()
     df["poll_time"] = [r["poll_time"].loc[passage.id.value.raw] for r in responses_with_passage]
+    df.set_index("poll_time", inplace=True)
+    df.sort_index(inplace=True)
     df["prediction"] = [r["average_time_prediction"].loc[passage.id.value.raw] for r in responses_with_passage]
     df["real-time"] = [r["predicted_arrival"].loc[passage.id.value.raw] for r in responses_with_passage]
     df["arrival_time"] = arrival_time
