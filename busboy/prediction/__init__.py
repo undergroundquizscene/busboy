@@ -393,9 +393,11 @@ def journeys(
         else:
             return Accumulator((position, this_journey + [x], journeys))
 
-    return {
-        v: reduce(f, ts, Accumulator((0, [], [])))[2] for v, ts in section_times.items()
-    }
+    output= {}
+    for v, ts in section_times.items():
+        reduced = reduce(f, ts, Accumulator((0, [], [])))
+        output[v] = reduced[2] + [reduced[1]]
+    return output
     # journeys = []
     # this_journey: List[Tuple[int, EntryWindow, ExitWindow]] = []
     # last_position = 0

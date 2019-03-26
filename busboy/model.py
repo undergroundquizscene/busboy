@@ -21,6 +21,8 @@ from typing import (
     cast,
 )
 
+import pandas as pd
+
 from busboy.geo import (
     DegreeLatitude,
     DegreeLongitude,
@@ -165,6 +167,9 @@ class StopPassageResponse(object):
     def positions(self) -> Iterable[Maybe[Tuple[DegreeLatitude, DegreeLongitude]]]:
         return (p.position.value for p in self.passages if isinstance(p.position, Just))
 
+    def dataframe(self) -> pd.DataFrame:
+        return pd.DataFrame.from_dict({p.id.map(lambda i: i.raw).or_else(None): p.flatten() for p in self.passages}, orient="index")
+
 
 @dataclass(frozen=True)
 class Passage(object):
@@ -291,6 +296,50 @@ class Passage(object):
             category=Just(cast(int, j["category"])),
         )
 
+    def flatten(self) -> Dict[str, Any]:
+        id = self.id.map(lambda i: i.raw).or_else(None)
+        last_modified = self.last_modified.or_else(None)
+        trip = self.trip.map(lambda i: i.raw).or_else(None)
+        route = self.route.map(lambda i: i.raw).or_else(None)
+        vehicle = self.vehicle.map(lambda i: i.raw).or_else(None)
+        stop = self.stop.map(lambda i: i.raw).or_else(None)
+        pattern = self.pattern.map(lambda i: i.raw).or_else(None)
+        latitude = self.latitude.map(lambda l: l / 3_600_000).or_else(None)
+        longitude = self.longitude.map(lambda l: l / 3_600_000).or_else(None)
+        bearing = self.bearing.or_else(None)
+        scheduled_arrival, predicted_arrival, scheduled_departure, predicted_departure = self.time.flatten()
+        is_accessible = self.is_accessible.or_else(None)
+        has_bike_rack = self.has_bike_rack.or_else(None)
+        direction = self.direction.or_else(None)
+        congestion = self.congestion.or_else(None)
+        accuracy = self.accuracy.or_else(None)
+        status = self.status.or_else(None)
+        category = self.category.or_else(None)
+        return {
+            "id": id,
+            "last_modified": last_modified,
+            "trip": trip,
+            "route": route,
+            "vehicle": vehicle,
+            "stop": stop,
+            "pattern": pattern,
+            "latitude": latitude,
+            "longitude": longitude,
+            "bearing": bearing,
+            "scheduled_arrival": scheduled_arrival,
+            "predicted_arrival": predicted_arrival,
+            "scheduled_departure": scheduled_departure,
+            "predicted_departure": predicted_departure,
+            "is_accessible": is_accessible,
+            "has_bike_rack": has_bike_rack,
+            "direction": direction,
+            "congestion": congestion,
+            "accuracy": accuracy,
+            "status": status,
+            "category": category,
+            "passage": self,
+        }
+
 
 @dataclass(frozen=True)
 class PassageTime(object):
@@ -319,6 +368,15 @@ class PassageTime(object):
                 lambda j: DepartureTime.from_my_json(j)
             ),
         )
+
+    def flatten(self) -> Tuple[Optional[datetime], Optional[datetime], Optional[datetime], Optional[datetime]]:
+        scheduled_arrival, predicted_arrival = self.arrival.map(
+            lambda a: (a.scheduled.or_else(None), a.actual_or_prediction.or_else(None))
+        ).or_else((None, None))
+        scheduled_departure, predicted_departure = self.departure.map(
+            lambda d: (d.scheduled.or_else(None), d.actual_or_prediction.or_else(None))
+        ).or_else((None, None))
+        return (scheduled_arrival, predicted_arrival, scheduled_departure, predicted_departure)
 
 
 @dataclass(frozen=True)

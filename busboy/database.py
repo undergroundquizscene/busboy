@@ -404,6 +404,31 @@ class BusSnapshot(object):
     def as_dict(self) -> Dict[str, Any]:
         return {f.name: self.__dict__[f.name] for f in fields(self)}
 
+    @staticmethod
+    def from_passage(passage: Passage, time: datetime) -> BusSnapshot:
+        longitude = passage.longitude.map(lambda l: l / 3_600_000)
+        latitude = passage.latitude.map(lambda l: l / 3_600_000)
+        point = longitude.bind(lambda lon: latitude.map(lambda lat: sg.Point(lat, lon)))
+        return BusSnapshot(
+            last_modified=passage.last_modified.or_else(None),
+            trip=passage.trip.or_else(None),
+            route=passage.route.or_else(None),
+            vehicle=passage.vehicle.or_else(None),
+            pattern=passage.pattern.or_else(None),
+            latitude=latitude.or_else(None),
+            longitude=longitude.or_else(None),
+            bearing=passage.bearing.or_else(None),
+            is_accessible=passage.is_accessible.or_else(None),
+            has_bike_rack=passage.has_bike_rack.or_else(None),
+            direction=passage.direction.or_else(None),
+            congestion_level=passage.congestion.or_else(None),
+            accuracy_level=passage.accuracy.or_else(None),
+            status=passage.status.or_else(None),
+            category=passage.category.or_else(None),
+            poll_time=time,
+            point=point.or_else(None),
+        )
+
 
 def trips_on_day(c: connection, d: date, r: Optional[str] = None) -> Set[TripId]:
     with c.cursor() as cu:
