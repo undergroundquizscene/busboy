@@ -28,7 +28,7 @@ def main() -> None:
     wgb_id = StopId("7338653551721425841")
     church_cross_east = example_stops["cce"].id
     church_cross_west = example_stops["ccw"].id
-    stop = stop_by_id(default_connection(), church_cross_west).value
+    stop = stop_by_id(default_connection(), wgb_id).value
     routes_by_id = db.routes_by_id()
     routes_by_name = db.routes_by_name()
     timetables = [tt.value for tt in db.timetables(routes_by_name["220"].id) if isinstance(tt, Right)]
@@ -90,7 +90,7 @@ def main() -> None:
             print("Exiting")
             return
         except Exception as e:
-            print("Got an exception: {e}")
+            print(f"Got an exception: {e}")
             print("Continuing…")
             sleep(max(0, 10 - (datetime.now() - loop_start).total_seconds()))
 
