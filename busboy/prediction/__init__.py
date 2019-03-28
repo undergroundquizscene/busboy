@@ -393,7 +393,7 @@ def journeys(
         else:
             return Accumulator((position, this_journey + [x], journeys))
 
-    output= {}
+    output = {}
     for v, ts in section_times.items():
         reduced = reduce(f, ts, Accumulator((0, [], [])))
         output[v] = reduced[2] + [reduced[1]]

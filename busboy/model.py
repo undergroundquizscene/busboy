@@ -168,7 +168,13 @@ class StopPassageResponse(object):
         return (p.position.value for p in self.passages if isinstance(p.position, Just))
 
     def dataframe(self) -> pd.DataFrame:
-        return pd.DataFrame.from_dict({p.id.map(lambda i: i.raw).or_else(None): p.flatten() for p in self.passages}, orient="index")
+        return pd.DataFrame.from_dict(
+            {
+                p.id.map(lambda i: i.raw).or_else(None): p.flatten()
+                for p in self.passages
+            },
+            orient="index",
+        )
 
 
 @dataclass(frozen=True)
@@ -307,7 +313,9 @@ class Passage(object):
         latitude = self.latitude.map(lambda l: l / 3_600_000).or_else(None)
         longitude = self.longitude.map(lambda l: l / 3_600_000).or_else(None)
         bearing = self.bearing.or_else(None)
-        scheduled_arrival, predicted_arrival, scheduled_departure, predicted_departure = self.time.flatten()
+        scheduled_arrival, predicted_arrival, scheduled_departure, predicted_departure = (
+            self.time.flatten()
+        )
         is_accessible = self.is_accessible.or_else(None)
         has_bike_rack = self.has_bike_rack.or_else(None)
         direction = self.direction.or_else(None)
@@ -369,14 +377,23 @@ class PassageTime(object):
             ),
         )
 
-    def flatten(self) -> Tuple[Optional[datetime], Optional[datetime], Optional[datetime], Optional[datetime]]:
+    def flatten(
+        self
+    ) -> Tuple[
+        Optional[datetime], Optional[datetime], Optional[datetime], Optional[datetime]
+    ]:
         scheduled_arrival, predicted_arrival = self.arrival.map(
             lambda a: (a.scheduled.or_else(None), a.actual_or_prediction.or_else(None))
         ).or_else((None, None))
         scheduled_departure, predicted_departure = self.departure.map(
             lambda d: (d.scheduled.or_else(None), d.actual_or_prediction.or_else(None))
         ).or_else((None, None))
-        return (scheduled_arrival, predicted_arrival, scheduled_departure, predicted_departure)
+        return (
+            scheduled_arrival,
+            predicted_arrival,
+            scheduled_departure,
+            predicted_departure,
+        )
 
 
 @dataclass(frozen=True)

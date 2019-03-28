@@ -32,7 +32,11 @@ def main() -> None:
     stop = stop_by_id(default_connection(), wgb_id).value
     routes_by_id = db.routes_by_id()
     routes_by_name = db.routes_by_name()
-    timetables = [tt.value for tt in db.timetables(routes_by_name["220"].id) if isinstance(tt, Right)]
+    timetables = [
+        tt.value
+        for tt in db.timetables(routes_by_name["220"].id)
+        if isinstance(tt, Right)
+    ]
     variants = {v for timetable in timetables for v in timetable.variants}
     filtered_variants = {v for v in variants if stop in v.stops}
     timetable = sorted(filtered_variants, key=lambda v: len(v.stops))[-1]
@@ -47,12 +51,23 @@ def main() -> None:
         try:
             print("-" * 80)
             loop_start = datetime.now()
-            response = stop_passage(stop.id).dataframe().sort_values("scheduled_arrival")
+            response = (
+                stop_passage(stop.id).dataframe().sort_values("scheduled_arrival")
+            )
             response["poll_time"] = loop_start
-            response = response[response["predicted_arrival"] > loop_start - timedelta(minutes=10)]
-            response["route"] = response["route"].apply(lambda r: Maybe.of(routes_by_id.get(RouteId(r))).map(lambda r: r.name).or_else(None))
+            response = response[
+                response["predicted_arrival"] > loop_start - timedelta(minutes=10)
+            ]
+            response["route"] = response["route"].apply(
+                lambda r: Maybe.of(routes_by_id.get(RouteId(r)))
+                .map(lambda r: r.name)
+                .or_else(None)
+            )
             response = response[response["route"] == "220"]
-            response["sections"] = [containing_sections(route_sections, r.longitude, r.latitude) for r in response.itertuples()]
+            response["sections"] = [
+                containing_sections(route_sections, r.longitude, r.latitude)
+                for r in response.itertuples()
+            ]
             arrived = [arrived_passages.get(p.id, pd.NaT) for p in response["passage"]]
             my_predictions = [pd.NaT] * len(response["passage"])
             for row, passage in enumerate(response["passage"]):
@@ -72,12 +87,21 @@ def main() -> None:
                         if len(nonempty.columns) > 0:
                             last = nonempty.columns[-1]
                             if last in predictors:
-                                predicted_travel_time = predictors[last].predict(journeys)
-                                predicted_arrival = journeys[last].iloc[-1] + timedelta(seconds=predicted_travel_time[-1])
+                                predicted_travel_time = predictors[last].predict(
+                                    journeys
+                                )
+                                predicted_arrival = journeys[last].iloc[-1] + timedelta(
+                                    seconds=predicted_travel_time[-1]
+                                )
                                 my_predictions[row] = predicted_arrival
-                            if (stop.name + " [arrival]") in nonempty.columns and passage.id.value not in arrived_passages:
+                            if (
+                                (stop.name + " [arrival]") in nonempty.columns
+                                and passage.id.value not in arrived_passages
+                            ):
                                 # discard journey data
-                                arrival_time = nonempty[stop.name + " [arrival]"].iloc[-1]
+                                arrival_time = nonempty[stop.name + " [arrival]"].iloc[
+                                    -1
+                                ]
                                 arrived[row] = arrival_time
                                 arrived_passages[passage.id.value] = arrival_time
                                 # display prediction stats
@@ -97,26 +121,34 @@ def main() -> None:
 
 
 def evaluate_predictions(
-    responses: Deque[DataFrame],
-    passage: Passage,
-    arrival_time: datetime,
+    responses: Deque[DataFrame], passage: Passage, arrival_time: datetime
 ) -> None:
     print("=" * 100)
     responses_with_passage = [
-        r for r in responses
+        r
+        for r in responses
         if passage.id.value.raw in r.index
         and r["average_time_prediction"].loc[passage.id.value.raw] is not pd.NaT
     ]
     print(f"Bus {passage.vehicle} arrived – {len(responses_with_passage)} snapshots.")
     df = pd.DataFrame()
-    df["poll_time"] = [r["poll_time"].loc[passage.id.value.raw] for r in responses_with_passage]
-    df["prediction"] = [r["average_time_prediction"].loc[passage.id.value.raw] for r in responses_with_passage]
-    df["real-time"] = [r["predicted_arrival"].loc[passage.id.value.raw] for r in responses_with_passage]
+    df["poll_time"] = [
+        r["poll_time"].loc[passage.id.value.raw] for r in responses_with_passage
+    ]
+    df["prediction"] = [
+        r["average_time_prediction"].loc[passage.id.value.raw]
+        for r in responses_with_passage
+    ]
+    df["real-time"] = [
+        r["predicted_arrival"].loc[passage.id.value.raw] for r in responses_with_passage
+    ]
     df["arrival_time"] = arrival_time
     df["error (s)"] = df["prediction"] - arrival_time
     df["error (s)"] = df["error (s)"].apply(lambda td: td.total_seconds())
     df["real-time error (s)"] = df["real-time"] - arrival_time
-    df["real-time error (s)"] = df["real-time error (s)"].apply(lambda td: td.total_seconds())
+    df["real-time error (s)"] = df["real-time error (s)"].apply(
+        lambda td: td.total_seconds()
+    )
 
     df["prediction"] = df["prediction"].apply(to_time)
     df["arrival_time"] = df["arrival_time"].apply(to_time)
@@ -143,40 +175,58 @@ def train_average_predictor(journeys: DataFrame, last: str, target: str) -> Any:
     predictor.fit(journeys, y)
     return predictor
 
+
 def to_time(dt: Union[datetime, Any]) -> Union[time, Any]:
     if isinstance(dt, datetime) and dt is not pd.NaT:
         time = dt.time()
-        return time.replace(second = round(time.second), microsecond=0)
+        return time.replace(second=round(time.second), microsecond=0)
     else:
         return dt
+
 
 def display(df: DataFrame) -> None:
     df["scheduled"] = df["scheduled_arrival"].apply(to_time)
     df["real-time"] = df["predicted_arrival"].apply(to_time)
     df["prediction"] = df["average_time_prediction"].apply(to_time)
     df["arrived_at"] = df["arrived"].apply(to_time)
-    print(df[["route", "vehicle", "scheduled", "real-time", "prediction", "sections", "arrived_at"]])
+    print(
+        df[
+            [
+                "route",
+                "vehicle",
+                "scheduled",
+                "real-time",
+                "prediction",
+                "sections",
+                "arrived_at",
+            ]
+        ]
+    )
 
 
 def show_passage(passage: Passage) -> str:
     vehicle = passage.vehicle.map(lambda i: i.raw).or_else("None")
     position = passage.position.map(str).or_else("None")
-    scheduled = passage.time.arrival.bind(lambda t: t.scheduled).map(lambda t: t.time().isoformat()).or_else("None")
-    predicted = passage.time.arrival.bind(lambda t: t.actual_or_prediction).map(lambda t: t.time().isoformat()).or_else("None")
+    scheduled = (
+        passage.time.arrival.bind(lambda t: t.scheduled)
+        .map(lambda t: t.time().isoformat())
+        .or_else("None")
+    )
+    predicted = (
+        passage.time.arrival.bind(lambda t: t.actual_or_prediction)
+        .map(lambda t: t.time().isoformat())
+        .or_else("None")
+    )
     return f"{vehicle:^19} - {scheduled:^8} - {predicted:^8}"
 
+
 def containing_sections(
-    sections: List[RouteSection],
-    longitude: DegreeLongitude,
-    latitude: DegreeLatitude,
+    sections: List[RouteSection], longitude: DegreeLongitude, latitude: DegreeLatitude
 ) -> Set[int]:
     return {
-        i
-        for i, section in enumerate(sections)
-        if section.contains(longitude, latitude)
+        i for i, section in enumerate(sections) if section.contains(longitude, latitude)
     }
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
