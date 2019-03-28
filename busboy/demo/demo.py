@@ -23,6 +23,7 @@ from busboy.util.notebooks import read_preprocessed_data
 
 
 def main() -> None:
+    pd.options.display.max_rows = 1_000_000
     warnings.simplefilter("ignore")
     opp_wgb_id = StopId("7338653551721425381")
     wgb_id = StopId("7338653551721425841")
