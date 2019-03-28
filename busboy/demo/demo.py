@@ -2,7 +2,7 @@ import warnings
 from collections import deque
 from datetime import datetime, time, timedelta
 from time import sleep
-from typing import Any, Deque, Dict, List, Set, Union
+from typing import Any, Callable, Deque, Dict, List, Optional, Set, Union
 
 import pandas as pd
 from pandas import DataFrame
@@ -18,7 +18,7 @@ from busboy.model import Passage, PassageId, RouteId, StopId, VehicleId
 from busboy.prediction import RouteSection
 from busboy.prediction.pandas import travel_times
 from busboy.prediction.sklearn import journeys as separate_journeys
-from busboy.util import Just, Maybe, Right
+from busboy.util import Just, Maybe, Right, pairwise
 from busboy.util.notebooks import read_preprocessed_data
 
 
@@ -29,7 +29,7 @@ def main() -> None:
     wgb_id = StopId("7338653551721425841")
     church_cross_east = example_stops["cce"].id
     church_cross_west = example_stops["ccw"].id
-    stop = stop_by_id(default_connection(), wgb_id).value
+    stop = stop_by_id(default_connection(), opp_wgb_id).value
     routes_by_id = db.routes_by_id()
     routes_by_name = db.routes_by_name()
     timetables = [
@@ -44,7 +44,9 @@ def main() -> None:
     snapshots: Dict[VehicleId, List[BusSnapshot]] = {}
     preprocessed_by_timetable = dict(read_preprocessed_data("220"))
     preprocessed = preprocessed_by_timetable[timetable]
-    predictors = train_average_predictors(preprocessed, stop.name + " [arrival]")
+    average_predictors = train_average_predictors(preprocessed, stop.name + " [arrival]")
+    bins = [time(i) for i in range(23)] + [time(23, 59, 59, 999_999)]
+    binned_predictors = train_binned_average_predictors(preprocessed, stop.name + " [arrival]", bins)
     responses: Deque[DataFrame] = deque(maxlen=360)
     arrived_passages: Dict[PassageId, datetime] = {}
     while True:
@@ -70,6 +72,7 @@ def main() -> None:
             ]
             arrived = [arrived_passages.get(p.id, pd.NaT) for p in response["passage"]]
             my_predictions = [pd.NaT] * len(response["passage"])
+            binned_predictions = [pd.NaT] * len(response["passage"])
             for row, passage in enumerate(response["passage"]):
                 if isinstance(passage.vehicle, Just):
                     snapshot = BusSnapshot.from_passage(passage, loop_start)
@@ -86,14 +89,19 @@ def main() -> None:
                         nonempty = journeys.loc[:, journeys.notna().any()]
                         if len(nonempty.columns) > 0:
                             last = nonempty.columns[-1]
-                            if last in predictors:
-                                predicted_travel_time = predictors[last].predict(
+                            if last in average_predictors:
+                                predicted_travel_time = average_predictors[last].predict(
                                     journeys
                                 )
                                 predicted_arrival = journeys[last].iloc[-1] + timedelta(
                                     seconds=predicted_travel_time[-1]
                                 )
                                 my_predictions[row] = predicted_arrival
+                            binned_predictor = binned_predictors(last, loop_start.time())
+                            if binned_predictor is not None:
+                                predicted_travel_time = binned_predictor.predict(journeys)
+                                predicted_arrival = journeys[last].iloc[-1] + timedelta(seconds=predicted_travel_time[-1])
+                                binned_predictions[row] = predicted_arrival
                             if (
                                 (stop.name + " [arrival]") in nonempty.columns
                                 and passage.id.value not in arrived_passages
@@ -107,6 +115,7 @@ def main() -> None:
                                 # display prediction stats
                                 evaluate_predictions(responses, passage, arrival_time)
             response["average_time_prediction"] = my_predictions
+            response["binned_average_time_prediction"] = binned_predictions
             response["arrived"] = arrived
             display(response)
             responses.appendleft(response)
@@ -139,12 +148,18 @@ def evaluate_predictions(
         r["average_time_prediction"].loc[passage.id.value.raw]
         for r in responses_with_passage
     ]
+    df["binned_prediction"] = [
+        r["binned_average_time_prediction"].loc[passage.id.value.raw]
+        for r in responses_with_passage
+    ]
     df["real-time"] = [
         r["predicted_arrival"].loc[passage.id.value.raw] for r in responses_with_passage
     ]
     df["arrival_time"] = arrival_time
     df["error (s)"] = df["prediction"] - arrival_time
     df["error (s)"] = df["error (s)"].apply(lambda td: td.total_seconds())
+    df["binned error (s)"] = df["binned_prediction"] - arrival_time
+    df["binned error (s)"] = df["binned error (s)"].apply(lambda td: td.total_seconds())
     df["real-time error (s)"] = df["real-time"] - arrival_time
     df["real-time error (s)"] = df["real-time error (s)"].apply(
         lambda td: td.total_seconds()
@@ -159,7 +174,6 @@ def evaluate_predictions(
 
 
 def train_average_predictors(journeys: DataFrame, target: str) -> Dict[str, Any]:
-    first_column = journeys.columns[0]
     target_index = journeys.columns.get_loc(target)
     output = {}
     for last_index in range(target_index):
@@ -176,6 +190,32 @@ def train_average_predictor(journeys: DataFrame, last: str, target: str) -> Any:
     return predictor
 
 
+def train_binned_average_predictors(journeys: DataFrame, target: str, bins: List[time]) -> Callable[[str, time], Optional[Any]]:
+    def train_predictors(journeys: DataFrame, last: str, target: str, bins: List[time]) -> Dict[time, Any]:
+        ps = {}
+        for start, end in pairwise(bins):
+            journey_times = journeys[last].apply(to_time)
+            bin_journeys = journeys[(journey_times >= start) & (journey_times <= end)]
+            ps[start] = train_average_predictor(bin_journeys, last, target)
+        return ps
+
+    target_index = journeys.columns.get_loc(target)
+    predictors: Dict[str, Dict[time, Any]] = {}
+    for last_index in range(target_index):
+        last = journeys.columns[last_index]
+        predictors[last] = train_predictors(journeys, last, target, bins)
+
+    def select_predictor(target: str, observation_time: time) -> Optional[Any]:
+        times_before = [t for t in bins if t < observation_time]
+        predictor = predictors.get(target)
+        if predictor is None:
+            return None
+        else:
+            return predictor.get(times_before[-1])
+
+    return select_predictor
+
+
 def to_time(dt: Union[datetime, Any]) -> Union[time, Any]:
     if isinstance(dt, datetime) and dt is not pd.NaT:
         time = dt.time()
@@ -188,6 +228,7 @@ def display(df: DataFrame) -> None:
     df["scheduled"] = df["scheduled_arrival"].apply(to_time)
     df["real-time"] = df["predicted_arrival"].apply(to_time)
     df["prediction"] = df["average_time_prediction"].apply(to_time)
+    df["binned_prediction"] = df["binned_average_time_prediction"].apply(to_time)
     df["arrived_at"] = df["arrived"].apply(to_time)
     print(
         df[
@@ -197,6 +238,7 @@ def display(df: DataFrame) -> None:
                 "scheduled",
                 "real-time",
                 "prediction",
+                "binned_prediction",
                 "sections",
                 "arrived_at",
             ]
