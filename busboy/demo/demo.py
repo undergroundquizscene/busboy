@@ -1,6 +1,7 @@
 import warnings
 from collections import deque
 from datetime import datetime, time, timedelta
+from pathlib import Path
 from time import sleep
 from typing import Any, Callable, Deque, Dict, List, Optional, Set, Union
 
@@ -23,7 +24,11 @@ from busboy.util.notebooks import read_preprocessed_data
 
 
 def main() -> None:
-    pd.options.display.max_rows = 1_000_000
+    pd.set_option("display.max_rows", 1_000_000_000)
+    pd.set_option("max_info_rows", 1_000_000_000)
+    pd.set_option("max_columns", 1_000_000_000)
+    pd.set_option("max_info_columns", 1_000_000_000)
+    pd.set_option("display.width", 1_000_000_000)
     warnings.simplefilter("ignore")
     opp_wgb_id = StopId("7338653551721425381")
     wgb_id = StopId("7338653551721425841")
@@ -42,13 +47,25 @@ def main() -> None:
     timetable = sorted(filtered_variants, key=lambda v: len(v.stops))[-1]
     route_sections = list(prediction.route_sections(timetable.stops))
     snapshots: Dict[VehicleId, List[BusSnapshot]] = {}
+    print("Training predictors…")
     preprocessed_by_timetable = dict(read_preprocessed_data("220"))
     preprocessed = preprocessed_by_timetable[timetable]
-    average_predictors = train_average_predictors(preprocessed, stop.name + " [arrival]")
     bins = [time(i) for i in range(23)] + [time(23, 59, 59, 999_999)]
-    binned_predictors = train_binned_average_predictors(preprocessed, stop.name + " [arrival]", bins)
+    average_predictors = train_average_predictors(
+        preprocessed, stop.name + " [arrival]"
+    )
+    binned_predictors = train_binned_average_predictors(
+        preprocessed, stop.name + " [arrival]", bins
+    )
+    day_binned_predictors = train_day_binned_predictors(
+        preprocessed, stop.name + " [arrival]", bins
+    )
+    print("Finished training.")
     responses: Deque[DataFrame] = deque(maxlen=360)
     arrived_passages: Dict[PassageId, datetime] = {}
+    stats_output_file = Path(
+        f"/Users/Noel/Developer/Projects/Busboy/data/live/{datetime.now().date().isoformat()}.csv"
+    )
     while True:
         try:
             print("-" * 80)
@@ -73,11 +90,12 @@ def main() -> None:
             arrived = [arrived_passages.get(p.id, pd.NaT) for p in response["passage"]]
             my_predictions = [pd.NaT] * len(response["passage"])
             binned_predictions = [pd.NaT] * len(response["passage"])
+            response["day_binned_prediction"] = pd.NaT
+            last_stops = [None] * len(response["passage"])
             for row, passage in enumerate(response["passage"]):
                 if isinstance(passage.vehicle, Just):
                     snapshot = BusSnapshot.from_passage(passage, loop_start)
                     snapshots.setdefault(passage.vehicle.value, []).append(snapshot)
-                    # print(f"Snapshots for vehicle {passage.vehicle}: {len(snapshots[passage.vehicle.value])}")
                     timetable_journeys = separate_journeys(
                         snapshots[passage.vehicle.value],
                         {timetable},
@@ -89,19 +107,40 @@ def main() -> None:
                         nonempty = journeys.loc[:, journeys.notna().any()]
                         if len(nonempty.columns) > 0:
                             last = nonempty.columns[-1]
+                            last_stops[row] = last
                             if last in average_predictors:
-                                predicted_travel_time = average_predictors[last].predict(
+                                predicted_travel_time = average_predictors[
+                                    last
+                                ].predict(journeys)
+                                predicted_arrival = journeys[last].iloc[-1] + timedelta(
+                                    seconds=predicted_travel_time[-1]
+                                )
+                                my_predictions[row] = predicted_arrival
+                            binned_predictor = binned_predictors(
+                                last, loop_start.time()
+                            )  # should be last_time
+                            if binned_predictor is not None:
+                                predicted_travel_time = binned_predictor.predict(
                                     journeys
                                 )
                                 predicted_arrival = journeys[last].iloc[-1] + timedelta(
                                     seconds=predicted_travel_time[-1]
                                 )
-                                my_predictions[row] = predicted_arrival
-                            binned_predictor = binned_predictors(last, loop_start.time())
-                            if binned_predictor is not None:
-                                predicted_travel_time = binned_predictor.predict(journeys)
-                                predicted_arrival = journeys[last].iloc[-1] + timedelta(seconds=predicted_travel_time[-1])
                                 binned_predictions[row] = predicted_arrival
+                            day_binned_predictor = day_binned_predictors(
+                                last, loop_start
+                            )  # should be last_day
+                            if day_binned_predictor is not None:
+                                predicted_travel_time = day_binned_predictor.predict(
+                                    journeys
+                                )
+                                predicted_arrival = journeys[last].iloc[-1] + timedelta(
+                                    seconds=predicted_travel_time[-1]
+                                )
+                                print(f"Got day-binned prediction {predicted_arrival}")
+                                response["day_binned_prediction"][
+                                    row
+                                ] = predicted_arrival
                             if (
                                 (stop.name + " [arrival]") in nonempty.columns
                                 and passage.id.value not in arrived_passages
@@ -113,48 +152,68 @@ def main() -> None:
                                 arrived[row] = arrival_time
                                 arrived_passages[passage.id.value] = arrival_time
                                 # display prediction stats
-                                evaluate_predictions(responses, passage, arrival_time)
+                                prediction_results = evaluate_predictions(
+                                    responses, passage, arrival_time
+                                )
+                                prediction_results["route"] = passage.route.map(
+                                    lambda id: id.raw
+                                ).optional()
+                                prediction_results["target_stop"] = stop.name
+                                if stats_output_file.exists():
+                                    prediction_results.to_csv(
+                                        str(stats_output_file),
+                                        mode="a",
+                                        header=False,
+                                        index=False,
+                                    )
+                                else:
+                                    prediction_results.to_csv(
+                                        str(stats_output_file), index=False
+                                    )
             response["average_time_prediction"] = my_predictions
             response["binned_average_time_prediction"] = binned_predictions
             response["arrived"] = arrived
+            response["last_stop"] = last_stops
             display(response)
             responses.appendleft(response)
             sleep(max(0, 10 - (datetime.now() - loop_start).total_seconds()))
         except KeyboardInterrupt:
             print("Exiting")
             return
-        except Exception as e:
-            print(f"Got an exception: {e}")
-            print("Continuing…")
-            sleep(max(0, 10 - (datetime.now() - loop_start).total_seconds()))
+        # except Exception as e:
+        #     print(f"Got an exception: {e}")
+        #     print("Continuing…")
+        #     sleep(max(0, 10 - (datetime.now() - loop_start).total_seconds()))
 
 
 def evaluate_predictions(
     responses: Deque[DataFrame], passage: Passage, arrival_time: datetime
-) -> None:
+) -> DataFrame:
     print("=" * 100)
+    passage_id = passage.id.map(lambda id: id.raw).optional()
     responses_with_passage = [
         r
         for r in responses
-        if passage.id.value.raw in r.index
-        and r["average_time_prediction"].loc[passage.id.value.raw] is not pd.NaT
+        if passage_id in r.index
+        and r["average_time_prediction"].loc[passage_id] is not pd.NaT
     ]
     print(f"Bus {passage.vehicle} arrived – {len(responses_with_passage)} snapshots.")
     df = pd.DataFrame()
-    df["poll_time"] = [
-        r["poll_time"].loc[passage.id.value.raw] for r in responses_with_passage
-    ]
+    df["poll_time"] = [r["poll_time"].loc[passage_id] for r in responses_with_passage]
     df["prediction"] = [
-        r["average_time_prediction"].loc[passage.id.value.raw]
-        for r in responses_with_passage
+        r["average_time_prediction"].loc[passage_id] for r in responses_with_passage
     ]
     df["binned_prediction"] = [
-        r["binned_average_time_prediction"].loc[passage.id.value.raw]
+        r["binned_average_time_prediction"].loc[passage_id]
         for r in responses_with_passage
     ]
-    df["real-time"] = [
-        r["predicted_arrival"].loc[passage.id.value.raw] for r in responses_with_passage
+    df["day_binned_prediction"] = [
+        r["day_binned_prediction"].loc[passage_id] for r in responses_with_passage
     ]
+    df["real-time"] = [
+        r["predicted_arrival"].loc[passage_id] for r in responses_with_passage
+    ]
+    df["last_stop"] = [r["last_stop"].loc[passage_id] for r in responses_with_passage]
     df["arrival_time"] = arrival_time
     df["error (s)"] = df["prediction"] - arrival_time
     df["error (s)"] = df["error (s)"].apply(lambda td: td.total_seconds())
@@ -165,18 +224,25 @@ def evaluate_predictions(
         lambda td: td.total_seconds()
     )
 
-    df["prediction"] = df["prediction"].apply(to_time)
-    df["arrival_time"] = df["arrival_time"].apply(to_time)
-    df["real-time"] = df["real-time"].apply(to_time)
-    df["poll_time"] = df["poll_time"].apply(to_time)
-    print(df)
+    copy = df.copy()
+
+    copy["prediction"] = copy["prediction"].apply(to_time)
+    copy["arrival_time"] = copy["arrival_time"].apply(to_time)
+    copy["binned_prediction"] = copy["binned_prediction"].apply(to_time)
+    copy["day_binned_prediction"] = copy["day_binned_prediction"].apply(to_time)
+    copy["real-time"] = copy["real-time"].apply(to_time)
+    copy["poll_time"] = copy["poll_time"].apply(to_time)
+    print(copy.to_string())
     print("=" * 100)
+    return df
 
 
 def train_average_predictors(journeys: DataFrame, target: str) -> Dict[str, Any]:
     target_index = journeys.columns.get_loc(target)
+    print(f"Training {target_index} average predictors:")
     output = {}
     for last_index in range(target_index):
+        print(f"- {last_index + 1} of {target_index}")
         last = journeys.columns[last_index]
         output[last] = train_average_predictor(journeys, last, target)
     return output
@@ -190,18 +256,77 @@ def train_average_predictor(journeys: DataFrame, last: str, target: str) -> Any:
     return predictor
 
 
-def train_binned_average_predictors(journeys: DataFrame, target: str, bins: List[time]) -> Callable[[str, time], Optional[Any]]:
-    def train_predictors(journeys: DataFrame, last: str, target: str, bins: List[time]) -> Dict[time, Any]:
+def train_day_binned_predictors(
+    journeys: DataFrame, target: str, bins: List[time]
+) -> Callable[[str, datetime], Optional[Any]]:
+    def train_predictors(
+        journeys: DataFrame, last: str, target: str, bins: List[time]
+    ) -> Dict[int, Dict[time, Any]]:
+        predictors: Dict[int, Dict[time, Any]] = {}
+        journey_days = journeys[last].apply(lambda dt: dt.weekday())
+        for day in journey_days.unique():
+            bin_journeys = journeys[journey_days == day]
+            predictors[day] = train_binned_predictors(bin_journeys, last, target, bins)
+        return predictors
+
+    def train_binned_predictors(
+        journeys: DataFrame, last: str, target: str, bins: List[time]
+    ) -> Dict[time, Any]:
         ps = {}
         for start, end in pairwise(bins):
             journey_times = journeys[last].apply(to_time)
-            bin_journeys = journeys[(journey_times >= start) & (journey_times <= end)]
-            ps[start] = train_average_predictor(bin_journeys, last, target)
+            if len(journey_times) != 0:
+                bin_journeys = journeys[
+                    (journey_times >= start) & (journey_times <= end)
+                ]
+                ps[start] = train_average_predictor(bin_journeys, last, target)
         return ps
 
     target_index = journeys.columns.get_loc(target)
+    print(f"Training {target_index} day-binned-average predictors:")
+    predictors: Dict[str, Dict[int, Dict[time, Any]]] = {}
+    for last_index in range(target_index):
+        print(f"- {last_index + 1} of {target_index}")
+        last = journeys.columns[last_index]
+        predictors[last] = train_predictors(journeys, last, target, bins)
+
+    def select_predictor(target: str, observation_time: datetime) -> Optional[Any]:
+        predictor = predictors.get(target)
+        if predictor is None:
+            return None
+        else:
+            inner = predictor.get(observation_time.weekday())
+            if inner is None:
+                return None
+            else:
+                times_before = [t for t in bins if t < observation_time.time()]
+                inner_inner = inner.get(times_before[-1])
+                return inner_inner
+
+    return select_predictor
+
+
+def train_binned_average_predictors(
+    journeys: DataFrame, target: str, bins: List[time]
+) -> Callable[[str, time], Optional[Any]]:
+    def train_predictors(
+        journeys: DataFrame, last: str, target: str, bins: List[time]
+    ) -> Dict[time, Any]:
+        ps = {}
+        for start, end in pairwise(bins):
+            journey_times = journeys[last].apply(to_time)
+            if len(journey_times) != 0:
+                bin_journeys = journeys[
+                    (journey_times >= start) & (journey_times <= end)
+                ]
+                ps[start] = train_average_predictor(bin_journeys, last, target)
+        return ps
+
+    target_index = journeys.columns.get_loc(target)
+    print(f"Training {target_index} binned-average predictors:")
     predictors: Dict[str, Dict[time, Any]] = {}
     for last_index in range(target_index):
+        print(f"- {last_index + 1} of {target_index}")
         last = journeys.columns[last_index]
         predictors[last] = train_predictors(journeys, last, target, bins)
 
@@ -229,6 +354,7 @@ def display(df: DataFrame) -> None:
     df["real-time"] = df["predicted_arrival"].apply(to_time)
     df["prediction"] = df["average_time_prediction"].apply(to_time)
     df["binned_prediction"] = df["binned_average_time_prediction"].apply(to_time)
+    df["day_binned_prediction"] = df["day_binned_prediction"].apply(to_time)
     df["arrived_at"] = df["arrived"].apply(to_time)
     print(
         df[
@@ -239,6 +365,7 @@ def display(df: DataFrame) -> None:
                 "real-time",
                 "prediction",
                 "binned_prediction",
+                "day_binned_prediction",
                 "sections",
                 "arrived_at",
             ]
