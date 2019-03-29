@@ -25,9 +25,7 @@ from busboy.util.notebooks import read_preprocessed_data
 
 def main() -> None:
     pd.set_option("display.max_rows", 1_000_000_000)
-    pd.set_option("max_info_rows", 1_000_000_000)
-    pd.set_option("max_columns", 1_000_000_000)
-    pd.set_option("max_info_columns", 1_000_000_000)
+    pd.set_option("display.max_columns", 1_000_000_000)
     pd.set_option("display.width", 1_000_000_000)
     warnings.simplefilter("ignore")
     opp_wgb_id = StopId("7338653551721425381")
