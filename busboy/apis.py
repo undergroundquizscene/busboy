@@ -85,19 +85,26 @@ def routes_at_stops() -> Dict[str, Set[str]]:
 
 
 @singledispatch
-def stop_passage(params: Dict[str, str]) -> StopPassageResponse:
-    j = requests.get(stop_passage_tdi, params=params, verify=False).json()
+def stop_passage(
+    params: Dict[str, str], timeout: Optional[float]
+) -> StopPassageResponse:
+    if timeout is None:
+        j = requests.get(stop_passage_tdi, params=params, verify=False).json()
+    else:
+        j = requests.get(
+            stop_passage_tdi, params=params, verify=False, timeout=timeout
+        ).json()
     return StopPassageResponse.from_json(j)
 
 
 @stop_passage.register
-def sp_stop(s: StopId) -> StopPassageResponse:
-    return stop_passage({"stop_point": s.raw})
+def sp_stop(s: StopId, timeout: float = 10) -> StopPassageResponse:
+    return stop_passage({"stop_point": s.raw}, timeout)
 
 
 @stop_passage.register
-def sp_trip(t: TripId) -> StopPassageResponse:
-    return stop_passage({"trip": t.raw})
+def sp_trip(t: TripId, timeout: float = 10) -> StopPassageResponse:
+    return stop_passage({"trip": t.raw}, timeout)
 
 
 def web_timetables(route_name: str) -> Iterable[WebTimetable]:

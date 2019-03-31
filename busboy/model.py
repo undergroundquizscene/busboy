@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
-from datetime import datetime, time
+from datetime import datetime, time, timedelta, timezone
 from functools import partial
 from typing import (
     Any,
@@ -217,7 +217,9 @@ class Passage(object):
             return Passage(
                 id=Maybe.of(json.get("duid")).map(PassageId),
                 last_modified=Maybe.of(json.get("last_modification_timestamp")).map(
-                    lambda j: datetime.utcfromtimestamp(j / 1000)
+                    lambda j: datetime.fromtimestamp(
+                        j / 1000, timezone(timedelta(hours=1))
+                    )
                 ),
                 is_deleted=Maybe.of(json.get("is_deleted")),
                 route=Maybe.of(json.get("route_duid"))
@@ -410,10 +412,10 @@ class ArrivalDeparture(object):
     def from_json(cls: Type[T], json: Dict[str, Any]) -> T:
         return cls(
             scheduled=Maybe.of(json.get("scheduled_passage_time_utc")).map(
-                datetime.utcfromtimestamp
+                lambda x: datetime.fromtimestamp(x, timezone(timedelta(hours=1)))
             ),
             actual_or_prediction=Maybe.of(json.get("actual_passage_time_utc")).map(
-                datetime.utcfromtimestamp
+                lambda x: datetime.fromtimestamp(x, timezone(timedelta(hours=1)))
             ),
             service_mode=Maybe.of(json.get("service_mode")),
             type=Maybe.of(json.get("type")),
