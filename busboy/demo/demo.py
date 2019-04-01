@@ -73,7 +73,7 @@ def live_test(stop_id: StopId) -> None:
         preprocessed, stop.name + " [arrival]", bins
     )
     print("Finished training.")
-    responses: Deque[DataFrame] = deque(maxlen=360)
+    responses: Deque[DataFrame] = deque(maxlen=720)
     arrived_passages: Dict[PassageId, datetime] = {}
     stats_output_file = Path(
         f"/Users/Noel/Developer/Projects/Busboy/data/live/{stop.name}-{datetime.now().date().isoformat()}.csv"
@@ -153,9 +153,10 @@ def live_test(stop_id: StopId) -> None:
                                 predicted_arrival = journeys[last].iloc[-1] + timedelta(
                                     seconds=predicted_travel_time[-1]
                                 )
-                                response["day_binned_prediction"][
-                                    row
-                                ] = predicted_arrival
+                                if not pd.isnull(predicted_arrival):
+                                    response["day_binned_prediction"][
+                                        row
+                                    ] = predicted_arrival
                             if (
                                 (stop.name + " [arrival]") in nonempty.columns
                                 and passage.id.value not in arrived_passages
