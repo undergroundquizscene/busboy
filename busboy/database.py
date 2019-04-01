@@ -59,6 +59,25 @@ def snapshots(
         return [BusSnapshot.from_db_row(row) for row in cu.fetchall()]
 
 
+def snapshots_df(
+    connection: Optional[connection] = None,
+    route: Optional[m.RouteId] = None,
+    day: Optional[date] = None,
+    date_span: Optional[Tuple[date, date]] = None,
+) -> pd.DataFrame:
+    df = snapshots(connection, route, day, date_span)
+    return pd.DataFrame(map(lambda s: s.as_dict(), df))
+
+
+def poll_times_df(connection: Maybe[connection] = Nothing(),) -> pd.DataFrame:
+    with connection.or_else_lazy(default_connection) as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(
+                "select distinct poll_time from passage_responses order by poll_time asc"
+            )
+            return pd.DataFrame(cursor.fetchall(), columns=["poll_time"])
+
+
 def data_gdf(
     connection: Optional[connection] = None,
     r: Optional[m.RouteId] = None,

@@ -1,7 +1,7 @@
 import traceback
 import warnings
 from collections import deque
-from datetime import datetime, time, timedelta
+from datetime import datetime, time, timedelta, timezone
 from pathlib import Path
 from sys import argv
 from time import sleep
@@ -81,7 +81,7 @@ def live_test(stop_id: StopId) -> None:
     while True:
         try:
             print("-" * 80)
-            loop_start = datetime.now()
+            loop_start = datetime.now(timezone(timedelta(hours=1)))
             response = (
                 stop_passage(stop.id, timeout=5)
                 .dataframe()
@@ -195,7 +195,15 @@ def live_test(stop_id: StopId) -> None:
             for passage, arrival_time in list(arrived_passages.items()):
                 if arrival_time < loop_start - timedelta(minutes=10):
                     del arrived_passages[passage]
-            sleep(max(0, 10 - (datetime.now() - loop_start).total_seconds()))
+            sleep(
+                max(
+                    0,
+                    10
+                    - (
+                        datetime.now(timezone(timedelta(hours=1))) - loop_start
+                    ).total_seconds(),
+                )
+            )
         except KeyboardInterrupt:
             print("Exiting")
             return
@@ -204,7 +212,15 @@ def live_test(stop_id: StopId) -> None:
             traceback.print_exc()
             print()
             print("Continuing…")
-            sleep(max(0, 10 - (datetime.now() - loop_start).total_seconds()))
+            sleep(
+                max(
+                    0,
+                    10
+                    - (
+                        datetime.now(timezone(timedelta(hours=1))) - loop_start
+                    ).total_seconds(),
+                )
+            )
 
 
 def evaluate_predictions(
@@ -241,7 +257,9 @@ def evaluate_predictions(
     df["error (s)"] = df["error (s)"].apply(lambda td: td.total_seconds())
     df["binned error (s)"] = df["binned_prediction"] - arrival_time
     df["binned error (s)"] = df["binned error (s)"].apply(lambda td: td.total_seconds())
-    df["day-binned error (s)"] = df["day_binned_prediction"] - arrival_time
+    df["day-binned error (s)"] = (
+        df["day_binned_prediction"] - arrival_time
+    )  # error subtracting datetimes with different time zones
     df["day-binned error (s)"] = df["day-binned error (s)"].apply(
         lambda td: td.total_seconds()
     )
