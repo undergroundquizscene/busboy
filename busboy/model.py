@@ -219,7 +219,7 @@ class Passage(object):
                 last_modified=Maybe.of(json.get("last_modification_timestamp")).map(
                     lambda j: datetime.fromtimestamp(
                         j / 1000, timezone(timedelta(hours=1))
-                    )
+                    ).replace(tzinfo=None)
                 ),
                 is_deleted=Maybe.of(json.get("is_deleted")),
                 route=Maybe.of(json.get("route_duid"))
@@ -412,10 +412,14 @@ class ArrivalDeparture(object):
     def from_json(cls: Type[T], json: Dict[str, Any]) -> T:
         return cls(
             scheduled=Maybe.of(json.get("scheduled_passage_time_utc")).map(
-                lambda x: datetime.fromtimestamp(x, timezone(timedelta(hours=1)))
+                lambda x: datetime.fromtimestamp(
+                    x, timezone(timedelta(hours=1))
+                ).replace(tzinfo=None)
             ),
             actual_or_prediction=Maybe.of(json.get("actual_passage_time_utc")).map(
-                lambda x: datetime.fromtimestamp(x, timezone(timedelta(hours=1)))
+                lambda x: datetime.fromtimestamp(
+                    x, timezone(timedelta(hours=1))
+                ).replace(tzinfo=None)
             ),
             service_mode=Maybe.of(json.get("service_mode")),
             type=Maybe.of(json.get("type")),

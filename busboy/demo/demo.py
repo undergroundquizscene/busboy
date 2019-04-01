@@ -1,7 +1,7 @@
 import traceback
 import warnings
 from collections import deque
-from datetime import datetime, time, timedelta, timezone
+from datetime import datetime, time, timedelta
 from pathlib import Path
 from sys import argv
 from time import sleep
@@ -81,7 +81,7 @@ def live_test(stop_id: StopId) -> None:
     while True:
         try:
             print("-" * 80)
-            loop_start = datetime.now(timezone(timedelta(hours=1)))
+            loop_start = datetime.now()
             response = (
                 stop_passage(stop.id, timeout=5)
                 .dataframe()
@@ -195,15 +195,7 @@ def live_test(stop_id: StopId) -> None:
             for passage, arrival_time in list(arrived_passages.items()):
                 if arrival_time < loop_start - timedelta(minutes=10):
                     del arrived_passages[passage]
-            sleep(
-                max(
-                    0,
-                    10
-                    - (
-                        datetime.now(timezone(timedelta(hours=1))) - loop_start
-                    ).total_seconds(),
-                )
-            )
+            sleep(max(0, 10 - (datetime.now() - loop_start).total_seconds()))
         except KeyboardInterrupt:
             print("Exiting")
             return
@@ -212,15 +204,7 @@ def live_test(stop_id: StopId) -> None:
             traceback.print_exc()
             print()
             print("Continuing…")
-            sleep(
-                max(
-                    0,
-                    10
-                    - (
-                        datetime.now(timezone(timedelta(hours=1))) - loop_start
-                    ).total_seconds(),
-                )
-            )
+            sleep(max(0, 10 - (datetime.now() - loop_start).total_seconds()))
 
 
 def evaluate_predictions(
@@ -397,11 +381,14 @@ def train_binned_average_predictors(
 
 
 def to_time(dt: Union[datetime, Any]) -> Union[time, Any]:
-    if isinstance(dt, datetime) and dt is not pd.NaT:
-        time = dt.time()
-        return time.replace(second=round(time.second), microsecond=0)
-    else:
+    if dt is pd.NaT:
         return dt
+    else:
+        try:
+            time = dt.time()
+            return time.replace(second=round(time.second), microsecond=0)
+        except AttributeError:
+            return dt
 
 
 def display(df: DataFrame) -> None:
